@@ -1,0 +1,30 @@
+name: Discovery board tests
+
+on:
+  pull_request:
+    paths:
+      - "tools/brainstorm/**"
+      - ".github/workflows/brainstorm-tests.yml"
+  push:
+    branches: [main]
+    paths:
+      - "tools/brainstorm/**"
+      - ".github/workflows/brainstorm-tests.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Teste determinístico dos pesos
+        run: node --test tools/brainstorm/scoring.test.mjs
+      - name: Verificar sintaxe dos módulos
+        run: |
+          node --check tools/brainstorm/scoring.mjs
+          node --check tools/brainstorm/app.mjs
