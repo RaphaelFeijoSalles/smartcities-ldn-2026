@@ -1,4 +1,6 @@
-# Shortlist do brainstorm — dez ideias ligadas aos eixos oficiais de 2026
+> **ATENÇÃO — material anterior à apresentação presencial.** Este arquivo registra hipóteses formuladas a partir dos eixos *genéricos* do site; **NÃO apresenta os 15 desafios anunciados presencialmente**. Para decidir, usar [15 desafios transcritos](CHALLENGES_OFFICIAL_2026.md), [ranking atualizado](CHALLENGES_RANKED_2026.md) e [roteiro curto](CHALLENGES_DECISION_BRIEF_2026.md).
+
+# Histórico de 10 hipóteses com base nos eixos genéricos do site (antes do slide presencial)
 
 **Atualizado 13/11/2026.** Todas são **HIPÓTESES** da equipe. O nome, a necessidade de usuário, a monetização e a adoção ainda não foram aprovados. Fonte dos eixos: https://www.londrinainteligente.com.br/hackathon-2026.
 
