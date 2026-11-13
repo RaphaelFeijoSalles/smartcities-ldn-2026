@@ -2,6 +2,8 @@
 
 > **Meta:** sair com UM problema, UMA jornada de demo e TRÊS primeiras tarefas. Não votar apenas na ideia "mais legal". O site oficial anuncia **pitch de 3 minutos + demonstração de 2 minutos** em 15/11.
 
+**Desafios efetivos da apresentação:** [transcrição de 15 desafios](../research/CHALLENGES_OFFICIAL_2026.md), [ranking dos 15](../research/CHALLENGES_RANKED_2026.md) e [roteiro de decisão de 12 minutos](../research/CHALLENGES_DECISION_BRIEF_2026.md). As classificações genéricas anteriores não substituem a foto presencial.
+
 **Pesquisa estratégica atual:** [índice 2026](../research/RESEARCH_INDEX_2026.md), [entidades](../research/STAKEHOLDER_SIGNAL_MAP.md), [ideias por eixo](../research/IDEA_SHORTLIST_OFFICIAL_AXES.md). **Ainda é obrigatório confirmar o regulamento integral**.
 
 ## Roteiro com relógio
