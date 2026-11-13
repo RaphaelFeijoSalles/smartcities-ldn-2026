@@ -4,7 +4,12 @@
 
 > ATENÇÃO: este documento registra o conteúdo público da página oficial, **não** substitui o regulamento completo ou instruções presenciais de mentores. A página oferece PDF do regulamento em https://drive.google.com/file/d/1z-k32uMkO05XptQSi5dRzs29E0Ayq_Pe/view?usp=sharing , cuja íntegra ainda **não foi validada** nesta pesquisa.
 
-## Cinco eixos oficiais de 2026
+## Atualização presencial 13/11/2026 — 5 contextos e 15 desafios (fonte mais específica)
+A equipe enviou **duas fotos da apresentação presencial**. O slide “Contextos e desafios — 5 contextos | 15 desafios” define, com mais precisão que o site, **Governança, dados e transparência; Inteligência legislativa; Sustentabilidade e clima; Infraestrutura e financiamento; Inclusão digital e serviços**. Veja a [transcrição detalhada dos 15](CHALLENGES_OFFICIAL_2026.md), o [ranking de trabalho não oficial](CHALLENGES_RANKED_2026.md) e o [roteiro para decidir hoje](CHALLENGES_DECISION_BRIEF_2026.md).
+
+**Prioridade de fonte para escopo:** apresentação presencial (desafios concretos) > eixos genéricos do site (contexto); se houver edital/regulamento textual mais preciso ou retificação da organização, atualizar. As fotos estão no chat, não anexadas ao repositório. O item 05.3 aparece parcialmente encoberto.
+
+## Cinco eixos gerais anunciados no site público de 2026 (NÃO são a lista presencial dos 15)
 1. Governança e Gestão Integrada.
 2. Segurança de Dados e Privacidade.
 3. Inclusão e Desigualdade Digital.
