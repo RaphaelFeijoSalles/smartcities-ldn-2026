@@ -11,6 +11,13 @@
 4. **Quem vai programar com IA:** leia [AGENTS.md](AGENTS.md) e [workflow de Git](docs/team/WORKFLOW.md).
 5. **Integração:** veja [estado e próximos passos](docs/team/CONTINUITY.md) antes de iniciar qualquer trabalho.
 
+## Referências locais para escolher a ideia
+- [MasterPlan Londrina 2040 — projetos históricos, gestão digital e governança](docs/research/MASTERPLAN_LONDRINA_2040.md)
+- [Fórum Desenvolve Londrina — estudos 2015–2025, problemas e indicadores](docs/research/FORUM_DESENVOLVE_LONDRINA.md)
+- [Matriz de oportunidades: cruzamento MasterPlan × Fórum](docs/research/MASTERPLAN_FORUM_OPPORTUNITIES.md)
+
+**Importante:** são fontes de inspiração e hipóteses para o brainstorm, não desafios oficiais nem decisão de produto. Os projetos originais são históricos e a Prefeitura atualizou o planejamento em 2026.
+
 ## Acordo de desenvolvimento
 - **Uma Issue → um responsável → uma branch → um PR pequeno.** Cada tarefa precisa ter critérios de aceite.
 - Cada IA lê `AGENTS.md` e a Issue antes de alterar código. Não modificar arquivos de outra pessoa, contratos compartilhados ou `main` sem alinhar.
