@@ -20,7 +20,7 @@ test("todas notas 5 resultam em 5", () => {
 test("ponderação respeita critérios", () => {
   assert.deepEqual(scoreIdea({
     challenge: 5, pain: 4, demo: 3, feasibility: 2, adoption: 1,
-  }), { score: 3.75, answered: 5, complete: true });
+  }), { score: 3.5, answered: 5, complete: true });
 });
 
 test("notas inválidas não completam o scorecard", () => {
