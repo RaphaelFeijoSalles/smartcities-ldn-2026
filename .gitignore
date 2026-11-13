@@ -1,0 +1,31 @@
+# Credentials and developer environments
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db
+
+# JS/TS (quando houver app)
+node_modules/
+dist/
+build/
+coverage/
+.vite/
+.next/
+*.tsbuildinfo
+
+# Java (se backend for aprovado)
+target/
+.gradle/
+*.class
+
+# Local agent state and temporary files
+.project/local/
+.tmp/
+tmp/
+*.log

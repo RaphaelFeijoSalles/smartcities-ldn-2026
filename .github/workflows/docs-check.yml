@@ -1,0 +1,31 @@
+name: Workspace integrity
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  required-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify essential AI-first workflow files exist
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in README.md AGENTS.md docs/team/ONBOARDING.md docs/team/WORKFLOW.md docs/product/BRAINSTORM.md docs/team/CONTINUITY.md; do
+            test -s "$f" || { echo "Missing or empty: $f"; exit 1; }
+          done
+          echo "Essential workflow files exist"
+      - name: Check conflict markers in tracked Markdown files
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git grep -n -E '^(<<<<<<< |=======|>>>>>>> )' -- '*.md'; then
+            echo "Conflict markers detected"
+            exit 1
+          fi
+          echo "No conflict markers found"
