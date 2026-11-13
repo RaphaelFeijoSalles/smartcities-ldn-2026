@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#10272d" />
+    <meta name="description" content="Ferramenta local da equipe para decidir uma hipótese no Hackathon Smart Cities Londrina 2026." />
+    <title>Decisão de Ideias · Smart Cities 2026</title>
+    <link rel="stylesheet" href="./style.css" />
+    <script type="module" src="./app.mjs"></script>
+  </head>
+  <body>
+    <main class="container">
+      <header class="masthead">
+        <span class="eyebrow">Londrina · Smart Cities Hackathon 2026</span>
+        <h1>Qual problema <em>vale resolver</em>?</h1>
+        <p>Quadro de decisão <strong>interno</strong>, independente da solução final. As notas representam hipóteses da equipe, não resultados oficiais nem validação de mercado.</p>
+        <div class="notice" role="note"><strong>Antes de votar:</strong> confirmar com a organização o desafio, as regras de IA/código prévio e os critérios reais. Este quadro não é o MVP concorrente.</div>
+      </header>
+
+      <section class="frame" aria-labelledby="criteria-title">
+        <div class="heading-row">
+          <div><span class="eyebrow">Etapa 01</span><h2 id="criteria-title">Critérios sugeridos</h2></div>
+          <small>Escala de 1 a 5 · pesos ajustáveis após edital</small>
+        </div>
+        <div id="criteria" class="criteria"></div>
+      </section>
+
+      <section class="frame" aria-labelledby="ideas-title">
+        <div class="heading-row">
+          <div><span class="eyebrow">Etapa 02</span><h2 id="ideas-title">Compare as hipóteses</h2></div>
+          <button id="add" class="secondary" type="button">+ Adicionar ideia</button>
+        </div>
+        <div id="ideas" class="ideas"></div>
+      </section>
+
+      <section class="frame decision" aria-labelledby="decision-title">
+        <div class="heading-row">
+          <div><span class="eyebrow">Etapa 03</span><h2 id="decision-title">Registre a decisão</h2></div>
+          <span id="summary" class="pill">Aguardando notas</span>
+        </div>
+        <p id="ranking" class="result" aria-live="polite">Preencha as notas para comparar.</p>
+        <div class="fields">
+          <label>Problema em uma frase<textarea id="problem" rows="2" placeholder="Qual problema observável vamos atacar?"></textarea></label>
+          <label>Usuário e comprador / decisor<textarea id="audience" rows="2" placeholder="Quem usa? Quem autoriza ou contrataria?"></textarea></label>
+          <label>Demo de 90 segundos<textarea id="demo" rows="2" placeholder="Entrada → ação → resultado e explicação."></textarea></label>
+          <label>Maior hipótese a validar<textarea id="risk" rows="2" placeholder="O que pode invalidar a ideia amanhã?"></textarea></label>
+        </div>
+        <div class="actions">
+          <button id="download" type="button">Exportar decisão em Markdown</button>
+          <button id="reset" class="ghost" type="button">Limpar avaliações deste navegador</button>
+        </div>
+        <p class="hint">Os dados ficam apenas neste navegador (localStorage). <strong>Não sincronizam com o GitHub.</strong> Exporte e anexe o .md na Issue #2, ou cole o conteúdo no dossiê.</p>
+        <p id="status" class="hint" role="status" aria-live="polite"></p>
+      </section>
+      <footer>
+        <a href="../../docs/product/BRAINSTORM.md">Roteiro do brainstorm</a>
+        <span>·</span>
+        <a href="../../docs/research/OPPORTUNITY_BRIEF.md">Pesquisa resumida</a>
+        <span>·</span>
+        <a href="../../docs/business/VALIDATION.md">Validação comercial</a>
+      </footer>
+    </main>
+  </body>
+</html>
