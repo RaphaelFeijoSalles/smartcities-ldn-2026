@@ -2,6 +2,13 @@
 
 **Fase:** descoberta/brainstorm. **Consultado em:** 13/11/2026. **Ainda não há produto, cliente, parceria ou desafio específico aprovado.**
 
+## NOVO: apresentação presencial de 13/11 — 15 desafios concretos
+- **[Transcrição dos 15 desafios e 5 contextos](CHALLENGES_OFFICIAL_2026.md)** — fonte mais específica que os eixos genéricos do site.
+- **[Ranking dos 15 com MVP, demo, perguntas e riscos](CHALLENGES_RANKED_2026.md)** — critérios subjetivos, não pesos da banca.
+- **[Decisão em 12 minutos](CHALLENGES_DECISION_BRIEF_2026.md)** — fila inicial de validação e próximos passos.
+
+**Os materiais anteriores abaixo foram escritos antes da foto presencial.** São referências de pesquisa, não definição atual dos desafios.
+
 ## Leia nesta ordem (em até 10 minutos)
 1. **[Evento 2026 verificado](EVENT_2026_VERIFIED.md)** — cinco eixos oficiais, cronograma, pitch **3 min + demo 2 min**, pendências do regulamento.
 2. **[Shortlist por eixo](IDEA_SHORTLIST_OFFICIAL_AXES.md)** — dez ideias candidatas; validação inicial recomendada: Sergipe em Dia, Recicla Mais, PilotoGov.
