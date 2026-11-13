@@ -2,6 +2,8 @@
 
 **Fonte do tempo:** [página oficial Smart Cities 2026](https://www.londrinainteligente.com.br/hackathon-2026), programa de 15/11 09h. **Confirmar retificações com organização.** Não é o mesmo formato de 2025.
 
+**Aderência ao desafio:** citar o **ID exato 01.1–05.3** da [apresentação presencial](../research/CHALLENGES_OFFICIAL_2026.md). O item 05.3 exige confirmação textual; não afirmar resultados nem clientes inexistentes.
+
 ## Pitch de até 3 minutos — proposta de roteiro
 1. **Dor e usuário (35s):** um caso real/relato com fonte; não inventar entrevistas.
 2. **Alternativa existente e lacuna (25s):** “por que não é mais um portal/planilha?”
