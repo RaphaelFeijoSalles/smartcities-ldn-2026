@@ -11,6 +11,18 @@
 | 06/05/2026 | [Prefeitura — Londrina ON em dois meses](https://blog.londrina.pr.gov.br/?p=212525) | Serviços existentes de atendimento/zeladoria | Evidência de concorrência/alternativa, não oportunidade garantida |
 | 15/10/2026 | [Tarobá — chuva/Defesa Civil](https://taroba.com.br/noticias/cidade/excesso-de-chuva-atrasa-obras-e-provoca-danos-em-londrina) | Reportagem aponta maior demanda por reparos e ocorrências climáticas | Problema pontual; validar recorrência e dados |
 
+## Fontes estratégicas: MasterPlan e Fórum Desenvolve Londrina
+| Referência | Documento | Valor e cautela |
+|---|---|---|
+| 2021 (consulta em 13/11/2026) | [MasterPlan 2040 — PDF CODEL](https://codel.londrina.pr.gov.br/images/CODEL_MASTERPLAN/MasterPlan_Londrina_2040.pdf) | Carteira histórica de projetos, incluindo Governo Digital e modernização; **não presume status em 2026**. [Síntese](MASTERPLAN_LONDRINA_2040.md) |
+| 2026 (atualização municipal) | [Portal de Governança Pública](https://portal.londrina.pr.gov.br/governanca-publica) | Prefeitura já relaciona MasterPlan, planejamento de secretarias e ODS; checar ferramentas existentes antes de propor um “observatório” |
+| Caderno 2025, catálogo 2026 | [Fórum — PIB per capita e futuro de Londrina (PDF)](https://www.forumdesenvolvelondrina.org.br/_files/ugd/af9e90_899467924f6f4ba4bdd6c902134516b8.pdf) | 10 propostas prioritárias; inteligência fiscal, licenciamento digital, IA aplicada e integração |
+| Edição 2025 | [Fórum — Manual de Indicadores (PDF)](https://www.forumdesenvolvelondrina.org.br/_files/ugd/af9e90_518acc46b84341e29d226c055a12f2fe.pdf) | Séries e indicadores com anos/fonte; não tratar como dado em tempo real |
+| Histórico 2007–2025 | [Fórum — Estudos](https://www.forumdesenvolvelondrina.org.br/estudos) | Mapa de temas e propostas por ano, não prova de adoção/contratação |
+| Atual | [Fórum — painel BI](https://www.forumdesenvolvelondrina.org.br/acoes/bi) | Já existe dashboard de indicadores; evitar duplicar sem diferencial |
+
+Para a equipe: [Estudo MasterPlan](MASTERPLAN_LONDRINA_2040.md) · [Estudo Fórum](FORUM_DESENVOLVE_LONDRINA.md) · [Ideias cruzadas](MASTERPLAN_FORUM_OPPORTUNITIES.md).
+
 ## Implicação para produto
 Londrina **já tem canal digital, app, chatbot e painel de estatísticas**. Criar outro portal de chamados com mesmo escopo não é diferenciação. Investigar decisões de priorização, previsão/roteirização com validação, produtividade, transparência ou processos internos — sem supor acesso a dados oficiais.
 
