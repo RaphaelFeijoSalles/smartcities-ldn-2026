@@ -4,7 +4,7 @@
 
 **Evento:** Smart Cities Hackathon 2026, Londrina, 13–15/11.
 **Tema:** Transformação Digital na Gestão Pública.
-**Eixos oficiais:** Governança e Gestão Integrada; Segurança de Dados e Privacidade; Inclusão e Desigualdade Digital; Infraestrutura e Financiamento; Sustentabilidade Ambiental.
+**Contextos da apresentação presencial (13/11):** Governança, dados e transparência; Inteligência legislativa; Sustentabilidade e clima; Infraestrutura e financiamento; Inclusão digital e serviços. **15 desafios específicos** transcritos em [CHALLENGES_OFFICIAL_2026.md](CHALLENGES_OFFICIAL_2026.md). O site público divulgava eixos genéricos parcialmente diferentes; a foto tem prioridade para o brainstorming até confirmação do edital textual.
 **Local divulgado:** SENAI Londrina — Dr. Celso Charuri, Travessa João Alberto, 90.
 **Equipe:** 3 a 6 participantes, conforme cobertura pública.
 **Protótipo:** funcional ou demonstrativo é requisito informado na cobertura do evento para participar do pitch final.
@@ -12,7 +12,9 @@
 **Formatação divulgada para 15/11, 09h:** **3 minutos de pitch + 2 de demonstração.** Página de 2026 lista checkpoints de problema/Canvas (13/11 10h30), método/resultados de validação e protótipo (13/11 16h), pitch ajustado (13/11 22h) e MVP validado + pitch final (15/11 08h30).
 
 ## Documento de pesquisa completo
-- [Eixos, cronograma e links de regulamentação](EVENT_2026_VERIFIED.md)
+- [15 desafios transcritos do slide presencial](CHALLENGES_OFFICIAL_2026.md)
+- [Ranking de trabalho dos 15](CHALLENGES_RANKED_2026.md)
+- [Eixos gerais do site, cronograma e regulamentação](EVENT_2026_VERIFIED.md)
 - [Pesquisa estratégica das entidades e Rua Sergipe](RESEARCH_INDEX_2026.md)
 
 ## Regulamento integral — ainda não verificado
