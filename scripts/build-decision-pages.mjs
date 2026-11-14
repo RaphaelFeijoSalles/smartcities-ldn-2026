@@ -12,7 +12,7 @@ import { join, relative, resolve } from "node:path";
 
 const root = resolve(import.meta.dirname, "..");
 const dest = join(root, ".pages-site");
-const allowedSourceDirs = ["tools/decision-board", "data/decision", "docs"];
+const allowedSourceDirs = ["tools/decision-board", "tools/origem-unica", "data/decision", "docs"];
 
 function checkNoLinks(directory) {
   for (const ent of readdirSync(directory, { withFileTypes: true })) {
@@ -57,6 +57,9 @@ const requiredFiles = [
   "tools/decision-board/app.mjs",
   "tools/decision-board/model.mjs",
   "tools/decision-board/style.css",
+  "tools/origem-unica/index.html",
+  "tools/origem-unica/styles.css",
+  "tools/origem-unica/app.js",
   "data/decision/smartcities-decision-v1.json",
   "data/decision/smartcities-assessments-v1.json",
   "docs/decision/README.md",
@@ -94,3 +97,4 @@ for (const file of [".git", ".github", ".env", "package.json", "scripts"]) {
 console.log("Pages artifact validated:", relative(root, dest));
 console.log("Project-site link: /smartcities-ldn-2026/tools/decision-board/");
 console.log("Catalog: " + catalog.concepts.length + " ideas; " + catalog.challenges.length + " challenges.");
+console.log("Standalone Origem Única mock: /smartcities-ldn-2026/tools/origem-unica/");
