@@ -1,0 +1,141 @@
+{
+  "mode": "MOCK",
+  "items": [
+    {
+      "id": "OU-001",
+      "name": "UBS Jardim Exemplo",
+      "comparison_status": "CONFLICT",
+      "score": 0.87,
+      "sources": [
+        {
+          "system": "SIGLON",
+          "source_id": "SIG-001",
+          "name": "UBS Jardim Exemplo",
+          "address": "Rua das Flores, 150",
+          "phone": "(43) 3333-1111",
+          "latitude": null,
+          "longitude": null,
+          "fetched_at": null
+        },
+        {
+          "system": "CNES",
+          "source_id": "CNES-MOCK-001",
+          "name": "Unid. Básica Jd. Exemplo",
+          "address": "Rua das Flores, 105",
+          "phone": "(43) 3333-2222",
+          "latitude": null,
+          "longitude": null,
+          "fetched_at": null
+        }
+      ],
+      "conflicts": [
+        {
+          "field": "address",
+          "values": {
+            "SIGLON": "Rua das Flores, 150",
+            "CNES": "Rua das Flores, 105"
+          }
+        },
+        {
+          "field": "phone",
+          "values": {
+            "SIGLON": "(43) 3333-1111",
+            "CNES": "(43) 3333-2222"
+          }
+        }
+      ]
+    },
+    {
+      "id": "OU-002",
+      "name": "UBS Parque Modelo",
+      "comparison_status": "MATCH",
+      "score": 0.98,
+      "sources": [
+        {
+          "system": "SIGLON",
+          "source_id": "SIG-002",
+          "name": "UBS Parque Modelo",
+          "address": "Rua dos Ipês, 28",
+          "phone": "(43) 3333-3333",
+          "fetched_at": null
+        },
+        {
+          "system": "CNES",
+          "source_id": "CNES-MOCK-002",
+          "name": "Unidade Básica Parque Modelo",
+          "address": "R. dos Ipês, 28",
+          "phone": "43 3333 3333",
+          "fetched_at": null
+        }
+      ],
+      "conflicts": []
+    },
+    {
+      "id": "OU-003",
+      "name": "UBS Nova Amostra",
+      "comparison_status": "POSSIBLE_MATCH",
+      "score": 0.72,
+      "sources": [
+        {
+          "system": "SIGLON",
+          "source_id": "SIG-003",
+          "name": "UBS Nova Amostra",
+          "address": "Rua da Serra, 14",
+          "phone": null,
+          "fetched_at": null
+        },
+        {
+          "system": "CNES",
+          "source_id": "CNES-MOCK-003",
+          "name": "Unidade Nova Serra",
+          "address": "Rua da Serra, 41",
+          "phone": null,
+          "fetched_at": null
+        }
+      ],
+      "conflicts": [
+        {
+          "field": "address",
+          "values": {
+            "SIGLON": "Rua da Serra, 14",
+            "CNES": "Rua da Serra, 41"
+          }
+        }
+      ]
+    },
+    {
+      "id": "OU-004",
+      "name": "UBS Horizonte Fictício",
+      "comparison_status": "ONLY_IN_A",
+      "score": null,
+      "sources": [
+        {
+          "system": "SIGLON",
+          "source_id": "SIG-004",
+          "name": "UBS Horizonte Fictício",
+          "address": "Rua Horizonte, 22",
+          "phone": null,
+          "fetched_at": null
+        }
+      ],
+      "conflicts": []
+    },
+    {
+      "id": "OU-005",
+      "name": "UBS Nacional de Amostra",
+      "comparison_status": "ONLY_IN_B",
+      "score": null,
+      "sources": [
+        {
+          "system": "CNES",
+          "source_id": "CNES-MOCK-005",
+          "name": "UBS Nacional de Amostra",
+          "address": "Avenida Fictícia, 99",
+          "phone": null,
+          "fetched_at": null
+        }
+      ],
+      "conflicts": []
+    }
+  ]
+}
