@@ -1,0 +1,35 @@
+[
+  {
+    "tipo": "possivel_acumulo_residuos",
+    "bairro": "Setor fictício A",
+    "latitude": -23.3152,
+    "longitude": -51.1615,
+    "timestamp": "2026-11-14T09:00:00-03:00",
+    "confianca": 0.86,
+    "source_kind": "DEMO_SYNTHETIC",
+    "location_source": "DEMO_SYNTHETIC",
+    "imagem": null
+  },
+  {
+    "tipo": "possivel_acumulo_residuos",
+    "bairro": "Setor fictício B",
+    "latitude": -23.3079,
+    "longitude": -51.1781,
+    "timestamp": "2026-11-14T09:05:00-03:00",
+    "confianca": 0.67,
+    "source_kind": "DEMO_SYNTHETIC",
+    "location_source": "DEMO_SYNTHETIC",
+    "imagem": null
+  },
+  {
+    "tipo": "possivel_acumulo_residuos",
+    "bairro": "Setor fictício C",
+    "latitude": -23.3247,
+    "longitude": -51.1852,
+    "timestamp": "2026-11-14T09:10:00-03:00",
+    "confianca": 0.92,
+    "source_kind": "DEMO_SYNTHETIC",
+    "location_source": "DEMO_SYNTHETIC",
+    "imagem": null
+  }
+]
