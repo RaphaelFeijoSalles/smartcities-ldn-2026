@@ -8,3 +8,10 @@ test("official SNHIS status requires snapshot proof and keeps IBGE code",()=>{co
 test("MCMV repeated operations are not summed as units",()=>{const d=adaptOfficialHousing(snhis,mcmv);assert.equal(d.municipalities[0].enterprises.length,2);assert.ok(d.municipalities[0].enterprises.every(e=>e.units===null))});
 test("unverified municipal evidence never becomes regularity",()=>{const d=adaptOfficialHousing({...snhis,nivel_verificacao:"UNVERIFIED"},{});assert.equal(d.municipalities[0].snhis.status,"NÃO VERIFICADO");assert.equal(d.municipalities[0].requirements.fundo.status,"NÃO VERIFICADO")});
 test("two official backend URLs and partial failures",async()=>{const calls=[];const mock=async url=>{calls.push(url);return url.includes("empreendimentos")?{ok:false,status:503}:{ok:true,json:async()=>snhis}};const result=await fetchOfficialHousing("https://origem-unica-api.onrender.com/",mock);assert.equal(calls.length,2);assert.ok(calls.some(x=>x.includes("/api/habitacao/municipios/4113700")));assert.ok(calls.some(x=>x.includes("?municipio=411370")));assert.equal(result.partial,true);assert.equal(result.data.municipalities[0].snhis.status,"CONFIRMADO")});
+
+test("Fundo e Conselho mantêm evidências independentes sem sobrescrita",()=>{
+ const d=adaptOfficialHousing(snhis,mcmv);
+ assert.equal(d.municipalities[0].requirements.fundo.status,"CONFIRMADO");
+ assert.equal(d.municipalities[0].requirements.conselho.status,"CONFIRMADO");
+ assert.equal(d.municipalities[0].requirements.plhis.status,"PENDENTE");
+});

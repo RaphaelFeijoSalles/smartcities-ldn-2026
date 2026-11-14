@@ -18,7 +18,7 @@ export function adaptOfficialHousing(snhis, mcmv) {
   const req={};
   for(const r of snhis?.requisitos || []){
     const name=(r.requisito || "").toLowerCase();
-    const key=name.includes("fundo local")?"fundo":name.includes("conselho")?"conselho":name.includes("plano local")?"plhis":null;
+    const key=name.includes("conselho")?"conselho":name.includes("plano local")?"plhis":name.includes("fundo local")?"fundo":null;
     if(key)req[key]=evidence(r.situacao_fonte,"SNHIS · Ministério das Cidades");
   }
   const enterprises=(mcmv?.items || []).map((r,index)=>({
