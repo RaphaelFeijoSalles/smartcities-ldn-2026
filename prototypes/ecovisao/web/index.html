@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#12343c">
+  <title>EcoVisão P0 — Ocorrências para inspeção</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script defer src="/assets/app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topline">
+      <div class="brand"><span class="logo" aria-hidden="true">E</span><div>EcoVisão <small>Smart Cities Londrina · Protótipo P0</small></div></div>
+      <span class="tag" id="mode">100% DADOS SINTÉTICOS</span>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="hero">
+      <div>
+        <span class="eyebrow">GESTÃO DE RESÍDUOS · DEMO</span>
+        <h1>Da observação à <em>inspeção responsável.</em></h1>
+        <p>Triagem demonstrativa de possíveis acúmulos de resíduos. Não há detector YOLO executado, câmera real, GPS verdadeiro, autuação ou integração com a Prefeitura.</p>
+      </div>
+      <button id="create" class="primary">+ Simular nova ocorrência</button>
+    </section>
+    <div class="warning"><strong>Modo demonstração:</strong> os pontos no mapa e métricas são inteiramente fictícios. Confiança é apenas um valor de exemplo, não precisão medida. A foto jornalística enviada pela equipe não foi reproduzida aqui.</div>
+    <section class="stats" aria-label="Indicadores de demonstração">
+      <article><strong id="total">—</strong><span>Possíveis ocorrências</span></article>
+      <article><strong id="pending">—</strong><span>Pendentes de revisão</span></article>
+      <article><strong id="confirmed">—</strong><span>Encaminhadas à inspeção</span></article>
+      <article><strong id="rejected">—</strong><span>Descartadas</span></article>
+    </section>
+    <div class="work">
+      <section class="panel">
+        <div class="panel-title"><div><span class="eyebrow">01 / MAPA</span><h2>Pontos para análise</h2></div><span class="sub">GPS SINTÉTICO</span></div>
+        <div id="map" role="img" aria-label="Mapa ilustrativo das ocorrências sintéticas"></div>
+        <p id="map-fallback" class="small">Se o mapa online não carregar, a lista e a revisão abaixo continuam funcionando.</p>
+        <p class="small">Cartografia © OpenStreetMap contributors. Os marcadores não representam locais reais de descarte.</p>
+      </section>
+      <section class="panel">
+        <div class="panel-title"><div><span class="eyebrow">02 / TRIAGEM</span><h2>Ocorrências</h2></div><span class="sub" id="count">—</span></div>
+        <div id="occurrences" class="occurrences" aria-live="polite"></div>
+        <div id="detail" class="detail" aria-live="polite">
+          <h3>Selecione uma ocorrência</h3>
+          <p>Veja informações e aprove ou descarte a sugestão de inspeção.</p>
+        </div>
+      </section>
+    </div>
+    <section class="panel">
+      <div class="panel-title"><div><span class="eyebrow">03 / INDICADORES</span><h2>Contagem por setor fictício</h2></div></div>
+      <div id="bars" class="bars"></div>
+    </section>
+    <p id="status" role="status" class="status"></p>
+    <footer>Protótipo AI-First · Sem dados de terceiros · <a href="/docs">Contrato da API</a> · Detector: <strong>NOT RUN</strong></footer>
+  </main>
+</body>
+</html>
