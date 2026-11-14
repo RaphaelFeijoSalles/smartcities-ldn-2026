@@ -4,6 +4,12 @@
 **Fase:** RESEARCH / DECISION — sem projeto MVP definido.
 **Objetivo imediato:** decidir problema e primeiro fluxo testável. **Implementação:** NOT STARTED.
 
+## Atualização de pesquisa — 13/11/2026, sem decisão de produto
+- **Abertura do evento trouxe 15 desafios**, detalhados em 5 áudios e pesquisados por 9 PRs em aberto. Uma central consolidada de decisão foi montada em [docs/decision/README.md](../decision/README.md) na PR #8.
+- **Estado:** pesquisa consolidada, produto **NOT SELECTED**, MVP **NOT STARTED**, regras integrais de IA/IP ainda **UNKNOWN**.
+- **Próximo gate:** reunião e decisão na Issue #2, com usuário, problema, 2-min demo, dados, owner e 3 Issues pequenas.
+- **Importante:** os rankings preliminares anteriores ao áudio 5 não são notas definitivas; preparar a LP comparadora usando `data/decision/smartcities-decision-v1.json` sem scores pré-atribuídos.
+
 ## Confirmado
 - Repositório privado e disponível.
 - Tema público: Transformação Digital na Gestão Pública, 13–15/11, Londrina.
