@@ -7,7 +7,7 @@
 |---|---|---|
 | [#6](https://github.com/RaphaelFeijoSalles/smartcities-ldn-2026/pull/6) | Ferramenta de brainstorm estática, testes e pesquisa da Ouvidoria/Londrina ON | Código de apoio; testes anteriores passaram; validação de navegador/manual separada |
 | [#7](https://github.com/RaphaelFeijoSalles/smartcities-ldn-2026/pull/7) | MasterPlan 2040 + Fórum Desenvolve e cruzamento de propostas | Pesquisa histórica, manter ressalvas sobre projetos atuais |
-| [#8](https://github.com/RaphaelFeijoSalles/smartcities-ldn-2026/pull/8) | Entidades, Barcelona, CODEL/CTD, Rua Sergipe, 15 desafios e **ESTA CENTRAL CANÔNICA** | PR de consolidação, aberta; revisar antes de merge |
+| [#8](https://github.com/RaphaelFeijoSalles/smartcities-ldn-2026/pull/8) | Entidades, Barcelona, CODEL/CTD, Rua Sergipe, 15 desafios, **CENTRAL CANÔNICA + DECISION LAB responsivo e testado em CI** | PR de consolidação, aberta; revisar antes de merge |
 | [#9](https://github.com/RaphaelFeijoSalles/smartcities-ldn-2026/pull/9) | Marketplace de vídeos turísticos, passes, GPS e IA por foto | Hipótese do participante, concorrência direta e riscos |
 | [#10](https://github.com/RaphaelFeijoSalles/smartcities-ldn-2026/pull/10) | INFRA-BR, ASCE e IPS Brasil + ideação | Índices **não diretamente comparáveis** |
 | [#11](https://github.com/RaphaelFeijoSalles/smartcities-ldn-2026/pull/11) | Áudio CML sobre acervo/consulta/possíveis conflitos, com LexML | Fonte primária, atenção a normas jurídicas |
@@ -24,7 +24,7 @@
 6. A PR aberta não prova aprovação ou deploy. **Só marcar DONE quando merge/testes ocorrerem de verdade.**
 
 ## Situação de execução
-- Pesquisa: **CONSOLIDADA PARA DECISÃO** nesta branch; não significa pesquisa de mercado validada com compradores.
+- Pesquisa: **CONSOLIDADA PARA DECISÃO** nesta branch; não significa pesquisa de mercado validada com compradores. Painel de comparação estático entregue em `tools/decision-board/` com avaliações provisórias separadas.
 - Código do MVP: **NOT STARTED** até escolha confirmada.
 - Stack: **TBD**, preferir web local com fixtures e lógica determinística no P0.
 - Regras integrais do hackathon (IA, código preexistente, IP): **UNKNOWN**, confirmar no regulamento.
