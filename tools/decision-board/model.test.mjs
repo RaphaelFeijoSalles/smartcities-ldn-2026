@@ -52,10 +52,10 @@ test("ajuste local altera ordenação sem editar dados fonte",()=>{
 });
 test("filtro por acentos, setor e desafio não retorna falsos positivos",()=>{
   const r=rankedConcepts(catalog,baseline);
-  assert(filterConcepts(r,{query:"legislativo"}).some(x=>x.id==="C03"));
+  assert(filterConcepts(r,{query:"normativo"}).some(x=>x.id==="C03"));
   assert(filterConcepts(r,{sectorId:"S4"}).every(x=>x.sectorId==="S4"));
   assert(filterConcepts(r,{challengeId:"04.3"}).every(x=>x.challengeIds.includes("04.3")));
-  assert(filterConcepts(r,{query:"residuos"}).some(x=>x.id==="C05"));
+  assert(filterConcepts(r,{query:"rejeitos"}).some(x=>x.id==="C05"));
   assert.deepEqual(filterConcepts(r,{sectorId:"S1",challengeId:"04.3"}),[]);
 });
 test("exportação com 2 selecionados é legível e inclui fontes, gates e notas",()=>{
