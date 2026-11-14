@@ -1,3 +1,15 @@
+## STATUS MAIS RECENTE — 14/11/2026
+
+- **#8 MERGED:** Decision Lab e 15 desafios estão em `main`. Este registro substitui afirmações anteriores de que a PR #8 continua aberta.
+- **EcoVisão C16** inserida em branch de organização `chore/hackathon-ready-20261114`; 16 ideias para 15 desafios, notas provisórias e gates desconhecidos.
+- **#17:** documentação de EcoVisão e dois links de fotos jornalísticas históricas (2020) com restrições autorais, não copiados para o Git.
+- **#18:** `spike/ecovisao-p0-api-20261114` com API/UI e dados sintéticos, não YOLO. **Aguardar decisão e gates antes de merge.**
+- **Equipe e handoff:** [START_NOW_20261114.md](START_NOW_20261114.md), Miguel sai às 13h, João assume PC com autenticação própria; Tiago GEO, Matheus validação, Raphael integração.
+- **Pesquisa e issues antigas:** verificar [inventário atualizado](../decision/06_ESTADO_E_PRS.md). Não fechar Issues 1–5 antes dos aceites.
+- **Produto escolhido:** PENDING; **regras completas de IA/IP:** UNKNOWN; **benchmark YOLO:** NOT RUN; **demo real:** NOT VERIFIED.
+
+---
+
 # Continuidade operacional — fonte de verdade viva
 
 **Atualizado:** 13/11/2026 — preparação para brainstorm.
