@@ -18,7 +18,7 @@ Para integrar ao FastAPI do João, sirva o frontend e `GET /api/records` na mesm
 
 `GET /api/records` deve responder JSON com `mode` (`LIVE`, `SNAPSHOT`, `MOCK` ou `DEMO_SYNTHETIC`) e `items` (array). Cada item deve ter `id`, `name`, `sources`, `comparison_status`, `score` e `conflicts`. No contrato de QA, `sources` é um array de registros com `system`, `source_id`, `name` e `fetched_at`; `comparison_status` aceita `MATCH`, `POSSIBLE_MATCH`, `CONFLICT`, `ONLY_IN_A` e `ONLY_IN_B`. O modo `MOCK` recebido da API também é rotulado **DADOS SINTÉTICOS**.
 
-O adaptador em `adapter.js` também aceita pequenas variações: `sources` por item como objeto (`{"siglon": {...}, "cnes": {...}}`) ou array de objetos com `record`, além de `a`/`b` e `source_a`/`source_b`. `sources` no topo pode ser um catálogo opcional de nomes e URLs. `score` aceita 0–1 ou 0–100; `conflicts` aceita nomes de campos ou objetos com `field`. Uma fonte única em `ONLY_IN_B` aparece na coluna B.
+O adaptador em `adapter.js` também aceita pequenas variações: `sources` por item como objeto (`{"siglon": {...}, "cnes": {...}}`) ou array de objetos com `record`, além de `a`/`b` e `source_a`/`source_b` quando esses objetos declaram sistema, identificador, nome e coleta. `sources` no topo pode ser um catálogo opcional de nomes e URLs. `score` deve ser 0–1 ou `null`; `conflicts` aceita nomes de campos ou objetos com `field`. Uma fonte única em `ONLY_IN_B` aparece na coluna B. Atributos originais de cada fonte são preservados no adaptador, inclusive coordenadas quando presentes; campos ausentes aparecem como “Não informado”. Respostas sem campos obrigatórios ativam o fallback sintético, sem criar identificadores ou valores para completar a API.
 
 Um item mínimo para smoke:
 

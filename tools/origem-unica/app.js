@@ -157,7 +157,7 @@ function fieldCompare(item,side){
  const values=item[side];
  header.replaceChildren(safeText("b",values?.source??(side==="a"?"Fonte A":"Fonte B")),safeText("span",state.mode));
  const body=safeText("div",undefined,"compare-body");body.textContent="";
- for(const [key,label] of [["name","Estabelecimento"],["address","Endereço"],["phone","Telefone"],["ref","Identificador"],["updated","Atualização / coleta"],["provenance","Proveniência declarada"]]){
+ for(const [key,label] of [["name","Estabelecimento"],["address","Endereço"],["phone","Telefone"],["ref","Identificador"],["updated","Atualização"],["fetchedAt","Coleta"],["provenance","URL / proveniência declarada"]]){
    const conflictKeys={name:["name","nome","estabelecimento"],address:["address","endereco","logradouro","numero","número"],phone:["phone","telefone"],ref:["id","ref","identificador"]};
    const conflict=conflictKeys[key]?.some(candidate=>item.fields.some(field=>field.toLocaleLowerCase("pt-BR").includes(candidate)));
    const line=safeText("div",undefined,"compare-field"+(!values?" absent":conflict?" conflict":""));line.textContent="";
@@ -206,8 +206,8 @@ function refresh(){stats();renderSources();renderRecords();renderDetail();render
 function download(filename,text,type){const blob=new Blob([text],{type});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 const csvEsc=v=>'"'+String(v??"").replace(/"/g,'""')+'"';
 function exportCsv(){
- const head=["modo","id","estabelecimento","comparison_status","tipo","score","conflicts","fonte_a","id_a","endereco_a","telefone_a","atualizacao_a","proveniencia_a","fonte_b","id_b","endereco_b","telefone_b","atualizacao_b","proveniencia_b","status_local","decisao_simulada"];
- const data=filtered().map(x=>[state.dataMode,x.id,x.name,x.comparisonStatus??"",x.kind,x.score??"",x.fields.join(" | "),x.a?.source,x.a?.ref,x.a?.address,x.a?.phone,x.a?.updated,x.a?.provenance,x.b?.source,x.b?.ref,x.b?.address,x.b?.phone,x.b?.updated,x.b?.provenance,x.status,x.decisionLabel??""]);
+ const head=["modo","id","estabelecimento","comparison_status","tipo","score","conflicts","fonte_a","id_a","endereco_a","telefone_a","atualizacao_a","coleta_a","proveniencia_a","fonte_b","id_b","endereco_b","telefone_b","atualizacao_b","coleta_b","proveniencia_b","status_local","decisao_simulada"];
+ const data=filtered().map(x=>[state.dataMode,x.id,x.name,x.comparisonStatus??"",x.kind,x.score??"",x.fields.join(" | "),x.a?.source,x.a?.ref,x.a?.address,x.a?.phone,x.a?.updated,x.a?.fetchedAt,x.a?.provenance,x.b?.source,x.b?.ref,x.b?.address,x.b?.phone,x.b?.updated,x.b?.fetchedAt,x.b?.provenance,x.status,x.decisionLabel??""]);
  const csv="\uFEFF"+[head,...data].map(line=>line.map(csvEsc).join(";")).join("\r\n")+"\r\n";
  download("origem-unica-conciliacao-"+state.mode+(state.mode==="API"?"-"+state.dataMode:"")+".csv",csv,"text/csv;charset=utf-8");toast("CSV "+modeLabel()+" exportado.");
 }
