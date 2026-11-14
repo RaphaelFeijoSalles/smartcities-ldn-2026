@@ -15,3 +15,16 @@ test("Fundo e Conselho mantêm evidências independentes sem sobrescrita",()=>{
  assert.equal(d.municipalities[0].requirements.conselho.status,"CONFIRMADO");
  assert.equal(d.municipalities[0].requirements.plhis.status,"PENDENTE");
 });
+
+test("real SNHIS source values Regular classify all three instruments",()=>{
+ const official={...snhis,requisitos:snhis.requisitos.map(r=>({...r,situacao_fonte:"Regular"}))};
+ const d=adaptOfficialHousing(official,mcmv);
+ for(const id of ["fundo","conselho","plhis"])assert.equal(d.municipalities[0].requirements[id].status,"CONFIRMADO");
+ assert.equal(d.municipalities[0].snhis.status,"CONFIRMADO");
+});
+
+test("unknown instrument values remain unverified",()=>{
+ const official={...snhis,requisitos:snhis.requisitos.map(r=>({...r,situacao_fonte:"Sem registro"}))};
+ const d=adaptOfficialHousing(official,mcmv);
+ for(const id of ["fundo","conselho","plhis"])assert.equal(d.municipalities[0].requirements[id].status,"NÃO VERIFICADO");
+});
