@@ -83,8 +83,9 @@ if (appData.pathname !== "/smartcities-ldn-2026/data/decision/smartcities-decisi
 }
 const catalog = JSON.parse(readFileSync(join(dest, "data/decision/smartcities-decision-v1.json"), "utf8"));
 const baseline = JSON.parse(readFileSync(join(dest, "data/decision/smartcities-assessments-v1.json"), "utf8"));
-if (catalog.concepts?.length !== 15 || baseline.items?.length !== 15)
-  throw new Error("Catalog/assessments incomplete in Pages artifact");
+if (!Array.isArray(catalog.concepts) || catalog.concepts.length === 0 ||
+    !Array.isArray(baseline.items) || baseline.items.length !== catalog.concepts.length)
+  throw new Error("Catalog and assessments are missing or have different numbers of concepts");
 
 // Never ship a repository checkout, backend sources or credentials to Pages.
 for (const file of [".git", ".github", ".env", "package.json", "scripts"]) {
