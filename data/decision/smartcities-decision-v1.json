@@ -726,5 +726,15 @@
       ],
       "status": "hypothesis"
     }
+  ],
+  "deferredChallengeNotes": [
+    {
+      "id": "02.3",
+      "reason": "Detecção de conflitos jurídicos depende da estruturação e revisão qualificada. Considerar como extensão do LexBase, não MVP isolado."
+    },
+    {
+      "id": "04.2",
+      "reason": "PPPs/concessões demandam desenho jurídico e operador definido. Manter como desafio mapeado, sem produto independente aprovado."
+    }
   ]
 }
