@@ -1,0 +1,325 @@
+{
+  "version": "1.0.0",
+  "baseCatalogVersion": "1.0.0",
+  "assessmentDate": "2026-11-13",
+  "assessor": "Hipóteses de avaliação técnica e de produto do assistente",
+  "status": "PROVISIONAL_NOT_OFFICIAL_NOT_USER_VALIDATED",
+  "description": "Prioridades iniciais para discussão. Não são notas oficiais, probabilidades de premiação ou prova de cliente. Reavaliar após mentoria e validação.",
+  "items": [
+    {
+      "id": "C01",
+      "ratings": {
+        "evidence": 5,
+        "challengeFit": 5,
+        "feasibility": 4,
+        "demo": 5,
+        "differentiation": 4,
+        "commercial": 4
+      },
+      "rationale": "Relatos diretos da CTD e SIGLON sobre sistemas que não se conversam; fluxo recortável, porém dependente de regras de autoridade.",
+      "nextValidation": "Confirmar par de bases e área responsável; não simular fonte oficial como acessada.",
+      "reviewStatus": "ASSISTANT_PROVISIONAL",
+      "gates": {
+        "legal_data_safety": "NEEDS_CHECK",
+        "challenge_fit": "PRESENTED",
+        "validated_user_pain": "UNKNOWN",
+        "two_minute_demo": "PROPOSED_NOT_TESTED",
+        "not_clone": "NEEDS_CHECK"
+      }
+    },
+    {
+      "id": "C02",
+      "ratings": {
+        "evidence": 4,
+        "challengeFit": 5,
+        "feasibility": 4,
+        "demo": 4,
+        "differentiation": 4,
+        "commercial": 3
+      },
+      "rationale": "SINISA e dificuldades de atualização foram citados em dois depoimentos; há processo concreto, porém integração/regra regulatória não foram detalhadas.",
+      "nextValidation": "Pedir o campo/indicador que mais dá retrabalho e verificar exigências oficiais.",
+      "reviewStatus": "ASSISTANT_PROVISIONAL",
+      "gates": {
+        "legal_data_safety": "NEEDS_CHECK",
+        "challenge_fit": "PRESENTED",
+        "validated_user_pain": "UNKNOWN",
+        "two_minute_demo": "PROPOSED_NOT_TESTED",
+        "not_clone": "NEEDS_CHECK"
+      }
+    },
+    {
+      "id": "C03",
+      "ratings": {
+        "evidence": 5,
+        "challengeFit": 5,
+        "feasibility": 4,
+        "demo": 5,
+        "differentiation": 5,
+        "commercial": 4
+      },
+      "rationale": "Representante da CML descreveu causa-raiz, formatos históricos e protótipo bloqueado; solução focal tem diferenciação mais defensável que chatbot.",
+      "nextValidation": "Obter três documentos autorizados, formatos e regra de versionamento.",
+      "reviewStatus": "ASSISTANT_PROVISIONAL",
+      "gates": {
+        "legal_data_safety": "NEEDS_CHECK",
+        "challenge_fit": "PRESENTED",
+        "validated_user_pain": "UNKNOWN",
+        "two_minute_demo": "PROPOSED_NOT_TESTED",
+        "not_clone": "NEEDS_CHECK"
+      }
+    },
+    {
+      "id": "C04",
+      "ratings": {
+        "evidence": 4,
+        "challengeFit": 5,
+        "feasibility": 3,
+        "demo": 5,
+        "differentiation": 2,
+        "commercial": 3
+      },
+      "rationale": "Caso de IA descrito, mas chatbot depende primeiro de acervo estruturado e já enfrenta muitas alternativas.",
+      "nextValidation": "Somente considerar depois de comprovar recuperação com fonte e camada documental.",
+      "reviewStatus": "ASSISTANT_PROVISIONAL",
+      "gates": {
+        "legal_data_safety": "NEEDS_CHECK",
+        "challenge_fit": "PRESENTED",
+        "validated_user_pain": "UNKNOWN",
+        "two_minute_demo": "PROPOSED_NOT_TESTED",
+        "not_clone": "NEEDS_CHECK"
+      }
+    },
+    {
+      "id": "C05",
+      "ratings": {
+        "evidence": 4,
+        "challengeFit": 5,
+        "feasibility": 5,
+        "demo": 5,
+        "differentiation": 3,
+        "commercial": 4
+      },
+      "rationale": "CMTU divulgou contaminação e o evento mencionou resíduos; uma jornada simples é demonstrável, mas ferramentas do operador são desconhecidas.",
+      "nextValidation": "Perguntar como a cooperativa registra lotes/rejeitos e se a CMTU usa sistema existente.",
+      "reviewStatus": "ASSISTANT_PROVISIONAL",
+      "gates": {
+        "legal_data_safety": "NEEDS_CHECK",
+        "challenge_fit": "PRESENTED",
+        "validated_user_pain": "UNKNOWN",
+        "two_minute_demo": "PROPOSED_NOT_TESTED",
+        "not_clone": "NEEDS_CHECK"
+      }
+    },
+    {
+      "id": "C06",
+      "ratings": {
+        "evidence": 4,
+        "challengeFit": 5,
+        "feasibility": 4,
+        "demo": 5,
+        "differentiation": 3,
+        "commercial": 3
+      },
+      "rationale": "Reincidência de descarte foi relatada em palestra e poderia ser visível em demo; possível duplicação de canal de chamados.",
+      "nextValidation": "Identificar fluxo preventivo que Londrina ON e CMTU ainda não suportem.",
+      "reviewStatus": "ASSISTANT_PROVISIONAL",
+      "gates": {
+        "legal_data_safety": "NEEDS_CHECK",
+        "challenge_fit": "PRESENTED",
+        "validated_user_pain": "UNKNOWN",
+        "two_minute_demo": "PROPOSED_NOT_TESTED",
+        "not_clone": "NEEDS_CHECK"
+      }
+    },
+    {
+      "id": "C07",
+      "ratings": {
+        "evidence": 4,
+        "challengeFit": 5,
+        "feasibility": 3,
+        "demo": 4,
+        "differentiation": 3,
+        "commercial": 3
+      },
+      "rationale": "Necessidade de coordenação de ocorrência climática citada; segurança torna inviável automatizar despacho real.",
+      "nextValidation": "Validar protocolo e permitir apenas simulação revisada por humano.",
+      "reviewStatus": "ASSISTANT_PROVISIONAL",
+      "gates": {
+        "legal_data_safety": "NEEDS_CHECK",
+        "challenge_fit": "PRESENTED",
+        "validated_user_pain": "UNKNOWN",
+        "two_minute_demo": "PROPOSED_NOT_TESTED",
+        "not_clone": "NEEDS_CHECK"
+      }
+    },
+    {
+      "id": "C08",
+      "ratings": {
+        "evidence": 4,
+        "challengeFit": 5,
+        "feasibility": 4,
+        "demo": 4,
+        "differentiation": 3,
+        "commercial": 3
+      },
+      "rationale": "Problemas de drenagem, sedimentos e documentos técnicos relatados; inventário SIGLON existente exige anti-clone.",
+      "nextValidation": "Encontrar lacuna de documentação ou atualização de um ativo com órgão responsável.",
+      "reviewStatus": "ASSISTANT_PROVISIONAL",
+      "gates": {
+        "legal_data_safety": "NEEDS_CHECK",
+        "challenge_fit": "PRESENTED",
+        "validated_user_pain": "UNKNOWN",
+        "two_minute_demo": "PROPOSED_NOT_TESTED",
+        "not_clone": "NEEDS_CHECK"
+      }
+    },
+    {
+      "id": "C09",
+      "ratings": {
+        "evidence": 4,
+        "challengeFit": 5,
+        "feasibility": 4,
+        "demo": 4,
+        "differentiation": 3,
+        "commercial": 3
+      },
+      "rationale": "SIGLON relatou inventários arbóreos fragmentados; P0 documental possível, mas não substitui vistoria técnica.",
+      "nextValidation": "Confirmar quem atualiza o inventário e como é feita validação.",
+      "reviewStatus": "ASSISTANT_PROVISIONAL",
+      "gates": {
+        "legal_data_safety": "NEEDS_CHECK",
+        "challenge_fit": "PRESENTED",
+        "validated_user_pain": "UNKNOWN",
+        "two_minute_demo": "PROPOSED_NOT_TESTED",
+        "not_clone": "NEEDS_CHECK"
+      }
+    },
+    {
+      "id": "C10",
+      "ratings": {
+        "evidence": 3,
+        "challengeFit": 5,
+        "feasibility": 4,
+        "demo": 5,
+        "differentiation": 3,
+        "commercial": 3
+      },
+      "rationale": "Critérios ASCE e dados INFRA-BR inspiram método; não foi apresentada demanda específica por novo checklist de vistoria.",
+      "nextValidation": "Mentor CEAL/CREA deve confirmar campo/rotina hoje não resolvidos.",
+      "reviewStatus": "ASSISTANT_PROVISIONAL",
+      "gates": {
+        "legal_data_safety": "NEEDS_CHECK",
+        "challenge_fit": "PRESENTED",
+        "validated_user_pain": "UNKNOWN",
+        "two_minute_demo": "PROPOSED_NOT_TESTED",
+        "not_clone": "NEEDS_CHECK"
+      }
+    },
+    {
+      "id": "C11",
+      "ratings": {
+        "evidence": 4,
+        "challengeFit": 5,
+        "feasibility": 5,
+        "demo": 5,
+        "differentiation": 4,
+        "commercial": 4
+      },
+      "rationale": "Gestor SIGLON explicitou valor de prestadores cadastrarem/atualizarem informação; P0 de contribuição e revisão é muito visual.",
+      "nextValidation": "Verificar o que os aplicativos públicos SIGLON já publicam e qual fluxo aceita atualização.",
+      "reviewStatus": "ASSISTANT_PROVISIONAL",
+      "gates": {
+        "legal_data_safety": "NEEDS_CHECK",
+        "challenge_fit": "PRESENTED",
+        "validated_user_pain": "UNKNOWN",
+        "two_minute_demo": "PROPOSED_NOT_TESTED",
+        "not_clone": "NEEDS_CHECK"
+      }
+    },
+    {
+      "id": "C12",
+      "ratings": {
+        "evidence": 2,
+        "challengeFit": 5,
+        "feasibility": 4,
+        "demo": 5,
+        "differentiation": 2,
+        "commercial": 4
+      },
+      "rationale": "Ideia comercial do participante é clara e demonstrável, porém pagamento por vídeo/GPS já existe e criadores/usuários não foram validados.",
+      "nextValidation": "Entrevistar visitante e criador; obter material autoral; não implementar pagamentos no P0.",
+      "reviewStatus": "ASSISTANT_PROVISIONAL",
+      "gates": {
+        "legal_data_safety": "NEEDS_CHECK",
+        "challenge_fit": "PRESENTED",
+        "validated_user_pain": "UNKNOWN",
+        "two_minute_demo": "PROPOSED_NOT_TESTED",
+        "not_clone": "NEEDS_CHECK"
+      }
+    },
+    {
+      "id": "C13",
+      "ratings": {
+        "evidence": 4,
+        "challengeFit": 5,
+        "feasibility": 5,
+        "demo": 5,
+        "differentiation": 3,
+        "commercial": 3
+      },
+      "rationale": "Palestra diferenciou acesso, equipamento e habilidade; fluxo assistido cabe no tempo, mas demanda usuário de teste.",
+      "nextValidation": "Validar um serviço concreto com pessoa que tenha barreira digital.",
+      "reviewStatus": "ASSISTANT_PROVISIONAL",
+      "gates": {
+        "legal_data_safety": "NEEDS_CHECK",
+        "challenge_fit": "PRESENTED",
+        "validated_user_pain": "UNKNOWN",
+        "two_minute_demo": "PROPOSED_NOT_TESTED",
+        "not_clone": "NEEDS_CHECK"
+      }
+    },
+    {
+      "id": "C14",
+      "ratings": {
+        "evidence": 3,
+        "challengeFit": 5,
+        "feasibility": 4,
+        "demo": 5,
+        "differentiation": 3,
+        "commercial": 3
+      },
+      "rationale": "Palestra destacou informação escolar acionável; risco de dados sensíveis e sistemas educativos já operando.",
+      "nextValidation": "Validar fluxo e professor; usar somente casos fictícios.",
+      "reviewStatus": "ASSISTANT_PROVISIONAL",
+      "gates": {
+        "legal_data_safety": "NEEDS_CHECK",
+        "challenge_fit": "PRESENTED",
+        "validated_user_pain": "UNKNOWN",
+        "two_minute_demo": "PROPOSED_NOT_TESTED",
+        "not_clone": "NEEDS_CHECK"
+      }
+    },
+    {
+      "id": "C15",
+      "ratings": {
+        "evidence": 3,
+        "challengeFit": 5,
+        "feasibility": 3,
+        "demo": 4,
+        "differentiation": 3,
+        "commercial": 2
+      },
+      "rationale": "RH/previdência foram descritos como demanda ampla; nicho sintético possível mas área regulada e difícil de diferenciar.",
+      "nextValidation": "Encontrar uma etapa não sensível e instituição disposta a validar.",
+      "reviewStatus": "ASSISTANT_PROVISIONAL",
+      "gates": {
+        "legal_data_safety": "NEEDS_CHECK",
+        "challenge_fit": "PRESENTED",
+        "validated_user_pain": "UNKNOWN",
+        "two_minute_demo": "PROPOSED_NOT_TESTED",
+        "not_clone": "NEEDS_CHECK"
+      }
+    }
+  ]
+}
