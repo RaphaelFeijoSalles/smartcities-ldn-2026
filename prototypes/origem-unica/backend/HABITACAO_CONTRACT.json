@@ -1,0 +1,47 @@
+{
+  "mode": "SNAPSHOT",
+  "municipio": {
+    "codigo_solicitado": "411370",
+    "codigo_ibge": "4113700",
+    "nome": "Londrina",
+    "uf": "PR"
+  },
+  "situacao_snhis": "REGULAR",
+  "situacao_fonte": "Regular",
+  "requisitos": [
+    {
+      "requisito": "Lei do Fundo Local de Habitação de Interesse Social",
+      "situacao_fonte": "Regular",
+      "fonte": "https://www.gov.br/cidades/pt-br/acesso-a-informacao/acoes-e-programas/habitacao/programa-minha-casa-minha-vida/minha-casa-minha-vida-fnhis-sub-50-1/arquivos-fnhis-sub-50/copy_of_Dicionarios_SNH_2025_10_09.pdf"
+    },
+    {
+      "requisito": "Lei do Conselho Gestor do Fundo Local",
+      "situacao_fonte": "Regular",
+      "fonte": "https://www.gov.br/cidades/pt-br/acesso-a-informacao/acoes-e-programas/habitacao/programa-minha-casa-minha-vida/minha-casa-minha-vida-fnhis-sub-50-1/arquivos-fnhis-sub-50/copy_of_Dicionarios_SNH_2025_10_09.pdf"
+    },
+    {
+      "requisito": "Assinatura e publicação do termo de adesão ao SNHIS",
+      "situacao_fonte": "Regular",
+      "fonte": "https://www.gov.br/cidades/pt-br/acesso-a-informacao/acoes-e-programas/habitacao/programa-minha-casa-minha-vida/minha-casa-minha-vida-fnhis-sub-50-1/arquivos-fnhis-sub-50/copy_of_Dicionarios_SNH_2025_10_09.pdf"
+    },
+    {
+      "requisito": "Plano Local de Habitação de Interesse Social",
+      "situacao_fonte": "Regular",
+      "fonte": "https://www.gov.br/cidades/pt-br/acesso-a-informacao/acoes-e-programas/habitacao/programa-minha-casa-minha-vida/minha-casa-minha-vida-fnhis-sub-50-1/arquivos-fnhis-sub-50/copy_of_Dicionarios_SNH_2025_10_09.pdf"
+    }
+  ],
+  "fonte": {
+    "instituicao": "Ministério das Cidades / CEFUS-CAIXA",
+    "portal": "https://www.gov.br/cidades/pt-br/acesso-a-informacao/acoes-e-programas/habitacao/programa-minha-casa-minha-vida/bases-de-dados-do-programa-minha-casa-minha-vida",
+    "url": "https://www.gov.br/cidades/pt-br/acesso-a-informacao/acoes-e-programas/habitacao/programa-minha-casa-minha-vida/minha-casa-minha-vida-fnhis-sub-50-1/arquivos-fnhis-sub-50/FNHIS_QUINZENAL_MCID_2026_10_20.xls",
+    "dicionario": "https://www.gov.br/cidades/pt-br/acesso-a-informacao/acoes-e-programas/habitacao/programa-minha-casa-minha-vida/minha-casa-minha-vida-fnhis-sub-50-1/arquivos-fnhis-sub-50/copy_of_Dicionarios_SNH_2025_10_09.pdf",
+    "downloaded_at": "2026-11-14T19:39:33.458087+00:00",
+    "last_modified": null,
+    "sha256": "7a482e8aa4e1966de9f553d3d2d3f2854b625045f238584b644119819fcd5a2f"
+  },
+  "data_referencia": "2026-10-20",
+  "nivel_verificacao": "OFFICIAL_SNAPSHOT",
+  "atualizacao_indisponivel": false,
+  "mensagens_pendencia": [],
+  "aviso": "Retrato da fonte na data de referência; não constitui certificação de regularidade atual."
+}
