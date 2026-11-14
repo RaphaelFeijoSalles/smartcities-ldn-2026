@@ -13,4 +13,4 @@ services:
       - key: ORIGEM_UNICA_MOCK
         value: '1'
       - key: ORIGEM_UNICA_CORS_ORIGINS
-        value: https://raphaelfeijosalles.github.io
+        value: http://localhost:4173,https://raphaelfeijosalles.github.io

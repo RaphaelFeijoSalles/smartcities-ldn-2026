@@ -79,12 +79,14 @@ def test_fallback_coordinates_are_complete_pairs():
             assert (record.latitude is None) == (record.longitude is None)
 
 
-def test_cors_accepts_exact_pages_origin_only(monkeypatch):
-    monkeypatch.setenv("ORIGEM_UNICA_CORS_ORIGINS", "https://raphaelfeijosalles.github.io")
+def test_cors_accepts_configured_origins_only(monkeypatch):
+    monkeypatch.setenv("ORIGEM_UNICA_CORS_ORIGINS", "http://localhost:4173,https://raphaelfeijosalles.github.io")
     with TestClient(create_app(ReconciliationService(adapters=[FailedSource()]))) as client:
         allowed = client.get("/api/health", headers={"Origin": "https://raphaelfeijosalles.github.io"})
+        local = client.get("/api/health", headers={"Origin": "http://localhost:4173"})
         refused = client.get("/api/health", headers={"Origin": "https://untrusted.example"})
     assert allowed.headers["access-control-allow-origin"] == "https://raphaelfeijosalles.github.io"
+    assert local.headers["access-control-allow-origin"] == "http://localhost:4173"
     assert "access-control-allow-origin" not in refused.headers
     monkeypatch.setenv("ORIGEM_UNICA_CORS_ORIGINS", "*")
     with pytest.raises(ValueError):
