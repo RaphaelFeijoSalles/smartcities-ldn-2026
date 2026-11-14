@@ -4,6 +4,12 @@
 
 **Evento:** Smart Cities Hackathon, Londrina, 13–15/11/2026. Tema divulgado: **Transformação Digital na Gestão Pública**. O regulamento/desafios oficiais específicos ainda precisam ser confirmados na abertura. Não confundir hipóteses deste repositório com desafios oficiais.
 
+## Painel responsivo para escolher a ideia — Decision Lab
+
+**[Abrir o código e instruções do painel](tools/decision-board/README.md)** · Teste local: na raiz do repositório execute `python3 -m http.server 4173` e abra `http://localhost:4173/tools/decision-board/`.
+
+O painel apresenta 15 candidatos com filtros, fontes, ranking provisório editável, shortlist de até três, comparador e exportação Markdown/JSON para a [Issue #2](https://github.com/RaphaelFeijoSalles/smartcities-ldn-2026/issues/2). **Responsivo, sem framework/banco/backend/chave de IA.** Para manutenção por uma chamada de IA, use o prompt único no README do painel. Nenhuma escolha de produto foi feita. [SIGLON: aplicativos públicos e verificação anti-clone](docs/decision/07_SIGLON_APLICATIVOS.md).
+
 ## Central de decisão — 5 setores, 15 desafios e 5 áudios (13/11)
 
 **Ponto de entrada atualizado:** [leitura de 2 minutos e documentação consolidada](docs/decision/README.md). É a síntese canônica para o brainstorm; pesquisar primeiro nesta central antes de abrir nova Issue/PR. **Ainda não escolhemos produto e o código do MVP não começou.**
