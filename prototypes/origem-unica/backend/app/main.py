@@ -8,6 +8,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.service import ReconciliationService
+from app.habitacao import SnhisService, housing_router
+from app.mcmv import McmvService
 
 
 def cors_origins() -> list[str]:
@@ -23,7 +25,7 @@ def cors_origins() -> list[str]:
     return origins
 
 
-def create_app(service: ReconciliationService | None = None) -> FastAPI:
+def create_app(service: ReconciliationService | None = None, housing_service: SnhisService | None = None) -> FastAPI:
     app = FastAPI(
         title="Origem Única API",
         version="0.1.0",
@@ -70,6 +72,13 @@ def create_app(service: ReconciliationService | None = None) -> FastAPI:
             "generated_at": snapshot["generated_at"],
             "sources": snapshot["sources"],
         }
+
+    app.include_router(housing_router(housing_service or SnhisService()))
+    mcmv_service = McmvService()
+
+    @app.get("/api/habitacao/empreendimentos", tags=["Habitação"])
+    def empreendimentos(municipio: str):
+        return mcmv_service.empreendimentos(municipio)
 
     return app
 
