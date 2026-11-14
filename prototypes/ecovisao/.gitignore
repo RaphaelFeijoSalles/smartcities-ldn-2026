@@ -1,0 +1,5 @@
+api/*.sqlite
+api/*.sqlite-*
+__pycache__/
+.pytest_cache/
+*.pyc
