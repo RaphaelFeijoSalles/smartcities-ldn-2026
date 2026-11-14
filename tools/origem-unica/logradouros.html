@@ -36,7 +36,7 @@ const locality=s=>String(s??"").toUpperCase()==="SEDE"?"SEDE (classificação te
 function flags(r){const f=[];if(!r.name)f.push("SEM_NOME: verificar tipo de via");if(!r.codlog)f.push("CODLOG_AUSENTE");if(!r.law)f.push("LEI_NAO_INFORMADA");if(r.locality==="SEDE")f.push("LOCALIDADE_SEDE: verificar semântica");return f;}
 function rows(){const scope=$("sample").value,q=normalize($("query").value);return base.filter(r=>(scope==="all"||r.scenario===scope)&&(!q||normalize([r.id,r.name,r.codlog,r.type].join(" ")).includes(q)));}
 function render(){const data=rows(),groups=new Map();$("records").replaceChildren();
-for(const r of data){const key=r.codlog?"CODLOG "+r.codlog:(r.name?type(r.type)+" "+normalize(r.name):"SEM IDENTIDADE "+r.id);const members=groups.get(key)||[];members.push(r);groups.set(key,members);
+for(const r of data){const key=r.name?"NOME "+normalize(r.name):"SEM IDENTIDADE "+r.id;const members=groups.get(key)||[];members.push(r);groups.set(key,members);
 const tr=document.createElement("tr");
 for(const value of [r.source,r.name??"(não informado)",type(r.type),r.locality,r.codlog??"—",r.law??"—",normalize(r.name)||"(sem nome)",flags(r).join(" | ")||"Nenhuma pendência pela regra"]) {const td=document.createElement("td");td.textContent=value;tr.appendChild(td)}$("records").appendChild(tr)}
 $("total").textContent=data.length;$("flags").textContent=data.filter(r=>flags(r).length).length;
