@@ -1,8 +1,8 @@
-# Portfólio de hipóteses — 15 produtos, ainda SEM ranking
+# Portfólio de hipóteses — 15 produtos + avaliação visual provisória
 
 **Última revisão:** 13/11/2026. As 15 opções abaixo são **propostas de produto da equipe** derivadas de 15 desafios presenciais, de cinco áudios e de pesquisa externa. Não são 15 produtos solicitados pela Prefeitura. **Nenhum produto foi aprovado**; não há nota final atribuída.
 
-> Prioridade nesta primeira etapa = identificar **que problema merece uma entrevista agora**, não prever vencedor do hackathon. As notas antigas do desafio (PR #8) não devem ser reutilizadas automaticamente.
+> Este portfólio registra as hipóteses por domínio. O [Decision Lab](../../tools/decision-board/README.md) apresenta **avaliações provisórias e editáveis do assistente após os cinco áudios**, não uma nota da banca nem escolha da equipe.
 
 **Por que 15 desafios e 15 ideias não significam uma ideia por desafio:** **02.3 (conflitos legais)** foi mantido como extensão futura do LexBase, por risco de parecer jurídico; **04.2 (PPPs e concessões)** não recebeu proposta independente porque falta operador/processo validado e o recorte amplo é regulatoriamente complexo. Ambos continuam na matriz e no catálogo de desafios.
 
@@ -269,12 +269,12 @@
 
 **Bases da hipótese:** A5: Inclusão, educação, RH e previdência.
 
-## Como levar à comparação visual (próxima etapa)
+## Como comparar visualmente (painel pronto)
 
-- **Catálogo pronto:** [smartcities-decision-v1.json](../../data/decision/smartcities-decision-v1.json). Possui 5 setores, 15 desafios, 15 hipóteses, 20 evidências/referências, usuários, comprador hipotético, demo, concorrência e bloqueios.
-- **Sem scores gravados:** seis critérios de 1–5 com pesos transparentes e tratamento para UNKNOWN, acompanhados dos gates de segurança, aderência, usuário, demo e anti-clone.
-- **LP a produzir na próxima rodada:** filtros por setor, cards comparáveis, evidências clicáveis, pontuação editável com justificativa, bloqueios visíveis e exportação de decisão para GitHub.
-- **Não criar backend para essa LP**: dados versionados e interface local estática, sem credenciais. O banco de ideias será a própria fonte verificável.
+- **Catálogo pronto:** [smartcities-decision-v1.json](../../data/decision/smartcities-decision-v1.json). Possui 5 setores, 15 desafios, 15 hipóteses, 21 evidências/referências, usuários, comprador hipotético, demo, concorrência e bloqueios.
+- **Notas iniciais separadas:** [smartcities-assessments-v1.json](../../data/decision/smartcities-assessments-v1.json) guarda avaliação subjetiva após cinco áudios. Pesos estão no catálogo; gates de validação real ainda UNKNOWN.
+- **[LP pronta](../../tools/decision-board/README.md):** filtros por setor/desafio, ranking, evidências, três ideias lado a lado, notas editáveis e exportação para Issue #2.
+- **Sem backend para a LP**: dados versionados e interface local estática, sem credenciais. A manutenção começa pelos JSONs com um único prompt de IA.
 
 ### Diferenciar status antes de contar vitória
 
