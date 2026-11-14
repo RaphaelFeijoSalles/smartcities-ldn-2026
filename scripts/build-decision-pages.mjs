@@ -33,7 +33,9 @@ for (const source of allowedSourceDirs) {
 }
 
 // The API origin is public configuration; never embed credentials in Pages.
-const apiBase = process.env.ORIGEM_UNICA_API_BASE?.trim() || "https://smartcities-ldn-2026.onrender.com/";
+const configuredApiBase = process.env.ORIGEM_UNICA_API_BASE?.trim();
+// Migrate the retired Node service URL if an older GitHub Actions variable remains configured.
+const apiBase = !configuredApiBase || configuredApiBase === "https://smartcities-ldn-2026.onrender.com/" || configuredApiBase === "https://smartcities-ldn-2026.onrender.com" ? "https://origem-unica-api.onrender.com/" : configuredApiBase;
 if (apiBase) {
   const parsed = new URL(apiBase);
   if (parsed.protocol !== "https:" || parsed.username || parsed.password ||
