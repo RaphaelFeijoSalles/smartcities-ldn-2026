@@ -9,6 +9,7 @@ const object=x=>x!==null&&typeof x==="object"&&!Array.isArray(x);
 const clean=x=>typeof x==="string"&&x.trim()?x.trim():null;
 const date=x=>clean(x)&&!Number.isNaN(Date.parse(x))?x:null;
 export function safeUrl(value){try{const u=new URL(value);return u.protocol==="https:"&&!u.username&&!u.password?u.href:null}catch{return null}}
+const officialUrl=value=>{const url=safeUrl(value);if(!url)return null;const host=new URL(url).hostname.toLowerCase();return host==="gov.br"||host.endsWith(".gov.br")?url:null};
 export function normalizeStatus(value){
  const text=clean(value)?.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase();
  if(["CONFIRMADO","REGULAR","ATENDIDO"].includes(text))return "CONFIRMADO";
@@ -19,14 +20,15 @@ export function normalizeFreshness(value){const s=clean(value)?.toUpperCase();re
 const sourceLabel=raw=>clean(raw?.source?.name)||clean(raw?.source?.system)||clean(raw?.source_name)||clean(raw?.source)||null;
 function normalizeEvidence(raw){
  const item=object(raw)?raw:{};
- const url=safeUrl(item.source_url||item.source?.url||item.url);
+ const referenceDate=date(item.reference_date||item.referenceDate),fetchedAt=date(item.fetched_at||item.fetchedAt);
  const dataOrigin=clean(item.data_origin||item.source?.data_origin);
- const status=url||dataOrigin?.startsWith("MOCK:")?normalizeStatus(item.status):UNKNOWN;
- return {status,source:sourceLabel(item),url,referenceDate:date(item.reference_date||item.referenceDate),fetchedAt:date(item.fetched_at||item.fetchedAt),freshness:normalizeFreshness(item.freshness),dataOrigin,note:clean(item.note)};
+ const synthetic=dataOrigin?.startsWith("MOCK:");const url=synthetic?safeUrl(item.source_url||item.source?.url||item.url):officialUrl(item.source_url||item.source?.url||item.url);
+ const status=synthetic||url&&(referenceDate||fetchedAt)?normalizeStatus(item.status):UNKNOWN;
+ return {status,source:sourceLabel(item),url,referenceDate,fetchedAt,freshness:normalizeFreshness(item.freshness),dataOrigin,note:clean(item.note)};
 }
 function normalizeRequirements(raw){const collection=Array.isArray(raw)?Object.fromEntries(raw.filter(object).map(item=>[clean(item.type||item.id)?.toLowerCase(),item])):object(raw)?raw:{};
  return Object.fromEntries(REQUIREMENTS.map(meta=>[meta.id,normalizeEvidence(collection[meta.id])]))}
-function normalizeEnterprise(raw){if(!object(raw))return null;const name=clean(raw.name||raw.enterprise_name);const url=safeUrl(raw.source_url||raw.source?.url);const dataOrigin=clean(raw.data_origin);if(!name||!(url||dataOrigin?.startsWith("MOCK:")))return null;
+function normalizeEnterprise(raw){if(!object(raw))return null;const name=clean(raw.name||raw.enterprise_name);const dataOrigin=clean(raw.data_origin);const synthetic=dataOrigin?.startsWith("MOCK:");const url=synthetic?safeUrl(raw.source_url||raw.source?.url):officialUrl(raw.source_url||raw.source?.url);if(!name||!(synthetic||url&&date(raw.reference_date||raw.fetched_at)))return null;
  const units=Number.isInteger(raw.units)&&raw.units>=0?raw.units:Number.isInteger(raw.housing_units)&&raw.housing_units>=0?raw.housing_units:null;
  return {id:clean(raw.id)||name,name,units,status:clean(raw.status),source:sourceLabel(raw),url,referenceDate:date(raw.reference_date),freshness:normalizeFreshness(raw.freshness),dataOrigin};
 }
