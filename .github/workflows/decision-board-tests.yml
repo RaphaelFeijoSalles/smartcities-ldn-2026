@@ -1,0 +1,39 @@
+name: Decision Lab (static, no dependencies)
+
+on:
+  pull_request:
+    paths:
+      - "tools/decision-board/**"
+      - "data/decision/**"
+      - ".github/workflows/decision-board-tests.yml"
+  push:
+    branches: [main]
+    paths:
+      - "tools/decision-board/**"
+      - "data/decision/**"
+      - ".github/workflows/decision-board-tests.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  logic-and-integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Check module syntax
+        run: |
+          node --check tools/decision-board/model.mjs
+          node --check tools/decision-board/app.mjs
+          node --check tools/decision-board/model.test.mjs
+      - name: Test rankings, sources, gates, comparisons and export
+        run: node --test tools/decision-board/model.test.mjs
+      - name: Check app and source files present
+        run: |
+          test -s tools/decision-board/index.html
+          test -s tools/decision-board/style.css
+          test -s data/decision/smartcities-decision-v1.json
+          test -s data/decision/smartcities-assessments-v1.json
