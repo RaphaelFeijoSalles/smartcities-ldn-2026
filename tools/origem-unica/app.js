@@ -68,7 +68,7 @@ function renderSync(){
  $("sync").disabled=state.sync==="Consultando API…";
 }
 function apiUrl(){
- const base=new URLSearchParams(location.search).get("api");
+ const base=new URLSearchParams(location.search).get("api")||window.ORIGEM_UNICA_API_BASE;
  if(!base)return "/api/records";
  const url=new URL(base,location.href);
  if(!["http:","https:"].includes(url.protocol))throw new Error("URL da API inválida");
@@ -77,7 +77,7 @@ function apiUrl(){
 }
 async function syncRecords(){
  state.sync="Consultando API…";renderSync();
- const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),5000);
+ const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),75000);
  try{
   const response=await fetch(apiUrl(),{signal:controller.signal,headers:{Accept:"application/json"}});
   if(!response.ok)throw new Error("HTTP "+response.status);

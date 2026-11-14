@@ -1,0 +1,16 @@
+# Prepare only. Creating this Blueprint on Render is a separate manual step.
+services:
+  - type: web
+    name: origem-unica-api
+    runtime: python
+    plan: free
+    rootDir: prototypes/origem-unica/backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    autoDeployTrigger: 'off'
+    envVars:
+      - key: ORIGEM_UNICA_MOCK
+        value: '1'
+      - key: ORIGEM_UNICA_CORS_ORIGINS
+        value: https://raphaelfeijosalles.github.io

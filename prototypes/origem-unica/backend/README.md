@@ -24,7 +24,7 @@ python -m pip install -r requirements.txt
 uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 
-Abra <http://127.0.0.1:8000/docs>. O frontend local permitido por CORS é apenas `http://localhost:4173`.
+Abra <http://127.0.0.1:8000/docs>. O CORS permite por padrão somente `http://localhost:4173`. Para outro frontend, defina `ORIGEM_UNICA_CORS_ORIGINS` com origens exatas separadas por vírgula, por exemplo `https://raphaelfeijosalles.github.io`; curingas e origens HTTP públicas são rejeitados.
 
 Endpoints:
 

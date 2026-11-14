@@ -1,11 +1,26 @@
 from __future__ import annotations
 
+import os
 from typing import Any
+from urllib.parse import urlsplit
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.service import ReconciliationService
+
+
+def cors_origins() -> list[str]:
+    configured = os.getenv("ORIGEM_UNICA_CORS_ORIGINS", "http://localhost:4173")
+    origins = [origin.strip() for origin in configured.split(",") if origin.strip()]
+    for origin in origins:
+        parsed = urlsplit(origin)
+        local = parsed.hostname in {"localhost", "127.0.0.1"}
+        if (parsed.scheme != "https" and not (local and parsed.scheme == "http")) or \
+                not parsed.netloc or parsed.username or parsed.password or \
+                parsed.path or parsed.query or parsed.fragment or "*" in origin:
+            raise ValueError("ORIGEM_UNICA_CORS_ORIGINS requires exact HTTPS origins or local HTTP origins")
+    return origins
 
 
 def create_app(service: ReconciliationService | None = None) -> FastAPI:
@@ -16,7 +31,7 @@ def create_app(service: ReconciliationService | None = None) -> FastAPI:
     )
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["http://localhost:4173"],
+        allow_origins=cors_origins(),
         allow_credentials=False,
         allow_methods=["GET"],
         allow_headers=["Accept", "Content-Type"],

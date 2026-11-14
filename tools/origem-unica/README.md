@@ -16,7 +16,11 @@ python3 -m http.server 4173
 
 Abra `http://localhost:4173/tools/origem-unica/`. O servidor estático não oferece `/api/records`; nesse caso a página exibe imediatamente o fallback **MOCK · DADOS SINTÉTICOS**. Os seis registros, nomes, endereços, telefones, IDs e scores do fallback são inventados.
 
-Para integrar ao FastAPI do João, sirva o frontend e `GET /api/records` na mesma origem **ou** abra `http://localhost:4173/tools/origem-unica/?api=http://localhost:8000/`. A segunda opção requer que o FastAPI permita CORS para `http://localhost:4173`. O parâmetro `api` também aceita a URL completa terminada em `/api/records`. A página tenta a API na abertura e no botão **Atualizar da API**; após cinco segundos sem resposta, volta ao MOCK. Quando a API estiver disponível, o topo mostra **API** e o horário da última sincronização.
+Para integrar ao FastAPI do João, sirva o frontend e `GET /api/records` na mesma origem **ou** abra `http://localhost:4173/tools/origem-unica/?api=http://localhost:8000/`. A segunda opção requer que o FastAPI permita CORS para `http://localhost:4173`. O parâmetro `api` também aceita a URL completa terminada em `/api/records`. A página tenta a API na abertura e no botão **Atualizar da API**; após 75 segundos sem resposta, volta ao MOCK. Enquanto aguarda, os registros sintéticos já estão visíveis. Quando a API estiver disponível, o topo mostra **API** e o horário da última sincronização.
+
+Para GitHub Pages, defina a variável pública do repositório `ORIGEM_UNICA_API_BASE` com a origem HTTPS do serviço Render, por exemplo `https://nome-do-servico.onrender.com/`, e execute novamente o workflow **Publish Decision Lab (GitHub Pages)**. O build grava a URL em `config.js` apenas no artefato Pages; `?api=` continua disponível para testes. Configure `ORIGEM_UNICA_CORS_ORIGINS` no backend com a origem exata do Pages, sem caminho: `https://raphaelfeijosalles.github.io`. O arquivo `render.yaml` prepara um serviço gratuito com MOCK explícito para a apresentação. Consulte `prototypes/origem-unica/backend/README.md` para execução local e modo de consulta às fontes públicas.
+
+Para publicar, conecte manualmente este repositório ao Render como Blueprint usando `render.yaml` e confira o plano `free` antes de criar o serviço. O Blueprint deixa deploy automático desligado e inicia com `ORIGEM_UNICA_MOCK=1`, logo a página pública mostrará dados sintéticos identificados. Depois de obter a URL real `https://...onrender.com/`, configure `ORIGEM_UNICA_API_BASE` nas variáveis do repositório GitHub e rode o workflow Pages em `main`. Para demonstrar consulta às fontes públicas, altere `ORIGEM_UNICA_MOCK` para `0` no serviço e reinicie; a resposta só terá `mode=LIVE` quando SIGLON e CNES responderem. Em caso de falha de uma fonte, a resposta será `MOCK` com proveniência separada por registro.
 
 ## Contrato aceito
 
@@ -51,6 +55,8 @@ A interface mostra a proveniência **declarada pela API**, sem atestar que a fon
 node --check tools/origem-unica/adapter.js
 node --check tools/origem-unica/app.js
 node --test tools/origem-unica/adapter.test.mjs
+node --test tests/origem-unica/contract-gate.test.mjs
+node scripts/origem-unica/contract-gate.mjs --url http://127.0.0.1:8000/api/records
 ```
 
 No navegador, conferir o indicador MOCK com API ausente; depois fornecer uma resposta de teste da API e conferir indicador API, lista, filtro **Com conflito**, comparação lado a lado, revisão, contadores, reabertura e CSV. Abrir a 375 px e em desktop para verificar ausência de rolagem horizontal da página.

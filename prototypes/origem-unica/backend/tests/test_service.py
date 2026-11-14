@@ -1,5 +1,6 @@
 from dataclasses import replace
 
+import pytest
 from fastapi.testclient import TestClient
 
 from app.adapters.csv_adapter import CsvAdapter
@@ -69,3 +70,22 @@ def test_explicit_offline_demo_never_uses_network(monkeypatch):
     with TestClient(create_app(service)) as client:
         assert client.get("/api/records").json()["mode"] == "MOCK"
         assert all(s["status"] == "MOCK" for s in client.get("/api/sources/status").json()["sources"])
+
+
+def test_fallback_coordinates_are_complete_pairs():
+    service = ReconciliationService()
+    for source in ("SIGLON", "CNES"):
+        for record in CsvAdapter(service.fallback_csv, source).fetch().records:
+            assert (record.latitude is None) == (record.longitude is None)
+
+
+def test_cors_accepts_exact_pages_origin_only(monkeypatch):
+    monkeypatch.setenv("ORIGEM_UNICA_CORS_ORIGINS", "https://raphaelfeijosalles.github.io")
+    with TestClient(create_app(ReconciliationService(adapters=[FailedSource()]))) as client:
+        allowed = client.get("/api/health", headers={"Origin": "https://raphaelfeijosalles.github.io"})
+        refused = client.get("/api/health", headers={"Origin": "https://untrusted.example"})
+    assert allowed.headers["access-control-allow-origin"] == "https://raphaelfeijosalles.github.io"
+    assert "access-control-allow-origin" not in refused.headers
+    monkeypatch.setenv("ORIGEM_UNICA_CORS_ORIGINS", "*")
+    with pytest.raises(ValueError):
+        create_app(ReconciliationService(adapters=[FailedSource()]))
