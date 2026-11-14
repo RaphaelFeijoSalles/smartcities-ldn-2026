@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import {readFileSync} from "node:fs";
 import {adaptOfficialHousing,fetchOfficialHousing} from "./habitacao-official.mjs";
 const gov="https://www.gov.br/cidades/pt-br/arquivo-oficial.xls";
 const snhis={mode:"SNAPSHOT",municipio:{codigo_ibge:"4113700",nome:"Londrina",uf:"PR"},situacao_snhis:"REGULAR",nivel_verificacao:"OFFICIAL_SNAPSHOT",data_referencia:"2026-10-20",fonte:{url:gov,downloaded_at:"2026-11-14T19:00:00Z"},requisitos:[{requisito:"Lei do Fundo Local de Habitação de Interesse Social",situacao_fonte:"REGULAR"},{requisito:"Lei do Conselho Gestor do Fundo Local",situacao_fonte:"REGULAR"},{requisito:"Plano Local de Habitação de Interesse Social",situacao_fonte:"PENDENTE"}]};
@@ -27,4 +28,26 @@ test("unknown instrument values remain unverified",()=>{
  const official={...snhis,requisitos:snhis.requisitos.map(r=>({...r,situacao_fonte:"Sem registro"}))};
  const d=adaptOfficialHousing(official,mcmv);
  for(const id of ["fundo","conselho","plhis"])assert.equal(d.municipalities[0].requirements[id].status,"NÃO VERIFICADO");
+});
+
+test("contrato oficial de Londrina mantém a evidência datada nos três instrumentos", async () => {
+ const contractUrl = new URL("../../prototypes/origem-unica/backend/HABITACAO_CONTRACT.json", import.meta.url);
+ const londrina = JSON.parse(readFileSync(contractUrl, "utf8"));
+ const fetchSnapshot = async url => ({
+  ok: true,
+  json: async () => new URL(url).pathname.endsWith("/municipios/4113700") ? londrina : mcmv,
+ });
+ const {data, partial} = await fetchOfficialHousing("https://origem-unica-api.onrender.com/", fetchSnapshot);
+ const [municipality] = data.municipalities;
+
+ assert.equal(partial, false);
+ assert.equal(municipality.code, "4113700");
+ assert.equal(municipality.snhis.status, "CONFIRMADO");
+ assert.equal(municipality.enterprises.length, mcmv.items.length);
+ for (const id of ["fundo", "conselho", "plhis"]) {
+  const instrument = municipality.requirements[id];
+  assert.equal(instrument.status, "CONFIRMADO", id);
+  assert.equal(instrument.referenceDate, londrina.data_referencia, id);
+  assert.equal(instrument.url, londrina.fonte.url, id);
+ }
 });
