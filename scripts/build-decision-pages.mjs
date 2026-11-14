@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 /**
- * Builds the static GitHub Pages artifact for the DECISION LAB only.
- * Source app: tools/decision-board/  (never the future hackathon product).
+ * Builds the static GitHub Pages artifact for Origem Única and Decision Lab.
  *
  * Why keep the app under tools/decision-board in the site?
  * Its existing ../../data and ../../docs paths then resolve correctly on
@@ -46,19 +45,18 @@ if (apiBase) {
 writeFileSync(join(dest, "tools/origem-unica/config.js"),
   "window.ORIGEM_UNICA_API_BASE = " + JSON.stringify(apiBase).replaceAll("<", "\\u003c") + ";\n", "utf8");
 
-// GitHub Pages serves /<repository>/; preserve existing paths by sending the
-// visitor to /<repository>/tools/decision-board/ with a RELATIVE redirect.
+// GitHub Pages serves /<repository>/; Origem Única Habitação is the entry page.
 const landing = `<!doctype html>
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
-  <meta http-equiv="refresh" content="0; url=./tools/decision-board/">
-  <title>Smart Cities 2026 — Decision Lab</title>
+  <meta http-equiv="refresh" content="0; url=./tools/origem-unica/">
+  <title>Origem Única — Habitação</title>
 </head>
 <body>
-  <p>Acesse o <a href="./tools/decision-board/">Decision Lab — Smart Cities Londrina 2026</a>.</p>
+  <p>Acesse a <a href="./tools/origem-unica/">Origem Única — Habitação</a>.</p>
 </body>
 </html>
 `;
@@ -72,6 +70,12 @@ const requiredFiles = [
   "tools/decision-board/model.mjs",
   "tools/decision-board/style.css",
   "tools/origem-unica/index.html",
+  "tools/origem-unica/saude.html",
+  "tools/origem-unica/logradouros.html",
+  "tools/origem-unica/habitacao.css",
+  "tools/origem-unica/habitacao.mjs",
+  "tools/origem-unica/habitacao-model.mjs",
+  "tools/origem-unica/habitacao-demo.mjs",
   "tools/origem-unica/styles.css",
   "tools/origem-unica/config.js",
   "tools/origem-unica/adapter.js",
@@ -85,9 +89,12 @@ for (const file of requiredFiles) {
   if (!existsSync(join(dest, file))) throw new Error("Missing Pages output: " + file);
 }
 const mainHtml = readFileSync(join(dest, "tools/decision-board/index.html"), "utf8");
+const housingHtml = readFileSync(join(dest, "tools/origem-unica/index.html"), "utf8");
 const app = readFileSync(join(dest, "tools/decision-board/app.mjs"), "utf8");
 if (!mainHtml.includes('src="./app.mjs"') || !mainHtml.includes('href="./style.css"'))
   throw new Error("Decision Lab does not reference expected assets");
+if (!housingHtml.includes('src="./habitacao.mjs"') || !housingHtml.includes('href="./habitacao.css"'))
+  throw new Error("Origem Única Habitação does not reference expected assets");
 if (!app.includes('const DATA = "../../data/decision/"'))
   throw new Error("Decision Lab data path changed; update the Pages packaging / test");
 

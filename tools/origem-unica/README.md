@@ -1,6 +1,27 @@
-# Origem Única — frontend de conciliação
+# Origem Única — Habitação e laboratórios de qualidade de dados
 
-Protótipo estático integrado, sem framework. Consulta **somente** `GET /api/records`; revisão humana e auditoria são simulações locais. Nenhuma ação escreve em SIGLON, CNES ou outra base oficial.
+A página inicial é **Habitação**. O aplicativo estático consulta um endpoint habitacional somente leitura quando ele existir; até lá, Londrina e os três instrumentos SNHIS aparecem como **NÃO VERIFICADOS**. O botão **Explorar exemplo sintético** abre um município fictício, com situação, requisitos e empreendimento marcados como MOCK; voltar restaura Londrina. Nenhuma ausência de registro vira pendência. Saúde × CNES e Logradouros continuam acessíveis como laboratórios da arquitetura. Nenhuma ação escreve em bases oficiais.
+
+## Produto e fontes
+
+A Origem Única organiza proveniência e conferência de dados públicos para equipes municipais. O primeiro caso comercial é regularidade habitacional SNHIS e empreendimentos Minha Casa Minha Vida. Fundo Local, Conselho Gestor e PLHIS constam das [orientações do Ministério das Cidades](https://www.gov.br/cidades/pt-br/assuntos/habitacao/adesao-ao-snhis). A [Resolução CGFNHIS nº 60/2024](https://www.gov.br/cidades/pt-br/composicao/orgaos-colegiados/arquivos/conselho-gestor-do-fundo-nacional-de-habitacao-de-interesse-social/resolucoes/RESOLUOCGFNHIS_SNHISN60de5_09_2024_DOU22_11_2024.pdf) fixa 31/01/2027 para exigências de regularidade, não para consistência cadastral. A [consulta oficial SNHIS](https://www.gov.br/cidades/pt-br/assuntos/habitacao/consulte-a-regularidade-do-snhis) é a referência para situação municipal, e a CEFUS/CAIXA recebe e analisa a documentação. A [CNM, Nota Técnica 01/2026](https://api.cnm.org.br/comunicacao/noticias/cnm-alerta-que-apenas-26-dos-municipios-estao-regulares-no-snhis), reportou 26,2% de municípios regulares no levantamento **nacional**; isso não é índice de Londrina.
+
+**Fontes efetivamente integradas em Habitação:** nenhuma fonte municipal até o backend habitacional do João publicar contrato e resposta. Não há snapshot oficial local de Londrina nem dados MCMV oficiais empacotados. O único exemplo local é 100% fictício, em `habitacao-demo.mjs`, com município `DEMO-001` sem código IBGE real. O frontend tenta `GET /api/housing/municipalities` no backend configurado e aceita `?housing_api=<URL>` para testar outro caminho quando o contrato for confirmado. A resposta esperada contém `mode` (`LIVE`, `SNAPSHOT` ou `MOCK`) e `municipalities` (ou `items`) com `ibge_code`, `name`, `snhis`, `requirements` (`fundo`, `conselho`, `plhis`) e `enterprises` opcionais. Cada status real só é exibido como confirmado/pendente se vier com `source_url` HTTPS; exemplos com `data_origin: MOCK:` são rotulados SIMULADO. Campos ausentes ficam não verificados. Os filtros usam apenas os dados recebidos e a situação de atualização declarada pela API. Ao chegar o contrato do João, ajustar apenas o adaptador em `habitacao-model.mjs` e o caminho da API.
+
+Estados do painel: carregando, sucesso, parcialmente disponível, indisponível e sem dados. O painel não atesta documentos, não regulariza municípios e não envia dados pessoais para IA. As explicações são determinísticas e apontam para fontes oficiais.
+
+## Roteiro de 2 minutos
+
+1. **0–25 s:** abrir Habitação, selecionar Londrina e mostrar **NÃO VERIFICADO**. Explicar que 26,2% é panorama nacional da CNM, sem inferir a situação local.
+2. **25–65 s:** abrir Fundo, Conselho e PLHIS; mostrar fonte normativa, data de referência quando houver e checklist. O prazo de 31/01/2027 trata de regularidade SNHIS.
+3. **65–95 s:** ativar o município fictício **SINTÉTICO**, aplicar filtros, selecionar o Conselho e mostrar a checklist. O empreendimento e suas 42 unidades também são inventados; exportar relatório CSV.
+4. **95–120 s:** abrir Saúde × CNES e Logradouros para mostrar adaptadores, revisão e rastreabilidade. Explicar que a decisão documental permanece com município, Ministério e CEFUS/CAIXA.
+
+## Executar Habitação
+
+Na raiz: `python3 -m http.server 4173`; abrir `http://localhost:4173/tools/origem-unica/`. O backend configurado é `https://origem-unica-api.onrender.com/`. Para desenvolvimento: `?housing_api=http://localhost:8000/api/housing/municipalities`. Sem resposta habitacional, o painel mostra **NÃO VERIFICADO**, sem dados sintéticos de município.
+
+## Laboratório Saúde × CNES
 
 ## Posicionamento validado e recorte
 
@@ -14,13 +35,13 @@ Na raiz do repositório:
 python3 -m http.server 4173
 ```
 
-Abra `http://localhost:4173/tools/origem-unica/`. O servidor estático não oferece `/api/records`; nesse caso a página exibe imediatamente o fallback **MOCK · DADOS SINTÉTICOS**. Os seis registros, nomes, endereços, telefones, IDs e scores do fallback são inventados.
+Abra `http://localhost:4173/tools/origem-unica/saude.html`. O servidor estático não oferece `/api/records`; nesse caso a página exibe imediatamente o fallback **MOCK · DADOS SINTÉTICOS**. Os seis registros, nomes, endereços, telefones, IDs e scores do fallback são inventados.
 
-Para integrar ao FastAPI do João, sirva o frontend e `GET /api/records` na mesma origem **ou** abra `http://localhost:4173/tools/origem-unica/?api=http://localhost:8000/`. A segunda opção requer que o FastAPI permita CORS para `http://localhost:4173`. O parâmetro `api` também aceita a URL completa terminada em `/api/records`. A página tenta a API na abertura e no botão **Atualizar da API**; após 75 segundos sem resposta, volta ao MOCK. Enquanto aguarda, os registros sintéticos já estão visíveis. Quando a API estiver disponível, o topo mostra **API** e o horário da última sincronização.
+Para integrar ao FastAPI do João, sirva o frontend e `GET /api/records` na mesma origem **ou** abra `http://localhost:4173/tools/origem-unica/saude.html?api=http://localhost:8000/`. A segunda opção requer que o FastAPI permita CORS para `http://localhost:4173`. O parâmetro `api` também aceita a URL completa terminada em `/api/records`. A página tenta a API na abertura e no botão **Atualizar da API**; após 75 segundos sem resposta, volta ao MOCK. Enquanto aguarda, os registros sintéticos já estão visíveis. Quando a API estiver disponível, o topo mostra **API** e o horário da última sincronização.
 
-O GitHub Pages usa por padrão a URL HTTPS real `https://smartcities-ldn-2026.onrender.com/`. A variável pública do repositório `ORIGEM_UNICA_API_BASE` pode substituir essa origem no build; `?api=` continua disponível para testes. O `render.yaml` configura `ORIGEM_UNICA_CORS_ORIGINS` para `http://localhost:4173` e `https://raphaelfeijosalles.github.io`, além de preparar um serviço gratuito com MOCK explícito para a apresentação. Consulte `prototypes/origem-unica/backend/README.md` para execução local e modo de consulta às fontes públicas.
+O GitHub Pages usa por padrão a URL HTTPS real `https://origem-unica-api.onrender.com/`. A variável pública do repositório `ORIGEM_UNICA_API_BASE` pode substituir essa origem no build; `?api=` continua disponível para testes. O `render.yaml` configura `ORIGEM_UNICA_CORS_ORIGINS` para `http://localhost:4173` e `https://raphaelfeijosalles.github.io`, além de preparar um serviço gratuito com MOCK explícito para a apresentação. Consulte `prototypes/origem-unica/backend/README.md` para execução local e modo de consulta às fontes públicas.
 
-Para publicar, configure o serviço Render existente conforme `render.yaml`: raiz `prototypes/origem-unica/backend`, build `pip install -r requirements.txt`, start `uvicorn app.main:app --host 0.0.0.0 --port $PORT`, runtime Python e plano `free`. O Blueprint deixa deploy automático desligado e inicia com `ORIGEM_UNICA_MOCK=1`, logo a página pública mostrará dados sintéticos identificados. Rode o workflow Pages em `main` após o backend responder em `/api/health`. Para demonstrar consulta às fontes públicas, altere `ORIGEM_UNICA_MOCK` para `0` no serviço e reinicie; a resposta só terá `mode=LIVE` quando SIGLON e CNES responderem. Em caso de falha de uma fonte, a resposta será `MOCK` com proveniência separada por registro.
+Para publicar, configure o serviço Python Render conforme `render.yaml`: raiz `prototypes/origem-unica/backend`, build `pip install -r requirements.txt`, start `uvicorn app.main:app --host 0.0.0.0 --port $PORT`, runtime Python e plano `free`. O Blueprint deixa deploy automático desligado e inicia com `ORIGEM_UNICA_MOCK=1`, logo a página pública mostrará dados sintéticos identificados. Rode o workflow Pages em `main` após o backend responder em `/api/health`. Para demonstrar consulta às fontes públicas, altere `ORIGEM_UNICA_MOCK` para `0` no serviço e reinicie; a resposta só terá `mode=LIVE` quando SIGLON e CNES responderem. Em caso de falha de uma fonte, a resposta será `MOCK` com proveniência separada por registro.
 
 ## Contrato aceito
 

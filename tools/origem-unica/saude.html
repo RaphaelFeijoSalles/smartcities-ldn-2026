@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d3437">
+  <meta name="description" content="Origem Única — protótipo de conciliação de registros com fallback sintético para debate no Smart Cities Londrina.">
+  <title>Saúde × CNES · Origem Única</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./config.js" defer></script>
+  <script src="./adapter.js" defer></script>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <a href="./" style="position:relative;z-index:10;display:block;background:#e9f5ee;color:#145c47;padding:10px 18px;font:700 13px system-ui;text-decoration:none">← Habitação · primeira experiência da Origem Única</a>
+  <a href="#main" class="skip">Pular para o conteúdo</a>
+  <div class="app">
+    <aside class="sidebar" aria-label="Navegação do protótipo">
+      <a href="#overview" class="brand" data-route="overview" aria-label="Origem Única, visão geral">
+        <span class="mark">O<span>·</span></span>
+        <span class="brand-name">ORIGEM<span>ÚNICA</span><small>GOVDATA LAB / LONDRINA</small></span>
+      </a>
+      <div class="nav-caption">WORKSPACE</div>
+      <nav class="nav" aria-label="Seções">
+        <button data-view="overview" class="nav-item active"><span class="nav-glyph">◫</span> Visão geral</button>
+        <button data-view="sources" class="nav-item"><span class="nav-glyph">⇄</span> Fontes de dados</button>
+        <button data-view="matching" class="nav-item"><span class="nav-glyph">⊞</span> Conciliação <span id="nav-pending" class="nav-count">4</span></button>
+        <button data-view="audit" class="nav-item"><span class="nav-glyph">☷</span> Auditoria</button>
+        <button data-view="impact" class="nav-item"><span class="nav-glyph">◎</span> Valor público</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="sidebar-callout"><span class="live-dot"></span><div><b>Revisão simulada</b><small>Consulta somente leitura à API. Decisões locais não alteram registros oficiais.</small></div></div>
+        <div class="sidebar-foot">Smart Cities Londrina 2026<br>Protótipo 0.1 · AI-First</div>
+      </div>
+    </aside>
+
+    <div class="main-wrap">
+      <header class="topbar">
+        <div class="mobile-brand">O<span>·</span> <strong>ORIGEM ÚNICA</strong></div>
+        <div class="breadcrumb">Laboratório de interoperabilidade <span>/</span> <b id="current-page">Visão geral</b></div>
+        <div class="top-actions"><span class="demo-tag" id="data-mode">● MOCK · DADOS SINTÉTICOS</span><button class="button subtle compact" id="reset">Reiniciar demo ↺</button></div>
+      </header>
+      <nav class="mobile-nav" aria-label="Seções no celular">
+        <button data-view="overview" class="active">Resumo</button>
+        <button data-view="sources">Fontes</button>
+        <button data-view="matching">Conciliação</button>
+        <button data-view="audit">Auditoria</button>
+        <button data-view="impact">Impacto</button>
+      </nav>
+
+      <div class="sync-banner" role="status" aria-live="polite"><span id="sync-status">Aguardando API</span><span>Revisões simuladas ficam apenas nesta página.</span></div>
+
+      <main id="main" tabindex="-1" class="content">
+        <section id="view-overview" class="view active" aria-labelledby="overview-heading">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> CENTRAL DE QUALIDADE DE DADOS / DEMO</div>
+          <div style="margin-bottom:16px;border:1px solid #b9ddca;border-radius:12px;padding:12px 15px;background:#e7f6ec"><strong>Nova demonstração: Logradouros de Londrina</strong><p style="font-size:12px;margin:5px 0">Veja como o conciliador trata grafias diferentes, CODLOG e LEI ausentes, LONDRINA × SEDE e vielas/acessos sem nome, em um cenário 100% sintético.</p><a href="./logradouros.html" style="color:#107354;font-weight:800">Abrir laboratório de logradouros →</a></div>
+          <div class="hero-line"><div><h1 id="overview-heading">Um endereço. <em>Vários cadastros.</em><br>Revisão rastreável.</h1><p>Adilson, gerente do SIGLON, relatou manutenção repetida de endereços em aproximadamente 13 bancos de secretarias sem padronização. Esta demo mantém o recorte SIGLON Saúde × CNES para mostrar a revisão de uma divergência.</p></div><button class="button primary" id="start-review">Analisar divergências <span>↗</span></button></div>
+          <div class="metric-grid">
+            <article class="metric"><div class="metric-top">Registros exibidos <span>◇</span></div><strong id="stat-total">—</strong><small id="total-summary">Dados sintéticos locais</small></article>
+            <article class="metric"><div class="metric-top">Necessitam análise <span>!</span></div><strong id="stat-pending">—</strong><small>Conflitos e possíveis correspondências</small></article>
+            <article class="metric"><div class="metric-top">Revisados na simulação <span>✓</span></div><strong id="stat-reviewed">—</strong><small>Decisões registradas localmente</small></article>
+            <article class="metric"><div class="metric-top">Fontes exibidas <span>⇄</span></div><strong id="stat-sources">—</strong><small id="source-summary">Fontes modeladas no cenário sintético</small></article>
+          </div>
+          <div class="columns">
+            <article class="panel">
+              <div class="panel-header"><div><div class="section-kicker">01 / O PROBLEMA</div><h2>Onde os registros divergem?</h2></div><button class="text-action" data-go="matching">Ver todos ↗</button></div>
+              <div class="chart" id="conflict-chart" aria-label="Resumo dos tipos de diferença"></div>
+              <p class="panel-note" id="overview-note">Ocorrências do cenário sintético. Nenhuma inconsistência real foi identificada no SIGLON ou no CNES.</p>
+            </article>
+            <article class="panel panel-highlight">
+              <div class="section-kicker">02 / COMO RESOLVEMOS</div><h2>Da divergência à ação.</h2>
+              <div class="steps">
+                <div><span>01</span><div><b>Conectar</b><small>Dados com IDs, fontes e data de coleta.</small></div></div>
+                <div><span>02</span><div><b>Comparar</b><small>Normalizar e sugerir vínculos, sem escolher a verdade.</small></div></div>
+                <div><span>03</span><div><b>Validar</b><small>Servidor responsável confirma e registra a decisão.</small></div></div>
+              </div>
+              <button class="button light" data-go="sources">Ver arquitetura de fontes →</button>
+            </article>
+          </div>
+          <article class="panel scenario"><div><div class="section-kicker">RECORTE DA DEMO / SAÚDE × CNES</div><h2>Uma UBS, dois endereços.</h2><p>O exemplo sintético preserva os dois endereços, registra a revisão humana simulada e mostra a prévia de um registro consolidado para API. Nenhum endereço é escolhido automaticamente.</p><button class="text-action" data-go="matching">Abrir exemplo de conciliação ↗</button></div><div class="scenario-symbol">≠</div></article>
+        </section>
+
+        <section id="view-sources" class="view" aria-labelledby="sources-heading">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> ETAPA 01 / INTEGRAÇÃO</div>
+          <div class="page-head"><div><h1 id="sources-heading">Duas bases. <em>Um contexto.</em></h1><p id="source-intro">Recorte demonstrativo SIGLON Saúde × CNES. A validação com o SIGLON aponta um problema mais amplo de endereços; não há conexão com os demais bancos.</p></div><button class="button primary" id="sync">Atualizar da API ↻</button></div>
+          <div class="source-grid" id="source-grid"></div>
+          <article class="panel">
+            <div class="panel-header"><div><div class="section-kicker">EXEMPLO SINTÉTICO / CAMPOS MODELADOS</div><h2>O que seria comparado?</h2></div></div>
+            <div class="table-scroll"><table class="fields-table"><thead><tr><th>Campo lógico</th><th>Exemplo na fonte A</th><th>Exemplo na fonte B</th><th>Tratamento</th></tr></thead><tbody>
+              <tr><td>Estabelecimento</td><td>UBS Jardim Exemplo</td><td>Unid. Básica Jd Exemplo</td><td>Nome padronizado + similaridade</td></tr>
+              <tr><td>Identificador</td><td>ID geográfico</td><td>CNES</td><td>Conservar ambos; criar vínculo</td></tr>
+              <tr><td>Logradouro</td><td>Rua das Flores</td><td>R. das Flores</td><td>Expandir abreviações</td></tr>
+              <tr><td>Número</td><td>150</td><td>105</td><td>Conflito; jamais corrigir automaticamente</td></tr>
+              <tr><td>Telefone</td><td>(43) 3333-1111</td><td>43 33332222</td><td>Normalizar dígitos e comparar</td></tr>
+              <tr><td>Posição</td><td>Geometria da camada</td><td>Localização de referência</td><td>Checar sistema de coordenadas</td></tr>
+            </tbody></table></div>
+            <p class="panel-note">Fallback: 100% DADOS FICTÍCIOS. Os exemplos nesta tabela são inventados mesmo quando a API está ativa. Formatos efetivos, campos e limites de requisição precisam ser validados antes de qualquer conector real.</p>
+          </article>
+          <div class="notice"><b>Segurança de dados</b> <span id="source-notice">A sincronização consulta somente GET /api/records. As revisões ficam nesta página e não alteram bases oficiais.</span></div>
+        </section>
+
+        <section id="view-matching" class="view" aria-labelledby="matching-heading">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> ETAPA 02 / MATCHING E GESTÃO DE CONFLITOS</div>
+          <div class="page-head"><div><h1 id="matching-heading">Resolver o que <em>não bate.</em></h1><p>Compare duas fontes, confirme vínculos e documente o que ainda precisa de conferência oficial.</p></div><button class="button outline" id="export">↓ Exportar CSV</button></div>
+          <div class="workspace">
+            <div class="list-panel">
+              <div class="list-controls"><label class="visually-hidden" for="search">Pesquisar registros</label><input id="search" type="search" placeholder="Buscar UBS ou endereço…"><label class="visually-hidden" for="filter">Filtrar registros</label><select id="filter"><option value="all">Todos</option><option value="pending">Pendentes</option><option value="conflict">Com conflito</option><option value="possible">Possível vínculo</option><option value="match">Correspondência</option><option value="missing">Sem par</option><option value="reviewed">Revisados</option></select></div>
+              <div class="list-meta"><span id="list-count">— registros</span><span>Selecione uma linha</span></div>
+              <div id="records" class="records"></div>
+            </div>
+            <div class="detail-panel" id="details" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <section id="view-audit" class="view" aria-labelledby="audit-heading">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> ETAPA 03 / RASTREABILIDADE</div>
+          <div class="page-head"><div><h1 id="audit-heading">Toda decisão deixa <em>uma trilha.</em></h1><p>Revisões locais de demonstração, com data, tipo de decisão e registro afetado.</p></div><button class="button outline" id="audit-export">↓ Exportar histórico</button></div>
+          <article class="panel"><div class="panel-header"><div><div class="section-kicker">LOG DE ATIVIDADES</div><h2>Histórico da sessão</h2></div><span class="pill">SIMULADO</span></div><div id="audit-list" class="audit-list"></div></article>
+          <div class="notice"><b>Na produção</b><span>Seriam necessários autenticação do servidor, permissões por órgão, logs imutáveis, retenção definida e revisão por autoridade de dados. Nada disso existe neste mock.</span></div>
+        </section>
+
+        <section id="view-impact" class="view" aria-labelledby="impact-heading">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> MERCADO / EXPLORAÇÃO DE VALOR</div>
+          <div class="page-head"><div><h1 id="impact-heading">Um endereço. <em>Muitas bases.</em></h1><p>Segundo Adilson, gerente do SIGLON, aproximadamente 13 bancos de secretarias exigem manutenção repetida de endereços sem padrão comum. O SIGLON já usa endereços da Fazenda e constrói uma base georreferenciada; a proposta deve aproveitar esse trabalho.</p></div></div>
+          <div class="audience-grid">
+            <article class="audience"><span class="audience-icon">♡</span><h2>Paciente</h2><p>Precisa descobrir o endereço e contato corretos de uma UBS. Informações inconsistentes podem gerar deslocamento ou ligação desnecessária.</p><b>Beneficiário indireto</b></article>
+            <article class="audience"><span class="audience-icon">▦</span><h2>Servidor da saúde</h2><p>Precisa conferir endereços divergentes, registrar a decisão e encaminhar a manutenção à fonte responsável.</p><b>Usuário operacional</b></article>
+            <article class="audience"><span class="audience-icon">◎</span><h2>SIGLON / Secretarias</h2><p>Precisam reduzir manutenção repetida de endereços e distribuir dados revisados sem substituir os cadastros existentes.</p><b>Adoção a validar</b></article>
+          </div>
+          <div class="columns">
+            <article class="panel"><div class="section-kicker">PROPOSTA A VALIDAR</div><h2>Revisar uma vez. Compartilhar com contexto.</h2><p>A dor relatada é repetir a manutenção de endereços em cerca de 13 bancos. Origem Única propõe detectar divergências, registrar revisão humana e disponibilizar um registro consolidado por API. A demo SIGLON Saúde × CNES mostra apenas esse fluxo inicial.</p></article>
+            <article class="panel"><div class="section-kicker">O QUE PRECISAMOS VALIDAR</div><h2>Hipóteses de negócio</h2><div class="check-lines"><span>□ Qual par de bases gera retrabalho hoje?</span><span>□ Quem pode corrigir cada campo?</span><span>□ Já existe um conciliador interno?</span><span>□ Quanto tempo uma correção demanda?</span><span>□ Quem autorizaria um piloto?</span></div></article>
+          </div>
+          <article class="panel"><div class="section-kicker">CANVAS RESUMIDO</div><div class="canvas-grid"><div><b>Dor</b><p>Endereços mantidos repetidamente em bancos de secretarias.</p></div><div><b>Proposta de valor</b><p>Revisão rastreável e registro consolidado para API.</p></div><div><b>Cliente</b><p>Prefeituras e secretarias gestoras.</p></div><div><b>Receita possível</b><p>Piloto, integração, manutenção e suporte.</p></div><div><b>Risco</b><p>Duplicar a base da Fazenda ou o georreferenciamento em construção no SIGLON.</p></div><div><b>Métrica de valor</b><p>Retrabalho e tempo de revisão a medir em piloto.</p></div></div></article>
+        </section>
+        <div class="content-footer" id="content-footer">DEMONSTRAÇÃO CONCEITUAL · MOCK · DADOS SINTÉTICOS</div>
+      </main>
+    </div>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

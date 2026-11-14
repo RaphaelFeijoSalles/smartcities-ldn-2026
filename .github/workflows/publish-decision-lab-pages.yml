@@ -47,8 +47,12 @@ jobs:
           node --check tools/origem-unica/config.js
           node --check tools/origem-unica/adapter.js
           node --check tools/origem-unica/app.js
+          node --check tools/origem-unica/habitacao.mjs
+          node --check tools/origem-unica/habitacao-model.mjs
+          node --check tools/origem-unica/habitacao-demo.mjs
           node --test tools/decision-board/model.test.mjs
           node --test tools/origem-unica/adapter.test.mjs
+          node --test tools/origem-unica/habitacao-model.test.mjs
 
       - name: Package site and check relative paths
         env:
@@ -67,7 +71,7 @@ jobs:
           path: .pages-site
 
   deploy:
-    name: Publish Decision Lab only (not the hackathon app)
+    name: Publish Origem Única and Decision Lab
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
