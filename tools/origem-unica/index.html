@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d3437">
+  <meta name="description" content="Origem Única — protótipo fictício de conciliação de dados municipais para debate no Smart Cities Londrina.">
+  <title>Origem Única · Laboratório de dados públicos</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <a href="#main" class="skip">Pular para o conteúdo</a>
+  <div class="app">
+    <aside class="sidebar" aria-label="Navegação do protótipo">
+      <a href="#overview" class="brand" data-route="overview" aria-label="Origem Única, visão geral">
+        <span class="mark">O<span>·</span></span>
+        <span class="brand-name">ORIGEM<span>ÚNICA</span><small>GOVDATA LAB / LONDRINA</small></span>
+      </a>
+      <div class="nav-caption">WORKSPACE</div>
+      <nav class="nav" aria-label="Seções">
+        <button data-view="overview" class="nav-item active"><span class="nav-glyph">◫</span> Visão geral</button>
+        <button data-view="sources" class="nav-item"><span class="nav-glyph">⇄</span> Fontes de dados</button>
+        <button data-view="matching" class="nav-item"><span class="nav-glyph">⊞</span> Conciliação <span id="nav-pending" class="nav-count">4</span></button>
+        <button data-view="audit" class="nav-item"><span class="nav-glyph">☷</span> Auditoria</button>
+        <button data-view="impact" class="nav-item"><span class="nav-glyph">◎</span> Valor público</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="sidebar-callout"><span class="live-dot"></span><div><b>Modo simulação</b><small>Sem API, sem dados pessoais e sem alteração de registros oficiais.</small></div></div>
+        <div class="sidebar-foot">Smart Cities Londrina 2026<br>Protótipo 0.1 · AI-First</div>
+      </div>
+    </aside>
+
+    <div class="main-wrap">
+      <header class="topbar">
+        <div class="mobile-brand">O<span>·</span> <strong>ORIGEM ÚNICA</strong></div>
+        <div class="breadcrumb">Laboratório de interoperabilidade <span>/</span> <b id="current-page">Visão geral</b></div>
+        <div class="top-actions"><span class="demo-tag">● 100% DADOS FICTÍCIOS</span><button class="button subtle compact" id="reset">Reiniciar demo ↺</button></div>
+      </header>
+      <nav class="mobile-nav" aria-label="Seções no celular">
+        <button data-view="overview" class="active">Resumo</button>
+        <button data-view="sources">Fontes</button>
+        <button data-view="matching">Conciliação</button>
+        <button data-view="audit">Auditoria</button>
+        <button data-view="impact">Impacto</button>
+      </nav>
+
+      <main id="main" tabindex="-1" class="content">
+        <section id="view-overview" class="view active" aria-labelledby="overview-heading">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> CENTRAL DE QUALIDADE DE DADOS / DEMO</div>
+          <div class="hero-line"><div><h1 id="overview-heading">Uma cidade. <em>Várias fontes.</em><br>Informação confiável.</h1><p>Concilie registros, encontre divergências e encaminhe decisões sem substituir os sistemas que já existem.</p></div><button class="button primary" id="start-review">Analisar divergências <span>↗</span></button></div>
+          <div class="metric-grid">
+            <article class="metric"><div class="metric-top">Registros de demonstração <span>◇</span></div><strong id="stat-total">—</strong><small>Conjuntos SIGLON + CNES fictícios</small></article>
+            <article class="metric"><div class="metric-top">Necessitam análise <span>!</span></div><strong id="stat-pending">—</strong><small>Conflitos e possíveis correspondências</small></article>
+            <article class="metric"><div class="metric-top">Revisados na simulação <span>✓</span></div><strong id="stat-reviewed">—</strong><small>Decisões registradas localmente</small></article>
+            <article class="metric"><div class="metric-top">Fontes modeladas <span>⇄</span></div><strong>02</strong><small>APIs públicas como referência técnica</small></article>
+          </div>
+          <div class="columns">
+            <article class="panel">
+              <div class="panel-header"><div><div class="section-kicker">01 / O PROBLEMA</div><h2>Onde os registros divergem?</h2></div><button class="text-action" data-go="matching">Ver todos ↗</button></div>
+              <div class="chart" id="conflict-chart" aria-label="Resumo dos tipos de diferença"></div>
+              <p class="panel-note">Ocorrências do cenário sintético. Nenhuma inconsistência real foi identificada no SIGLON ou no CNES.</p>
+            </article>
+            <article class="panel panel-highlight">
+              <div class="section-kicker">02 / COMO RESOLVEMOS</div><h2>Da divergência à ação.</h2>
+              <div class="steps">
+                <div><span>01</span><div><b>Conectar</b><small>Dados com IDs, fontes e data de coleta.</small></div></div>
+                <div><span>02</span><div><b>Comparar</b><small>Normalizar e sugerir vínculos, sem escolher a verdade.</small></div></div>
+                <div><span>03</span><div><b>Validar</b><small>Servidor responsável confirma e registra a decisão.</small></div></div>
+              </div>
+              <button class="button light" data-go="sources">Ver arquitetura de fontes →</button>
+            </article>
+          </div>
+          <article class="panel scenario"><div><div class="section-kicker">CASO DE USO #01</div><h2>Uma UBS, dois endereços.</h2><p>O cidadão vê informações diferentes; o servidor não sabe qual fonte corrigir. A plataforma sinaliza o conflito e encaminha a revisão com rastreabilidade.</p><button class="text-action" data-go="matching">Abrir exemplo de conciliação ↗</button></div><div class="scenario-symbol">≠</div></article>
+        </section>
+
+        <section id="view-sources" class="view" aria-labelledby="sources-heading">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> ETAPA 01 / INTEGRAÇÃO</div>
+          <div class="page-head"><div><h1 id="sources-heading">Duas bases. <em>Um contexto.</em></h1><p>Conectores ilustrativos para fontes públicas; nesta demonstração, os dados são inteiramente inventados.</p></div><button class="button primary" id="sync">Simular sincronização ↻</button></div>
+          <div class="source-grid">
+            <article class="source-card"><div class="source-top"><span class="source-icon">S</span><span class="pill good">FONTE PÚBLICA CONHECIDA</span></div><h2>SIGLON · Unidades de Saúde</h2><p>Referência municipal para localização de equipamentos e atributos cadastrais geográficos.</p><div class="source-stats"><span>Conector: ArcGIS REST</span><b>MOCK</b></div><a target="_blank" rel="noopener noreferrer" href="https://geo.londrina.pr.gov.br/server/rest/services/Publico/SaudeUnidadesBasicasAbrangenciaPublico/MapServer/0">Ver endpoint público ↗</a></article>
+            <article class="source-card"><div class="source-top"><span class="source-icon blue">C</span><span class="pill good">FONTE PÚBLICA CONHECIDA</span></div><h2>CNES · Ministério da Saúde</h2><p>Cadastro nacional de estabelecimentos de saúde usado como fonte de comparação.</p><div class="source-stats"><span>Conector: API REST</span><b>MOCK</b></div><a target="_blank" rel="noopener noreferrer" href="https://apidadosabertos.saude.gov.br/">Ver portal público ↗</a></article>
+          </div>
+          <article class="panel">
+            <div class="panel-header"><div><div class="section-kicker">PRÉVIA / CAMPOS MODELADOS</div><h2>O que seria comparado?</h2></div></div>
+            <div class="table-scroll"><table class="fields-table"><thead><tr><th>Campo lógico</th><th>Exemplo na fonte A</th><th>Exemplo na fonte B</th><th>Tratamento</th></tr></thead><tbody>
+              <tr><td>Estabelecimento</td><td>UBS Jardim Exemplo</td><td>Unid. Básica Jd Exemplo</td><td>Nome padronizado + similaridade</td></tr>
+              <tr><td>Identificador</td><td>ID geográfico</td><td>CNES</td><td>Conservar ambos; criar vínculo</td></tr>
+              <tr><td>Logradouro</td><td>Rua das Flores</td><td>R. das Flores</td><td>Expandir abreviações</td></tr>
+              <tr><td>Número</td><td>150</td><td>105</td><td>Conflito; jamais corrigir automaticamente</td></tr>
+              <tr><td>Telefone</td><td>(43) 3333-1111</td><td>43 33332222</td><td>Normalizar dígitos e comparar</td></tr>
+              <tr><td>Posição</td><td>Geometria da camada</td><td>Localização de referência</td><td>Checar sistema de coordenadas</td></tr>
+            </tbody></table></div>
+            <p class="panel-note">Os exemplos nesta tabela são inventados. Formatos efetivos, campos e limites de requisição precisam ser validados antes de qualquer conector real.</p>
+          </article>
+          <div class="notice"><b>Segurança de dados</b> <span>Nada é enviado a SIGLON, CNES ou Prefeitura. O botão de sincronização apenas reinicia os registros de demonstração e mostra a sequência de etapas.</span></div>
+        </section>
+
+        <section id="view-matching" class="view" aria-labelledby="matching-heading">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> ETAPA 02 / MATCHING E GESTÃO DE CONFLITOS</div>
+          <div class="page-head"><div><h1 id="matching-heading">Resolver o que <em>não bate.</em></h1><p>Compare duas fontes, confirme vínculos e documente o que ainda precisa de conferência oficial.</p></div><button class="button outline" id="export">↓ Exportar CSV</button></div>
+          <div class="workspace">
+            <div class="list-panel">
+              <div class="list-controls"><label class="visually-hidden" for="search">Pesquisar registros</label><input id="search" type="search" placeholder="Buscar UBS ou endereço…"><label class="visually-hidden" for="filter">Filtrar registros</label><select id="filter"><option value="all">Todos</option><option value="pending">Pendentes</option><option value="conflict">Com conflito</option><option value="match">Correspondência</option><option value="missing">Sem par</option><option value="reviewed">Revisados</option></select></div>
+              <div class="list-meta"><span id="list-count">— registros</span><span>Selecione uma linha</span></div>
+              <div id="records" class="records"></div>
+            </div>
+            <div class="detail-panel" id="details" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <section id="view-audit" class="view" aria-labelledby="audit-heading">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> ETAPA 03 / RASTREABILIDADE</div>
+          <div class="page-head"><div><h1 id="audit-heading">Toda decisão deixa <em>uma trilha.</em></h1><p>Revisões locais de demonstração, com data, tipo de decisão e registro afetado.</p></div><button class="button outline" id="audit-export">↓ Exportar histórico</button></div>
+          <article class="panel"><div class="panel-header"><div><div class="section-kicker">LOG DE ATIVIDADES</div><h2>Histórico da sessão</h2></div><span class="pill">SIMULADO</span></div><div id="audit-list" class="audit-list"></div></article>
+          <div class="notice"><b>Na produção</b><span>Seriam necessários autenticação do servidor, permissões por órgão, logs imutáveis, retenção definida e revisão por autoridade de dados. Nada disso existe neste mock.</span></div>
+        </section>
+
+        <section id="view-impact" class="view" aria-labelledby="impact-heading">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> MERCADO / EXPLORAÇÃO DE VALOR</div>
+          <div class="page-head"><div><h1 id="impact-heading">O valor não é o mapa. <em>É a confiança.</em></h1><p>Explore o problema do ponto de vista de quem usa, opera e compra a solução.</p></div></div>
+          <div class="audience-grid">
+            <article class="audience"><span class="audience-icon">♡</span><h2>Paciente</h2><p>Precisa descobrir o endereço e contato corretos de uma UBS. Informações inconsistentes podem gerar deslocamento ou ligação desnecessária.</p><b>Beneficiário indireto</b></article>
+            <article class="audience"><span class="audience-icon">▦</span><h2>Servidor da saúde</h2><p>Precisa verificar divergências, registrar a justificativa da atualização e encaminhar ao gestor do dado.</p><b>Usuário operacional</b></article>
+            <article class="audience"><span class="audience-icon">◎</span><h2>CTD / Secretaria</h2><p>Precisa reduzir retrabalho e acompanhar a qualidade das bases sem trocar os sistemas existentes.</p><b>Comprador hipotético B2G</b></article>
+          </div>
+          <div class="columns">
+            <article class="panel"><div class="section-kicker">PITCH EM 20 SEGUNDOS</div><h2>Dados diferentes. Uma revisão confiável.</h2><p>“A Prefeitura não precisa substituir todos os seus sistemas para ter dados melhores. Nossa plataforma identifica inconsistências, mostra sua origem e organiza a correção com responsabilidade e rastreabilidade.”</p></article>
+            <article class="panel"><div class="section-kicker">O QUE PRECISAMOS VALIDAR</div><h2>Hipóteses de negócio</h2><div class="check-lines"><span>□ Qual par de bases gera retrabalho hoje?</span><span>□ Quem pode corrigir cada campo?</span><span>□ Já existe um conciliador interno?</span><span>□ Quanto tempo uma correção demanda?</span><span>□ Quem autorizaria um piloto?</span></div></article>
+          </div>
+          <article class="panel"><div class="section-kicker">CANVAS RESUMIDO</div><div class="canvas-grid"><div><b>Dor</b><p>Dados divergentes entre sistemas.</p></div><div><b>Proposta de valor</b><p>Conciliação auditável, sem substituir legados.</p></div><div><b>Cliente</b><p>Prefeituras e secretarias gestoras.</p></div><div><b>Receita possível</b><p>Piloto, integração, manutenção e suporte.</p></div><div><b>Risco</b><p>Já existir conciliação semelhante no órgão.</p></div><div><b>Métrica de valor</b><p>Conflitos confirmados e tempo de resolução.</p></div></div></article>
+        </section>
+        <div class="content-footer">DEMONSTRAÇÃO CONCEITUAL · Não identifica problemas reais da Prefeitura de Londrina · Não utiliza nenhuma API em tempo real.</div>
+      </main>
+    </div>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

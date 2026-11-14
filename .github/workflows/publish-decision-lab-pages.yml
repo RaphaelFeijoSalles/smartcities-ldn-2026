@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - "tools/decision-board/**"
+      - "tools/origem-unica/**"
       - "data/decision/**"
       - "docs/**"
       - "scripts/build-decision-pages.mjs"
@@ -12,6 +13,7 @@ on:
     branches: [main]
     paths:
       - "tools/decision-board/**"
+      - "tools/origem-unica/**"
       - "data/decision/**"
       - "docs/**"
       - "scripts/build-decision-pages.mjs"
