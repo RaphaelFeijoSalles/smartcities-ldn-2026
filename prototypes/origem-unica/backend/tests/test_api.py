@@ -31,4 +31,4 @@ def test_api_contract_and_local_cors() -> None:
 
     cors = next(middleware for middleware in app.user_middleware if middleware.cls.__name__ == "CORSMiddleware")
     assert cors.kwargs["allow_origins"] == ["http://localhost:4173"]
-    assert cors.kwargs["allow_methods"] == ["GET"]
+    assert cors.kwargs["allow_methods"] == ["GET", "POST"]

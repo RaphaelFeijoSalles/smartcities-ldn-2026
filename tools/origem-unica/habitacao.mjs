@@ -46,6 +46,7 @@ function renderSources(selected){const refs=[selected.snhis,...selected.requirem
 function render() {
  setOptions();
  renderState();
+ $("analysis-panel").hidden=state.demo||state.kind!=="success";
  const {panorama,results,filtered}=housingView(state.data,state.filters);
  $("clear-filters").disabled=!filtered;
  const hasResults=results.requirements.length>0||results.enterprises.length>0;
