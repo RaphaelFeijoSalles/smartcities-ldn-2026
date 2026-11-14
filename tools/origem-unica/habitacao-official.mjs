@@ -10,7 +10,7 @@ export function adaptOfficialHousing(snhis, mcmv) {
   const municipalCode=municipality.codigo_ibge || municipality.codigo_solicitado || "4113700";
   const referenceDate=snhis?.data_referencia || null;
   const evidence=(status, label)=>({
-    status:status==="REGULAR"?"REGULAR":status==="PENDENTE"?"PENDENTE":"UNKNOWN",
+    status:String(status ?? "").trim().toUpperCase()==="REGULAR"?"REGULAR":String(status ?? "").trim().toUpperCase()==="PENDENTE"?"PENDENTE":"UNKNOWN",
     source_name:label, source_url:sourceUrl,
     reference_date:referenceDate, fetched_at:source.downloaded_at || null,
     freshness:"UNVERIFIED"
