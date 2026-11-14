@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "baseCatalogVersion": "1.0.0",
-  "assessmentDate": "2026-11-13",
+  "assessmentDate": "2026-11-14",
   "assessor": "Hipóteses de avaliação técnica e de produto do assistente",
   "status": "PROVISIONAL_NOT_OFFICIAL_NOT_USER_VALIDATED",
   "description": "Prioridades iniciais para discussão. Não são notas oficiais, probabilidades de premiação ou prova de cliente. Reavaliar após mentoria e validação.",
@@ -312,6 +312,27 @@
       },
       "rationale": "RH/previdência foram descritos como demanda ampla; nicho sintético possível mas área regulada e difícil de diferenciar.",
       "nextValidation": "Encontrar uma etapa não sensível e instituição disposta a validar.",
+      "reviewStatus": "ASSISTANT_PROVISIONAL",
+      "gates": {
+        "legal_data_safety": "NEEDS_CHECK",
+        "challenge_fit": "PRESENTED",
+        "validated_user_pain": "UNKNOWN",
+        "two_minute_demo": "PROPOSED_NOT_TESTED",
+        "not_clone": "NEEDS_CHECK"
+      }
+    },
+    {
+      "id": "C16",
+      "ratings": {
+        "evidence": 4,
+        "challengeFit": 5,
+        "feasibility": 3,
+        "demo": 5,
+        "differentiation": 3,
+        "commercial": 4
+      },
+      "rationale": "Depoimento municipal, matéria histórica e norma municipal dão pertinência; equipe tem Python e geografia. A inferência ainda não foi executada, licenças incertas e grande risco de falsos positivos.",
+      "nextValidation": "Vídeo autorizado e anotação humana + modelo licenciado + teste por evento TP/FP/FN; perguntar à CMTU qual sistema encaminha o caso.",
       "reviewStatus": "ASSISTANT_PROVISIONAL",
       "gates": {
         "legal_data_safety": "NEEDS_CHECK",

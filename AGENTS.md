@@ -1,6 +1,6 @@
 # AGENTS.md — contrato comum de IA e colaboração
 
-**Válido para Codex, Claude Code e qualquer agente que edite este repositório.** Estado: discovery. Nenhuma ideia/stack foi aprovada ainda.
+**Válido para Codex, Claude Code e qualquer agente que edite este repositório.** Estado: escolha pendente. A PR #18 contém apenas um spike de EcoVisão com dados sintéticos, não um produto aprovado.
 
 ## Leitura obrigatória
 1. `README.md`
@@ -22,6 +22,7 @@
 - Não realizar merge, deploy público, publicação comercial, compra ou gastos sem autorização do integrador.
 - Se bloqueado: registrar `BLOCKED` + causa. Nunca converter ausência de teste em `PASS`.
 - **Documentação = intenção; código/teste = evidência de funcionamento.**
+- **Experimentos provisórios:** aceitos somente em PRs isoladas, com dados sintéticos, licença verificada e status `SPIKE_NOT_SELECTED`. Não fazer merge/deploy como MVP sem decisão registrada na Issue #2 e verificação de regras na Issue #1.
 
 ## Checklist obrigatório da PR
 Problema; Issue; arquivos alterados; testes executados (comando e resultado); screenshots/demo se visual; hipóteses; limitações; riscos; mudanças fora de escopo evitadas.

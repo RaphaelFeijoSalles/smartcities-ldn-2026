@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "date": "2026-11-13",
+  "date": "2026-11-14",
   "project": "Smart Cities Londrina 2026",
   "phase": "research-consolidated-decision-pending",
   "sourcePriority": [
@@ -32,7 +32,7 @@
       "two_minute_demo",
       "not_clone"
     ],
-    "description": "Rubrica proposta para próxima etapa. Nenhuma nota ou classificação definitiva está atribuída."
+    "description": "Rubrica de avaliação subjetiva, separada de evidência; 15 desafios podem ter múltiplas hipóteses. Nenhum ranking indica decisão da equipe."
   },
   "presentation": {
     "pitchMinutes": 3,
@@ -379,6 +379,27 @@
       "title": "SIGLON — catálogo de aplicativos públicos",
       "url": "https://geo.londrina.pr.gov.br/portal/apps/sites/#/aplicativospublicossiglon",
       "limitations": "Catálogo é aplicação web com carregamento dinâmico; sua lista completa de aplicações não foi extraída nesta pesquisa. Verificar manualmente cada aplicativo, permissões e atualização antes de afirmar lacuna."
+    },
+    {
+      "id": "R15",
+      "type": "third_party_news",
+      "title": "Folha de Londrina — acúmulo de lixo incomoda moradores (20/01/2020)",
+      "url": "https://www.folhadelondrina.com.br/cidades/acumulo-de-lixo-incomoda-moradores-em-londrina-2979809e.html",
+      "limitations": "Evidência histórica de pontos de descarte, não localização atual nem licença das fotos; imagens apenas como links externos."
+    },
+    {
+      "id": "R16",
+      "type": "official_public_document",
+      "title": "Londrina Lei Municipal nº 14.293/2026 — videomonitoramento de fundos de vale",
+      "url": "https://portal.londrina.pr.gov.br/images/stories/jornalOficial/Jornal-5917-Assinado.pdf",
+      "limitations": "Lei prevê implementação gradual e acesso restrito; não autoriza equipe a gravar/usar câmeras ou alegar implantação."
+    },
+    {
+      "id": "U2",
+      "type": "team_proposal",
+      "title": "Resumo do colega — detecção de resíduos com YOLO e GPS",
+      "location": "mensagem encaminhada no ChatGPT em 14/11/2026",
+      "limitations": "Licenças dos modelos não demonstradas; desempenho em ruas brasileiras e acesso aos vídeos ainda não testados."
     }
   ],
   "concepts": [
@@ -737,6 +758,35 @@
         "complexidade legal"
       ],
       "status": "hypothesis"
+    },
+    {
+      "id": "C16",
+      "name": "EcoVisão — detecção de possíveis acúmulos",
+      "sectorId": "S3",
+      "challengeIds": [
+        "03.2",
+        "04.1"
+      ],
+      "evidenceRefs": [
+        "A3",
+        "R15",
+        "R16",
+        "U2"
+      ],
+      "problem": "Acúmulos e descarte recorrente são difíceis de localizar e priorizar; uma câmera móvel poderia gerar candidatos a inspeção sem atribuir infração.",
+      "audience": "CMTU/SEMA, operador de limpeza urbana e equipe de fiscalização",
+      "buyerHypothesis": "Município ou operador de coleta, ainda sem entrevista comercial",
+      "mvp": "Vídeo autorizado ou detecções simuladas explicitamente → eventos únicos com hora e imagem autorizada → GPS sintético → mapa/dashboard → confirmação humana.",
+      "incumbent": "Londrina ON, equipes de limpeza, eventuais câmeras municipais e plataformas de detecção existentes",
+      "unknown": "Há autorização e vídeo de teste? Qual modelo e pesos legalmente utilizáveis alcançam precisão aceitável em ruas locais? Quem recebe a ocorrência?",
+      "blockers": [
+        "direitos de vídeos e modelos YOLO",
+        "falso positivo e coleta regular",
+        "privacidade de rostos/placas",
+        "GPS simulado não representa fiscalização",
+        "detector NÃO TESTADO"
+      ],
+      "status": "team-originated-hypothesis"
     }
   ],
   "deferredChallengeNotes": [

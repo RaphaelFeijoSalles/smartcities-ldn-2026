@@ -10,19 +10,24 @@ const root=new URL("../../data/decision/",import.meta.url);
 const catalog=JSON.parse(readFileSync(new URL("smartcities-decision-v1.json",root),"utf8"));
 const baseline=JSON.parse(readFileSync(new URL("smartcities-assessments-v1.json",root),"utf8"));
 
-test("15 desafios, 5 setores, 15 ideias e fontes coerentes",()=>{
+test("15 desafios, 5 setores, candidatos ampliáveis e fontes coerentes",()=>{
   assert.equal(catalog.sectors.length,5);
   assert.equal(catalog.challenges.length,15);
-  assert.equal(catalog.concepts.length,15);
-  assert.equal(catalog.evidence.length,21);
+  assert.equal(catalog.concepts.length,baseline.items.length);
+  assert(catalog.concepts.length>=16);
+  assert(catalog.evidence.length>=24);
   assert.deepEqual(validateDecisionData(catalog,baseline),[]);
   assert.equal(CRITERIA.length,6);
 });
-test("origens dos depoimentos e link público SIGLON preservados",()=>{
+test("fontes dos depoimentos, SIGLON e EcoVisão preservadas",()=>{
   for(const id of ["A1","A2","A3","A4","A5"])assert(catalog.evidence.some(e=>e.id===id));
   const siglon=catalog.evidence.find(e=>e.id==="R14");
   assert(siglon.url.includes("aplicativospublicossiglon"));
   assert.match(siglon.limitations,/carregamento dinâmico|dinâmico/i);
+  const eco=catalog.concepts.find(c=>c.id==="C16");
+  assert(eco&&eco.challengeIds.includes("03.2"));
+  assert(eco.evidenceRefs.includes("R15")&&eco.evidenceRefs.includes("U2"));
+  assert(baseline.items.some(c=>c.id==="C16"));
 });
 test("pesos somam 100 e limite da escala preservado",()=>{
   assert.equal(Object.values(catalog.scoring.weights).reduce((a,b)=>a+b,0),100);
