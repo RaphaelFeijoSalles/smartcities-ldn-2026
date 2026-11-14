@@ -2,6 +2,8 @@
 
 **Fase:** descoberta/brainstorm. **Consultado em:** 13/11/2026. **Ainda não há produto, cliente, parceria ou desafio específico aprovado.**
 
+> **Fonte canônica para a equipe após os 5 áudios:** [CENTRAL DE DECISÃO](../decision/README.md). Este índice é arquivo de **pesquisa histórica detalhada**; não usar ranking antigo sem reconsiderar as novas evidências e o escopo. A central inclui o catálogo para a LP da próxima etapa.
+
 ## NOVO: apresentação presencial de 13/11 — 15 desafios concretos
 - **[Transcrição dos 15 desafios e 5 contextos](CHALLENGES_OFFICIAL_2026.md)** — fonte mais específica que os eixos genéricos do site.
 - **[Ranking dos 15 com MVP, demo, perguntas e riscos](CHALLENGES_RANKED_2026.md)** — critérios subjetivos, não pesos da banca.
