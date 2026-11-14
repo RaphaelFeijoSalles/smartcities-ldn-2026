@@ -4,6 +4,13 @@
 **Fase:** RESEARCH / DECISION — sem projeto MVP definido.
 **Objetivo imediato:** decidir problema e primeiro fluxo testável. **Implementação:** NOT STARTED.
 
+## Segunda etapa de apoio à decisão — painel preparado (13/11)
+- **A interface estática foi criada** em `tools/decision-board/` na PR #8: filtros, evidências, ranking provisório editável, comparador de até 3, exportação Markdown/JSON.
+- **Fonte de conteúdo:** `data/decision/smartcities-decision-v1.json`; avaliações **separadas** em `data/decision/smartcities-assessments-v1.json`; manutenção com um único prompt descrito no README do painel.
+- **Verificação:** testes de lógica/CI e smoke manual móvel/desktop são gates separados; nunca chamar interface visual testada só por compilar.
+- **Estado de produto:** NOT SELECTED; dados de usuário VALIDATION UNKNOWN, regulação completa UNKNOWN; `main` não foi alterada.
+- **SIGLON:** link novo e ressalvas em `docs/decision/07_SIGLON_APLICATIVOS.md`.
+
 ## Atualização de pesquisa — 13/11/2026, sem decisão de produto
 - **Abertura do evento trouxe 15 desafios**, detalhados em 5 áudios e pesquisados por 9 PRs em aberto. Uma central consolidada de decisão foi montada em [docs/decision/README.md](../decision/README.md) na PR #8.
 - **Estado:** pesquisa consolidada, produto **NOT SELECTED**, MVP **NOT STARTED**, regras integrais de IA/IP ainda **UNKNOWN**.
