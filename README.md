@@ -4,10 +4,10 @@
 
 **[Plano rápido dos 5 integrantes e handoff de Miguel → João às 13h](docs/team/START_NOW_20261114.md)** · [Issue #2 para registrar a escolha](https://github.com/RaphaelFeijoSalles/smartcities-ldn-2026/issues/2).
 
-- A **PR #8 já está MERGED**; Decision Lab e pesquisa consolidada estão na `main`.
-- A LP passa a ter **16 propostas para os 15 desafios**, incluindo **EcoVisão (C16)**.
+- A **PR #8 e a PR #22 já estão MERGED**; Decision Lab, 16 candidatas e organização da equipe estão na `main`.
+- A LP tem **16 propostas para os 15 desafios**, incluindo **EcoVisão (C16)**.
 - **LexBase** continua melhor avaliada na LP (4,70/5); **EcoVisão** é a aposta operacional pela combinação Python + geografia + estatística + validação ambiental, **condicionada** à licença/teste de detector.
-- **Fotos da Folha de Londrina (2020)**: referências bibliográficas na [PR #17](https://github.com/RaphaelFeijoSalles/smartcities-ldn-2026/pull/17), não copiadas nem usadas para treinar sem permissão.
+- **Fotos da Folha de Londrina (2020)**: referências bibliográficas mescladas pela [PR #17](https://github.com/RaphaelFeijoSalles/smartcities-ldn-2026/pull/17), não copiadas nem usadas para treinar sem permissão.
 - **Código inicial EcoVisão** na [PR #18](https://github.com/RaphaelFeijoSalles/smartcities-ldn-2026/pull/18) — FastAPI + SQLite + UI responsiva, **100% dados sintéticos, sem YOLO executado**. Não mesclar como produto decidido antes da votação e verificação da Issue #1.
 
 **Não é necessário fechar as 11 PRs antigas para começar:** use a [matriz de integração](docs/decision/06_ESTADO_E_PRS.md), escolha uma proposta e trabalhe em uma PR por tarefa. Proibido confundir build verde com validação de detecção real.
