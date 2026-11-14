@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import threading
 import time
+import os
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any
@@ -18,8 +19,12 @@ class ReconciliationService:
         fallback_csv: Path | None = None,
         cache_seconds: int = 60,
     ) -> None:
-        self.adapters = adapters or [SiglonAdapter(), CnesAdapter()]
         self.fallback_csv = fallback_csv or Path(__file__).resolve().parents[1] / "data" / "fallback_mock.csv"
+        self.adapters = adapters or (
+            [CsvAdapter(self.fallback_csv, source) for source in ("SIGLON", "CNES")]
+            if os.environ.get("ORIGEM_UNICA_MOCK") == "1"
+            else [SiglonAdapter(), CnesAdapter()]
+        )
         self.cache_seconds = cache_seconds
         self._lock = threading.Lock()
         self._cached_at = 0.0
@@ -36,7 +41,9 @@ class ReconciliationService:
             items = reconcile(left, right)
             statuses = [result.status_payload() for result in results]
             live_count = sum(result.status == "LIVE" for result in results)
-            mode = "LIVE" if live_count == len(results) else "MOCK" if live_count == 0 else "MIXED"
+            # The shared contract has no MIXED mode. Any synthetic input makes
+            # the overall demo MOCK; each source still exposes its provenance.
+            mode = "LIVE" if live_count == len(results) else "MOCK"
             self._snapshot = {
                 "mode": mode,
                 "generated_at": utc_now(),

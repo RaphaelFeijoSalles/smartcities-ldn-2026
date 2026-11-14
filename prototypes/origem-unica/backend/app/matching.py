@@ -111,6 +111,9 @@ def _candidate(
     left: NormalizedRecord,
     right: NormalizedRecord,
 ) -> Candidate | None:
+    # Never suggest that a fabricated unit reconciles with an official unit.
+    if left.data_origin.startswith("MOCK:") != right.data_origin.startswith("MOCK:"):
+        return None
     shared_identifier = bool(
         set(left.identifiers) & set(right.identifiers)
         and any(
@@ -228,7 +231,7 @@ def _single_item(record: NormalizedRecord, status: str) -> dict[str, Any]:
         "id": _stable_id(record),
         "name": record.name,
         "comparison_status": status,
-        "score": 0.0,
+        "score": None,
         "evidence": {"notice": "Sem candidato determinístico na outra fonte."},
         "sources": [record.source_payload()],
         "conflicts": [],

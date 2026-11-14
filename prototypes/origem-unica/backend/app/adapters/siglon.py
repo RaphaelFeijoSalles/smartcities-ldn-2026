@@ -32,6 +32,8 @@ class SiglonAdapter(SourceAdapter):
         payload = self._get_json(f"{self.data_origin}?{query}")
         if payload.get("error"):
             raise RuntimeError(f"SIGLON ArcGIS error: {payload['error']}")
+        if payload.get("exceededTransferLimit"):
+            raise RuntimeError("SIGLON returned a truncated dataset; refusing incomplete comparison")
 
         fetched_at = utc_now()
         records = [self._normalize(feature, fetched_at) for feature in payload.get("features", [])]
