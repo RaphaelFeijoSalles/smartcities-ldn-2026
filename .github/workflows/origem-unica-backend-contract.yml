@@ -1,0 +1,47 @@
+name: Origem Unica - backend contract
+
+on:
+  pull_request:
+    paths:
+      - "prototypes/origem-unica/backend/**"
+      - "scripts/origem-unica/contract-gate.mjs"
+      - ".github/workflows/origem-unica-backend-contract.yml"
+  push:
+    branches: [main]
+    paths:
+      - "prototypes/origem-unica/backend/**"
+      - "scripts/origem-unica/contract-gate.mjs"
+      - ".github/workflows/origem-unica-backend-contract.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  offline-contract:
+    name: Pytest and offline HTTP contract
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: prototypes/origem-unica/backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install backend dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Run pytest
+        run: python -m pytest -q
+      - name: Validate GET /api/records in explicit MOCK mode
+        run: |
+          ORIGEM_UNICA_MOCK=1 python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 &
+          api_pid=$!
+          trap 'kill "$api_pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --silent --fail http://127.0.0.1:8000/api/health >/dev/null; then break; fi
+            sleep 1
+          done
+          node ../../../scripts/origem-unica/contract-gate.mjs --url http://127.0.0.1:8000/api/records

@@ -44,9 +44,15 @@ jobs:
           node --check tools/decision-board/app.mjs
           node --check tools/decision-board/model.mjs
           node --check scripts/build-decision-pages.mjs
+          node --check tools/origem-unica/config.js
+          node --check tools/origem-unica/adapter.js
+          node --check tools/origem-unica/app.js
           node --test tools/decision-board/model.test.mjs
+          node --test tools/origem-unica/adapter.test.mjs
 
       - name: Package site and check relative paths
+        env:
+          ORIGEM_UNICA_API_BASE: ${{ vars.ORIGEM_UNICA_API_BASE }}
         run: node scripts/build-decision-pages.mjs
 
       # PRs only validate; publishing is only allowed from main.

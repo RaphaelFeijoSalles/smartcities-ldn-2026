@@ -32,6 +32,18 @@ for (const source of allowedSourceDirs) {
   cpSync(abs, join(dest, source), { recursive: true });
 }
 
+// The API origin is public configuration; never embed credentials in Pages.
+const apiBase = process.env.ORIGEM_UNICA_API_BASE?.trim() || "https://smartcities-ldn-2026.onrender.com/";
+if (apiBase) {
+  const parsed = new URL(apiBase);
+  if (parsed.protocol !== "https:" || parsed.username || parsed.password ||
+      parsed.search || parsed.hash || !["/", "/api/records"].includes(parsed.pathname)) {
+    throw new Error("ORIGEM_UNICA_API_BASE must be an HTTPS origin or /api/records URL without credentials");
+  }
+}
+writeFileSync(join(dest, "tools/origem-unica/config.js"),
+  "window.ORIGEM_UNICA_API_BASE = " + JSON.stringify(apiBase).replaceAll("<", "\\u003c") + ";\n", "utf8");
+
 // GitHub Pages serves /<repository>/; preserve existing paths by sending the
 // visitor to /<repository>/tools/decision-board/ with a RELATIVE redirect.
 const landing = `<!doctype html>
@@ -59,6 +71,8 @@ const requiredFiles = [
   "tools/decision-board/style.css",
   "tools/origem-unica/index.html",
   "tools/origem-unica/styles.css",
+  "tools/origem-unica/config.js",
+  "tools/origem-unica/adapter.js",
   "tools/origem-unica/app.js",
   "data/decision/smartcities-decision-v1.json",
   "data/decision/smartcities-assessments-v1.json",
@@ -97,4 +111,4 @@ for (const file of [".git", ".github", ".env", "package.json", "scripts"]) {
 console.log("Pages artifact validated:", relative(root, dest));
 console.log("Project-site link: /smartcities-ldn-2026/tools/decision-board/");
 console.log("Catalog: " + catalog.concepts.length + " ideas; " + catalog.challenges.length + " challenges.");
-console.log("Standalone Origem Única mock: /smartcities-ldn-2026/tools/origem-unica/");
+console.log("Origem Única: /smartcities-ldn-2026/tools/origem-unica/ (API " + (apiBase || "same origin / ?api override") + ")");
