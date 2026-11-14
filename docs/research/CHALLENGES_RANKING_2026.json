@@ -1,0 +1,253 @@
+{
+  "title": "Smart Cities Londrina 2026 — ranking de trabalho não oficial",
+  "source": "foto enviada pela equipe 2026-11-13",
+  "weights": {
+    "adherence": 30,
+    "evidence": 25,
+    "demo": 20,
+    "feasibility": 15,
+    "adoption": 10
+  },
+  "items": [
+    {
+      "rank": 1,
+      "id": "03.2",
+      "context": "Sustentabilidade e clima",
+      "title": "Gestão integrada de resíduos",
+      "ratings": {
+        "adherence": 5,
+        "evidence": 5,
+        "demo": 5,
+        "feasibility": 5,
+        "adoption": 4
+      },
+      "score": 4.9,
+      "priority": "validate-first",
+      "source": "https://cmtu.londrina.pr.gov.br/index.php/ult-noticias/2337-coleta-seletiva-trata-800-toneladas-de-reciclaveis-por-mes-em-londrina.html"
+    },
+    {
+      "rank": 2,
+      "id": "02.1",
+      "context": "Inteligência legislativa",
+      "title": "Estruturação do acervo normativo da CML",
+      "ratings": {
+        "adherence": 5,
+        "evidence": 4,
+        "demo": 5,
+        "feasibility": 5,
+        "adoption": 4
+      },
+      "score": 4.65,
+      "priority": "validate-first",
+      "source": "https://portal.londrina.pr.gov.br/index.php/legislacao"
+    },
+    {
+      "rank": 3,
+      "id": "01.1",
+      "context": "Governança, dados e transparência",
+      "title": "Integração de dados",
+      "ratings": {
+        "adherence": 5,
+        "evidence": 4,
+        "demo": 5,
+        "feasibility": 4,
+        "adoption": 4
+      },
+      "score": 4.5,
+      "priority": "validate-first",
+      "source": "https://portal.londrina.pr.gov.br/governanca-publica"
+    },
+    {
+      "rank": 4,
+      "id": "03.3",
+      "context": "Sustentabilidade e clima",
+      "title": "Infraestrutura verde e hídrica",
+      "ratings": {
+        "adherence": 5,
+        "evidence": 3,
+        "demo": 5,
+        "feasibility": 4,
+        "adoption": 3
+      },
+      "score": 4.15,
+      "priority": "alternative",
+      "source": "https://portal.londrina.pr.gov.br/downloads-siglon"
+    },
+    {
+      "rank": 5,
+      "id": "04.3",
+      "context": "Infraestrutura e financiamento",
+      "title": "Turismo digital",
+      "ratings": {
+        "adherence": 4,
+        "evidence": 3,
+        "demo": 5,
+        "feasibility": 5,
+        "adoption": 3
+      },
+      "score": 4,
+      "priority": "alternative",
+      "source": "https://www.londrinainteligente.com.br/hackathon-2026"
+    },
+    {
+      "rank": 6,
+      "id": "02.2",
+      "context": "Inteligência legislativa",
+      "title": "Automatização humanizada de atendimento ao cidadão",
+      "ratings": {
+        "adherence": 4,
+        "evidence": 3,
+        "demo": 5,
+        "feasibility": 5,
+        "adoption": 2
+      },
+      "score": 3.9,
+      "priority": "alternative",
+      "source": "https://blog.londrina.pr.gov.br/?p=214574"
+    },
+    {
+      "rank": 7,
+      "id": "01.3",
+      "context": "Governança, dados e transparência",
+      "title": "Planejamento e monitoramento de indicadores em tempo real",
+      "ratings": {
+        "adherence": 4,
+        "evidence": 4,
+        "demo": 4,
+        "feasibility": 3,
+        "adoption": 4
+      },
+      "score": 3.85,
+      "priority": "alternative",
+      "source": "https://portal.londrina.pr.gov.br/governanca-publica"
+    },
+    {
+      "rank": 8,
+      "id": "01.2",
+      "context": "Governança, dados e transparência",
+      "title": "Governança de TI e Política Municipal de dados",
+      "ratings": {
+        "adherence": 5,
+        "evidence": 3,
+        "demo": 3,
+        "feasibility": 4,
+        "adoption": 3
+      },
+      "score": 3.75,
+      "priority": "alternative",
+      "source": "https://portal.londrina.pr.gov.br/index.php/dados-abertos"
+    },
+    {
+      "rank": 9,
+      "id": "03.1",
+      "context": "Sustentabilidade e clima",
+      "title": "Plano de resiliência e clima",
+      "ratings": {
+        "adherence": 4,
+        "evidence": 4,
+        "demo": 4,
+        "feasibility": 3,
+        "adoption": 3
+      },
+      "score": 3.75,
+      "priority": "alternative",
+      "source": "https://portal.londrina.pr.gov.br/cidade-resiliente"
+    },
+    {
+      "rank": 10,
+      "id": "04.1",
+      "context": "Infraestrutura e financiamento",
+      "title": "Central de monitoramento urbano",
+      "ratings": {
+        "adherence": 4,
+        "evidence": 4,
+        "demo": 4,
+        "feasibility": 2,
+        "adoption": 4
+      },
+      "score": 3.7,
+      "priority": "requires-scope-gate",
+      "source": "https://codel.londrina.pr.gov.br/index.php/alt/406-projeto-rua-inteligente-trara-inovacao-e-tecnologia-a-rua-sergipe.html"
+    },
+    {
+      "rank": 11,
+      "id": "02.3",
+      "context": "Inteligência legislativa",
+      "title": "Detecção de conflitos legais",
+      "ratings": {
+        "adherence": 5,
+        "evidence": 3,
+        "demo": 4,
+        "feasibility": 2,
+        "adoption": 3
+      },
+      "score": 3.65,
+      "priority": "requires-scope-gate",
+      "source": "https://portal.londrina.pr.gov.br/index.php/legislacao"
+    },
+    {
+      "rank": 12,
+      "id": "05.1",
+      "context": "Inclusão digital e serviços",
+      "title": "Internet pública para todos",
+      "ratings": {
+        "adherence": 4,
+        "evidence": 4,
+        "demo": 3,
+        "feasibility": 1,
+        "adoption": 3
+      },
+      "score": 3.25,
+      "priority": "requires-scope-gate",
+      "source": "https://portal.londrina.pr.gov.br/index.php/dados-abertos"
+    },
+    {
+      "rank": 13,
+      "id": "04.2",
+      "context": "Infraestrutura e financiamento",
+      "title": "PPPs e concessões",
+      "ratings": {
+        "adherence": 4,
+        "evidence": 3,
+        "demo": 3,
+        "feasibility": 2,
+        "adoption": 3
+      },
+      "score": 3.15,
+      "priority": "requires-scope-gate",
+      "source": "https://codel.londrina.pr.gov.br/index.php/editais-2.html"
+    },
+    {
+      "rank": 14,
+      "id": "05.3",
+      "context": "Inclusão digital e serviços",
+      "title": "Modernização de RH e previdência",
+      "ratings": {
+        "adherence": 4,
+        "evidence": 3,
+        "demo": 3,
+        "feasibility": 2,
+        "adoption": 3
+      },
+      "score": 3.15,
+      "priority": "requires-scope-gate",
+      "source": "https://blog.londrina.pr.gov.br/?p=247090"
+    },
+    {
+      "rank": 15,
+      "id": "05.2",
+      "context": "Inclusão digital e serviços",
+      "title": "Plataforma única de educação",
+      "ratings": {
+        "adherence": 3,
+        "evidence": 3,
+        "demo": 4,
+        "feasibility": 2,
+        "adoption": 3
+      },
+      "score": 3.05,
+      "priority": "requires-scope-gate",
+      "source": "https://portal.londrina.pr.gov.br/escola-de-governo"
+    }
+  ]
+}

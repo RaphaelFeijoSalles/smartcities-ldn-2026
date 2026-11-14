@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102b35">
+  <meta name="description" content="Painel de decisão Smart Cities Londrina 2026 — compare propostas de MVP com evidências, riscos e notas transparentes.">
+  <title>Decision Lab | Smart Cities Londrina 2026</title>
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./app.mjs"></script>
+</head>
+<body>
+  <a class="skip" href="#explorar">Pular para as ideias</a>
+  <header class="hero">
+    <div class="shell">
+      <nav class="topnav" aria-label="Navegação">
+        <a class="brand" href="#inicio"><span class="brand-icon" aria-hidden="true">SC</span><span>DECISION LAB <small>LONDRINA 2026</small></span></a>
+        <div class="navlinks">
+          <a href="#explorar">Explorar</a>
+          <a href="#comparar">Comparar</a>
+          <a href="#decidir">Decidir</a>
+          <a href="https://github.com/RaphaelFeijoSalles/smartcities-ldn-2026/pull/8" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        </div>
+      </nav>
+      <div class="hero-content">
+        <div class="kicker"><span class="signal"></span> CENTRAL DE PESQUISA · AI-FIRST</div>
+        <h1>Uma boa ideia começa com <em>um problema real.</em></h1>
+        <p>Quinze propostas cruzadas com os desafios do evento, depoimentos dos palestrantes e pesquisa de mercado. Compare a viabilidade, descubra bloqueios e decida em equipe — sem confundir nossa análise com notas oficiais.</p>
+        <div class="hero-actions">
+          <a href="#explorar" class="action action-primary">Explorar propostas <span aria-hidden="true">↗</span></a>
+          <a href="#comparar" class="action action-ghost">Ver comparativo</a>
+        </div>
+      </div>
+      <div class="hero-meta">
+        <span><b>13–15 NOV</b> · Smart Cities</span>
+        <span><b>3 MIN</b> pitch + <b>2 MIN</b> demo (formato divulgado)</span>
+        <span>Dados e notas: <b>provisórios</b></span>
+      </div>
+    </div>
+  </header>
+
+  <main class="shell">
+    <div id="load-error" class="error hidden" role="alert"></div>
+    <section class="metric-strip" aria-label="Visão geral">
+      <div class="metric"><span class="metric-number" id="stat-concepts">15</span><span class="metric-label">hipóteses de produto</span></div>
+      <div class="metric"><span class="metric-number" id="stat-challenges">15</span><span class="metric-label">desafios apresentados</span></div>
+      <div class="metric"><span class="metric-number" id="stat-sectors">5</span><span class="metric-label">setores do evento</span></div>
+      <div class="metric"><span class="metric-number" id="stat-evidence">—</span><span class="metric-label">referências e depoimentos</span></div>
+    </section>
+
+    <section class="intro">
+      <div>
+        <span class="section-eyebrow">01 / VISÃO EXECUTIVA</span>
+        <h2>Por onde vale <em>começar a conversar?</em></h2>
+        <p>As primeiras posições são um <strong>ponto de partida para entrevistas</strong>, não uma escolha automática. O ranking muda quando você ajusta as avaliações abaixo.</p>
+      </div>
+      <a class="text-link" href="../../docs/decision/03_EVIDENCIAS_E_FONTES.md" target="_blank" rel="noopener noreferrer">Ler o livro de evidências ↗</a>
+    </section>
+    <div id="leaders" class="leaders" aria-label="Três ideias mais bem avaliadas provisoriamente"></div>
+
+    <div class="caution" role="note">
+      <span class="caution-icon" aria-hidden="true">!</span>
+      <div><strong>Não é recomendação oficial da banca.</strong> As notas iniciais são estimativas do assistente após cinco áudios; nenhum participante validou ainda usuário, compra ou acesso a dados. Itens que exigem autorização, laudo ou decisão jurídica permanecem bloqueados até revisão humana.</div>
+    </div>
+
+    <section class="workspace" id="explorar">
+      <div class="workspace-main">
+        <div class="section-heading">
+          <div><span class="section-eyebrow">02 / INVESTIGAÇÃO</span><h2>Explore as <em>possibilidades.</em></h2></div>
+          <span class="result-count" id="result-count" role="status">Carregando…</span>
+        </div>
+        <form class="filters" id="filters" aria-label="Filtros das propostas" onsubmit="return false;">
+          <label class="field field-search"><span>Buscar ideia ou problema</span><input type="search" id="search" placeholder="Ex.: normas, turismo, resíduos"></label>
+          <label class="field"><span>Setor</span><select id="sector-filter"><option value="">Todos os setores</option></select></label>
+          <label class="field"><span>Desafio</span><select id="challenge-filter"><option value="">Todos os desafios</option></select></label>
+        </form>
+        <div class="method-toggle">
+          <details id="method">
+            <summary>Como calculamos a pontuação? <span class="summary-more">6 critérios, fontes e limites <span aria-hidden="true">⌄</span></span></summary>
+            <p>O peso reflete nossa estratégia de hackathon: priorizar a dor, a execução e a demonstração. As notas são <strong>editáveis por hipótese</strong>; os pesos estão no arquivo de dados para facilitar manutenção por IA.</p>
+            <div id="weights" class="weights"></div>
+            <p class="small muted">Gates que podem bloquear uma ideia: legalidade e dados; aderência ao desafio; validação real da dor; demonstração funcional; diferença frente a soluções existentes. Um total alto não remove bloqueios.</p>
+          </details>
+        </div>
+        <div class="cards" id="cards" aria-live="polite"></div>
+      </div>
+      <aside class="selection" id="comparar">
+        <div class="selection-top"><span class="section-eyebrow">03 / COMPARAÇÃO</span><span class="mini-badge">até 3 opções</span></div>
+        <h2>Sua <em>shortlist.</em></h2>
+        <p class="muted small">Selecione as ideias que deseja defender. A comparação fica salva apenas neste navegador.</p>
+        <div id="selected-cards" class="selected-cards"><p class="small muted">Nenhuma ideia selecionada.</p></div>
+        <div id="compare-table" class="compare-table"></div>
+        <a href="#decidir" class="action action-dark">Registrar discussão <span aria-hidden="true">↘</span></a>
+        <button class="button-text" type="button" id="clear-selection">Limpar shortlist</button>
+      </aside>
+    </section>
+
+    <section class="decision" id="decidir">
+      <div class="decision-intro">
+        <span class="section-eyebrow">04 / DECISÃO HUMANA</span>
+        <h2>Da hipótese à <em>primeira entrega.</em></h2>
+        <p>Registre o que o grupo descobriu. Exporte para a Issue #2 do GitHub, porque esta página não grava decisões no repositório e não envia os dados para nenhum servidor.</p>
+        <div class="reference">
+          <strong>Verificação útil antes de construir outro mapa:</strong>
+          <a href="https://geo.londrina.pr.gov.br/portal/apps/sites/#/aplicativospublicossiglon" target="_blank" rel="noopener noreferrer">Aplicativos públicos SIGLON ↗</a>
+          <span class="small muted">Conferir manualmente funcionalidades e permissões; a página usa carregamento dinâmico.</span>
+        </div>
+      </div>
+      <div class="decision-form">
+        <label class="field"><span>Qual é o problema e por que importa?</span><textarea id="note-context" rows="3" placeholder="Dor validada, quem sofre e qual sistema existe hoje…"></textarea></label>
+        <label class="field"><span>Ideia escolhida (após consenso)</span><input id="note-chosen" placeholder="Nome / ID do produto + motivo"></label>
+        <label class="field"><span>Responsáveis e três próximos passos</span><textarea id="note-owner" rows="3" placeholder="Raphael — integração; Miguel — validação; equipe — tarefas pequenas…"></textarea></label>
+        <div class="decision-actions">
+          <button type="button" class="action action-primary" id="export-md">Exportar decisão .md</button>
+          <button type="button" class="action action-outline" id="export-json">Exportar notas .json</button>
+          <button type="button" class="button-text" id="reset-ratings">Restaurar notas iniciais</button>
+        </div>
+        <p class="small muted" id="export-message" role="status">Sem backend, conta, pagamento ou publicação automática.</p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div><strong>Smart Cities Londrina 2026</strong><p>Painel independente da equipe. Dados de demonstração e opiniões identificados; sem endosso institucional.</p></div>
+      <div class="footer-links">
+        <a href="../../docs/decision/README.md" target="_blank" rel="noopener noreferrer">Central documental</a>
+        <a href="./README.md" target="_blank" rel="noopener noreferrer">Manutenção em uma chamada de IA</a>
+        <a href="https://github.com/RaphaelFeijoSalles/smartcities-ldn-2026/issues/2" target="_blank" rel="noopener noreferrer">Issue do brainstorm ↗</a>
+      </div>
+    </footer>
+  </main>
+</body>
+</html>

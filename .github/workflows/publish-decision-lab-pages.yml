@@ -1,0 +1,75 @@
+name: Publish Decision Lab (GitHub Pages)
+
+on:
+  pull_request:
+    paths:
+      - "tools/decision-board/**"
+      - "data/decision/**"
+      - "docs/**"
+      - "scripts/build-decision-pages.mjs"
+      - ".github/workflows/publish-decision-lab-pages.yml"
+  push:
+    branches: [main]
+    paths:
+      - "tools/decision-board/**"
+      - "data/decision/**"
+      - "docs/**"
+      - "scripts/build-decision-pages.mjs"
+      - ".github/workflows/publish-decision-lab-pages.yml"
+  workflow_dispatch:
+
+# Prevent overlapping production Pages deployments; never cancel in progress.
+concurrency:
+  group: decision-lab-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Validate and package static Decision Lab
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Validate JavaScript and decision data
+        run: |
+          node --check tools/decision-board/app.mjs
+          node --check tools/decision-board/model.mjs
+          node --check scripts/build-decision-pages.mjs
+          node --test tools/decision-board/model.test.mjs
+
+      - name: Package site and check relative paths
+        run: node scripts/build-decision-pages.mjs
+
+      # PRs only validate; publishing is only allowed from main.
+      - name: Configure GitHub Pages
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: .pages-site
+
+  deploy:
+    name: Publish Decision Lab only (not the hackathon app)
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy Pages artifact
+        id: deployment
+        uses: actions/deploy-pages@v4

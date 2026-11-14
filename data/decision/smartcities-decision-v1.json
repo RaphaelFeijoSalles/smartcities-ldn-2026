@@ -1,0 +1,752 @@
+{
+  "version": "1.0.0",
+  "date": "2026-11-13",
+  "project": "Smart Cities Londrina 2026",
+  "phase": "research-consolidated-decision-pending",
+  "sourcePriority": [
+    "event_on_site_challenges",
+    "direct_audio",
+    "official_document",
+    "other_public_source",
+    "team_hypothesis"
+  ],
+  "scoreState": "IN_SEPARATE_PROVISIONAL_ASSESSMENTS_FILE",
+  "scoring": {
+    "scale": [
+      1,
+      5
+    ],
+    "weights": {
+      "evidence": 25,
+      "challengeFit": 20,
+      "feasibility": 20,
+      "demo": 15,
+      "differentiation": 10,
+      "commercial": 10
+    },
+    "missingMeans": "UNKNOWN",
+    "gates": [
+      "legal_data_safety",
+      "challenge_fit",
+      "validated_user_pain",
+      "two_minute_demo",
+      "not_clone"
+    ],
+    "description": "Rubrica proposta para próxima etapa. Nenhuma nota ou classificação definitiva está atribuída."
+  },
+  "presentation": {
+    "pitchMinutes": 3,
+    "demoMinutes": 2,
+    "from": "event-website",
+    "regulationFullTextVerified": false
+  },
+  "sectors": [
+    {
+      "id": "S1",
+      "name": "Governança, dados e transparência",
+      "description": "Interoperabilidade, qualidade, titularidade, indicadores e decisões de gestão"
+    },
+    {
+      "id": "S2",
+      "name": "Inteligência legislativa",
+      "description": "Acervo normativo heterogêneo, consulta com fontes e revisão jurídica"
+    },
+    {
+      "id": "S3",
+      "name": "Sustentabilidade e clima",
+      "description": "Resíduos, água, drenagem, árvores, riscos e protocolos de resposta"
+    },
+    {
+      "id": "S4",
+      "name": "Infraestrutura e financiamento",
+      "description": "Ativos urbanos, geodados, financiamento e turismo colaborativo"
+    },
+    {
+      "id": "S5",
+      "name": "Inclusão digital e serviços",
+      "description": "Autonomia digital, gestão educacional e serviços internos"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "01.1",
+      "sectorId": "S1",
+      "title": "Integração de dados",
+      "evidenceRefs": [
+        "A1",
+        "A4"
+      ],
+      "source": "EV-SLIDE-2026",
+      "status": "event-presented"
+    },
+    {
+      "id": "01.2",
+      "sectorId": "S1",
+      "title": "Governança de TI e Política Municipal de dados",
+      "evidenceRefs": [
+        "A1",
+        "A4"
+      ],
+      "source": "EV-SLIDE-2026",
+      "status": "event-presented"
+    },
+    {
+      "id": "01.3",
+      "sectorId": "S1",
+      "title": "Planejamento e monitoramento de indicadores em tempo real",
+      "evidenceRefs": [
+        "A1",
+        "A3",
+        "A4"
+      ],
+      "source": "EV-SLIDE-2026",
+      "status": "event-presented"
+    },
+    {
+      "id": "02.1",
+      "sectorId": "S2",
+      "title": "Estruturação do acervo normativo da CML",
+      "evidenceRefs": [
+        "A2"
+      ],
+      "source": "EV-SLIDE-2026",
+      "status": "event-presented"
+    },
+    {
+      "id": "02.2",
+      "sectorId": "S2",
+      "title": "Automatização humanizada de atendimento ao cidadão",
+      "evidenceRefs": [
+        "A2"
+      ],
+      "source": "EV-SLIDE-2026",
+      "status": "event-presented"
+    },
+    {
+      "id": "02.3",
+      "sectorId": "S2",
+      "title": "Detecção de conflitos legais",
+      "evidenceRefs": [
+        "A2"
+      ],
+      "source": "EV-SLIDE-2026",
+      "status": "event-presented"
+    },
+    {
+      "id": "03.1",
+      "sectorId": "S3",
+      "title": "Plano de resiliência e clima",
+      "evidenceRefs": [
+        "A3"
+      ],
+      "source": "EV-SLIDE-2026",
+      "status": "event-presented"
+    },
+    {
+      "id": "03.2",
+      "sectorId": "S3",
+      "title": "Gestão integrada de resíduos",
+      "evidenceRefs": [
+        "A3"
+      ],
+      "source": "EV-SLIDE-2026",
+      "status": "event-presented"
+    },
+    {
+      "id": "03.3",
+      "sectorId": "S3",
+      "title": "Infraestrutura verde e hídrica",
+      "evidenceRefs": [
+        "A3",
+        "A4"
+      ],
+      "source": "EV-SLIDE-2026",
+      "status": "event-presented"
+    },
+    {
+      "id": "04.1",
+      "sectorId": "S4",
+      "title": "Central de monitoramento urbano",
+      "evidenceRefs": [
+        "A4"
+      ],
+      "source": "EV-SLIDE-2026",
+      "status": "event-presented"
+    },
+    {
+      "id": "04.2",
+      "sectorId": "S4",
+      "title": "PPPs e concessões",
+      "evidenceRefs": [
+        "A4"
+      ],
+      "source": "EV-SLIDE-2026",
+      "status": "event-presented"
+    },
+    {
+      "id": "04.3",
+      "sectorId": "S4",
+      "title": "Turismo digital",
+      "evidenceRefs": [
+        "A4",
+        "U1"
+      ],
+      "source": "EV-SLIDE-2026",
+      "status": "event-presented"
+    },
+    {
+      "id": "05.1",
+      "sectorId": "S5",
+      "title": "Internet pública para todos / inclusão digital",
+      "evidenceRefs": [
+        "A5"
+      ],
+      "source": "EV-SLIDE-2026",
+      "status": "event-presented"
+    },
+    {
+      "id": "05.2",
+      "sectorId": "S5",
+      "title": "Plataforma única de educação",
+      "evidenceRefs": [
+        "A5"
+      ],
+      "source": "EV-SLIDE-2026",
+      "status": "event-presented"
+    },
+    {
+      "id": "05.3",
+      "sectorId": "S5",
+      "title": "Modernização de RH e previdência municipal",
+      "evidenceRefs": [
+        "A5"
+      ],
+      "source": "EV-SLIDE-2026",
+      "status": "event-presented"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "EV-SLIDE-2026",
+      "type": "event_photo",
+      "title": "Slides presenciais — 5 contextos, 15 desafios",
+      "location": "chat do evento, imagens de 13/11/2026",
+      "confidence": "high_for_challenge_titles",
+      "limitations": "não equivale ao regulamento completo"
+    },
+    {
+      "id": "A1",
+      "type": "first_hand_audio",
+      "title": "CTD — silos e governança",
+      "location": "13-11-2026 21.10.m4a",
+      "confidence": "direct_statement",
+      "limitations": "sistemas/cadastros e acesso ainda não inventariados"
+    },
+    {
+      "id": "A2",
+      "type": "first_hand_audio",
+      "title": "CML — acervo normativo",
+      "location": "13-11-2026 21.14.m4a",
+      "confidence": "direct_statement",
+      "limitations": "contagens e licença de documentos não auditadas"
+    },
+    {
+      "id": "A3",
+      "type": "first_hand_audio",
+      "title": "Clima, SINISA, resíduos e drenagem",
+      "location": "13-11-2026 21.21.m4a",
+      "confidence": "direct_statement",
+      "limitations": "exemplos sobre outros municípios não são estatísticas de Londrina"
+    },
+    {
+      "id": "A4",
+      "type": "first_hand_audio",
+      "title": "SIGLON — geodados e turismo",
+      "location": "13-11-2026 21.32.m4a",
+      "confidence": "direct_statement",
+      "limitations": "12–13 bases de endereços como estimativa oral; não é acesso autorizado"
+    },
+    {
+      "id": "A5",
+      "type": "first_hand_audio",
+      "title": "Inclusão, educação, RH e previdência",
+      "location": "13-11-2026 21.44.m4a",
+      "confidence": "direct_statement",
+      "limitations": "97%/10% sem fonte verificada na gravação"
+    },
+    {
+      "id": "R1",
+      "type": "official_public_web",
+      "title": "Londrina ON — atendimento existente",
+      "url": "https://blog.londrina.pr.gov.br/?p=243541",
+      "limitations": "não prova qual integração ainda falta"
+    },
+    {
+      "id": "R2",
+      "type": "official_public_web",
+      "title": "SIGLON — geodados existentes",
+      "url": "https://portal.londrina.pr.gov.br/o-que-e-siglon",
+      "limitations": "consultas/reutilização dependem de acesso/licença"
+    },
+    {
+      "id": "R3",
+      "type": "official_public_web",
+      "title": "CMTU — contaminação de recicláveis",
+      "url": "https://cmtu.londrina.pr.gov.br/index.php/ult-noticias/2337-coleta-seletiva-trata-800-toneladas-de-reciclaveis-por-mes-em-londrina.html",
+      "limitations": "não provê lote operacional público"
+    },
+    {
+      "id": "R4",
+      "type": "official_public_web",
+      "title": "Legislação pública de Londrina",
+      "url": "https://portal.londrina.pr.gov.br/index.php/legislacao",
+      "limitations": "conjunto histórico/formatos livres dependem de validação"
+    },
+    {
+      "id": "R5",
+      "type": "official_public_web",
+      "title": "CODEL — edital de soluções inovadoras",
+      "url": "https://codel.londrina.pr.gov.br/index.php/editais-2.html",
+      "limitations": "não é financiamento automático nem contratação"
+    },
+    {
+      "id": "R6",
+      "type": "public_web",
+      "title": "Turismo vídeo geolocalizado — Tourizzy",
+      "url": "https://play.google.com/store/apps/details?id=com.toureasy.tourizzy",
+      "limitations": "concorrência, não prova de demanda em Londrina"
+    },
+    {
+      "id": "R7",
+      "type": "public_web",
+      "title": "INFRA-BR",
+      "url": "https://infrabr.org.br/",
+      "limitations": "índice estadual, não nota de Londrina"
+    },
+    {
+      "id": "R8",
+      "type": "public_web",
+      "title": "ASCE Infrastructure Report Card",
+      "url": "https://infrastructurereportcard.org/",
+      "limitations": "infraestrutura dos EUA, não Brasil"
+    },
+    {
+      "id": "R9",
+      "type": "public_web",
+      "title": "IPS Brasil",
+      "url": "https://ipsbrasil.org.br/",
+      "limitations": "índice de resultados municipais, diferente do INFRA-BR"
+    },
+    {
+      "id": "R10",
+      "type": "public_web",
+      "title": "MasterPlan Londrina 2040",
+      "url": "https://codel.londrina.pr.gov.br/images/CODEL_MASTERPLAN/MasterPlan_Londrina_2040.pdf",
+      "limitations": "carteira histórica, não status de projetos hoje"
+    },
+    {
+      "id": "R11",
+      "type": "public_web",
+      "title": "Fórum Desenvolve Londrina",
+      "url": "https://www.forumdesenvolvelondrina.org.br/estudos",
+      "limitations": "diagnósticos e propostas históricas, não cliente confirmado"
+    },
+    {
+      "id": "R12",
+      "type": "official_public_web",
+      "title": "Turismo — mapa e vídeo divulgados em 13/11/2026",
+      "url": "https://blog.londrina.pr.gov.br/?p=247150",
+      "limitations": "não implica integração oficial à nossa aplicação"
+    },
+    {
+      "id": "R13",
+      "type": "public_web",
+      "title": "Barcelona Urban Lab — pilotos e aprendizado",
+      "url": "https://centreforpublicimpact.org/public-impact-fundamentals/barcelona-urban-lab-using-the-city-as-a-testing-ground-for-innovation/",
+      "limitations": "piloto não garante compra"
+    },
+    {
+      "id": "U1",
+      "type": "user_idea",
+      "title": "Marketplace turístico de vídeos, passes e IA de foto",
+      "location": "mensagem do participante nesta conversa",
+      "confidence": "owner_hypothesis",
+      "limitations": "necessidade comercial ainda não validada"
+    },
+    {
+      "id": "R14",
+      "type": "official_public_application",
+      "title": "SIGLON — catálogo de aplicativos públicos",
+      "url": "https://geo.londrina.pr.gov.br/portal/apps/sites/#/aplicativospublicossiglon",
+      "limitations": "Catálogo é aplicação web com carregamento dinâmico; sua lista completa de aplicações não foi extraída nesta pesquisa. Verificar manualmente cada aplicativo, permissões e atualização antes de afirmar lacuna."
+    }
+  ],
+  "concepts": [
+    {
+      "id": "C01",
+      "name": "Reconcilia Dados",
+      "sectorId": "S1",
+      "challengeIds": [
+        "01.1",
+        "01.2"
+      ],
+      "evidenceRefs": [
+        "A1",
+        "A4",
+        "R2",
+        "R14"
+      ],
+      "problem": "Duas fontes divergem e ninguém sabe, sem regra de autoridade, qual registro revisar.",
+      "audience": "Servidor responsável por dados e integrador de sistemas",
+      "buyerHypothesis": "CTD ou secretaria gestora",
+      "mvp": "Importar 2 CSVs sintéticos de endereços; detectar diferenças; registrar origem, responsável e decisão humana.",
+      "incumbent": "SIGLON e sistemas setoriais",
+      "unknown": "Qual par de bases reais causa mais retrabalho e qual é o identificador autorizado?",
+      "blockers": [
+        "dados restritos",
+        "governança sobre fonte mestra"
+      ],
+      "status": "hypothesis"
+    },
+    {
+      "id": "C02",
+      "name": "SINISA com Proveniência",
+      "sectorId": "S1",
+      "challengeIds": [
+        "01.1",
+        "01.3"
+      ],
+      "evidenceRefs": [
+        "A3",
+        "A4"
+      ],
+      "problem": "Respostas a indicadores dependem de coleta manual e dados difíceis de recuperar.",
+      "audience": "Servidor que consolida e valida saneamento",
+      "buyerHypothesis": "Secretaria/órgão operador de saneamento",
+      "mvp": "Comparar duas medições fictícias, fonte, período e responsável; detectar incoerência e gerar pedido de revisão.",
+      "incumbent": "SINISA e fluxos já usados pela equipe municipal",
+      "unknown": "Quais dados o órgão pode reusar e em qual formato?",
+      "blockers": [
+        "acesso a dados oficiais",
+        "regras atuais do SINISA"
+      ],
+      "status": "hypothesis"
+    },
+    {
+      "id": "C03",
+      "name": "LexBase",
+      "sectorId": "S2",
+      "challengeIds": [
+        "02.1"
+      ],
+      "evidenceRefs": [
+        "A2",
+        "R4"
+      ],
+      "problem": "O acervo normativo histórico mistura papel, microfilme, PDF e HTML e não está estruturado de maneira uniforme.",
+      "audience": "Servidores da Câmara, procuradoria, vereadores e pesquisadores",
+      "buyerHypothesis": "Câmara Municipal ou outras câmaras",
+      "mvp": "Normalizar 3 documentos de tipos distintos e recuperar trecho com proveniência, metadados e vínculo.",
+      "incumbent": "Sistemas legislativos, LexML e consulta existente",
+      "unknown": "Quais 3 documentos são legalmente utilizáveis e o que falta nos sistemas atuais?",
+      "blockers": [
+        "autorização de fontes",
+        "validação jurídica/versão"
+      ],
+      "status": "hypothesis"
+    },
+    {
+      "id": "C04",
+      "name": "LexPerguntas",
+      "sectorId": "S2",
+      "challengeIds": [
+        "02.2"
+      ],
+      "evidenceRefs": [
+        "A2",
+        "R4"
+      ],
+      "problem": "Consulta em linguagem natural ficou presa num protótipo por limitações do acervo.",
+      "audience": "Cidadão e servidor legislativo",
+      "buyerHypothesis": "Câmara Municipal",
+      "mvp": "Uma pergunta sobre norma de amostra previamente estruturada com resposta limitada, trecho e link da fonte.",
+      "incumbent": "Portais legislativos e buscadores existentes",
+      "unknown": "O que a interface atual não resolve? A base confiável pode ser demonstrada?",
+      "blockers": [
+        "depende de LexBase",
+        "alucinação/segurança jurídica"
+      ],
+      "status": "dependent-hypothesis"
+    },
+    {
+      "id": "C05",
+      "name": "EcoLote",
+      "sectorId": "S3",
+      "challengeIds": [
+        "03.2"
+      ],
+      "evidenceRefs": [
+        "A3",
+        "R3"
+      ],
+      "problem": "Rejeitos e contaminação prejudicam qualidade de material recebido para reciclagem.",
+      "audience": "Equipe de cooperativa e CMTU",
+      "buyerHypothesis": "Prestador/órgão de resíduos",
+      "mvp": "Registrar três lotes fictícios e categorias de rejeito; calcular proporção e propor revisão/campanha educativa.",
+      "incumbent": "Rotinas e sistemas das cooperativas/CMTU ainda a identificar",
+      "unknown": "Como a contaminação já é registrada e quem manteria o dado?",
+      "blockers": [
+        "observação do processo real",
+        "permissão de dados por lote"
+      ],
+      "status": "hypothesis"
+    },
+    {
+      "id": "C06",
+      "name": "EcoCiclo",
+      "sectorId": "S3",
+      "challengeIds": [
+        "03.2"
+      ],
+      "evidenceRefs": [
+        "A3"
+      ],
+      "problem": "Locais de descarte irregular podem voltar ao mesmo estado após limpezas.",
+      "audience": "Gestor de limpeza/educação ambiental",
+      "buyerHypothesis": "CMTU/SEMA/serviço prestador",
+      "mvp": "Registrar limpeza fictícia, nova ocorrência e plano de prevenção com responsável e histórico.",
+      "incumbent": "Londrina ON e controle operacional de zeladoria",
+      "unknown": "Como registrar reincidência sem refazer canal de chamados?",
+      "blockers": [
+        "validação com operador",
+        "localização/privacidade"
+      ],
+      "status": "hypothesis"
+    },
+    {
+      "id": "C07",
+      "name": "Resiliência Integrada",
+      "sectorId": "S3",
+      "challengeIds": [
+        "03.1"
+      ],
+      "evidenceRefs": [
+        "A3"
+      ],
+      "problem": "Ocorrências climáticas exigem comunicação rápida entre órgãos e responsabilidades claras.",
+      "audience": "Equipes de Defesa Civil/SEMA/gestão",
+      "buyerHypothesis": "Prefeitura/órgão de resiliência",
+      "mvp": "Simular árvore caída, exibir protocolo de encaminhamento aprovado e trilha de atualização humana.",
+      "incumbent": "Defesa Civil e sistemas atuais de ocorrências",
+      "unknown": "Qual protocolo oficial e qual etapa de fato gera atraso?",
+      "blockers": [
+        "risco à segurança",
+        "não emitir alerta/dispatch real"
+      ],
+      "status": "hypothesis"
+    },
+    {
+      "id": "C08",
+      "name": "DrenaAtlas",
+      "sectorId": "S3",
+      "challengeIds": [
+        "03.3"
+      ],
+      "evidenceRefs": [
+        "A3",
+        "A4",
+        "R2",
+        "R14"
+      ],
+      "problem": "Mapas, obras e documentos de drenagem podem estar dispersos ou defasados.",
+      "audience": "Técnico de drenagem, planejamento e manutenção",
+      "buyerHypothesis": "Órgão municipal responsável por drenagem",
+      "mvp": "Cruzar 3 ativos fictícios, uma evidência documental e indicar pendência de vistoria.",
+      "incumbent": "SIGLON e sistemas de projetos",
+      "unknown": "Qual inventário existe e qual documento ainda não foi digitalizado?",
+      "blockers": [
+        "validação de engenharia",
+        "não inferir risco de enchente real"
+      ],
+      "status": "hypothesis"
+    },
+    {
+      "id": "C09",
+      "name": "Árvore Viva",
+      "sectorId": "S3",
+      "challengeIds": [
+        "03.3"
+      ],
+      "evidenceRefs": [
+        "A4",
+        "R14"
+      ],
+      "problem": "Levantamentos arbóreos por agentes diferentes podem não formar cadastro vivo e consistente.",
+      "audience": "SEMA e responsáveis por inventário urbano",
+      "buyerHypothesis": "Órgão ambiental/urbanismo",
+      "mvp": "Três árvores fictícias com fonte, data de inspeção e pendência de atualização.",
+      "incumbent": "SIGLON e inventários existentes",
+      "unknown": "Quem atualiza e há inspeção com acesso público?",
+      "blockers": [
+        "laudo técnico",
+        "privacidade/localização"
+      ],
+      "status": "hypothesis"
+    },
+    {
+      "id": "C10",
+      "name": "InfraCheck",
+      "sectorId": "S4",
+      "challengeIds": [
+        "04.1",
+        "03.3"
+      ],
+      "evidenceRefs": [
+        "A3",
+        "A4",
+        "R7",
+        "R8",
+        "R9",
+        "R14"
+      ],
+      "problem": "Ativos carecem de informações comparáveis para orientar vistorias e manutenção.",
+      "audience": "Engenheiro/técnico municipal",
+      "buyerHypothesis": "Secretaria/órgão de manutenção",
+      "mvp": "Checklist de 3 ativos urbanos fictícios inspirado em ASCE com premissas, revisão e vistoria sugerida.",
+      "incumbent": "SIGLON e plataformas de manutenção existentes",
+      "unknown": "Qual critério técnico validado muda decisão e qual dado existe?",
+      "blockers": [
+        "profissional habilitado",
+        "não se apropriar de scores de outros índices"
+      ],
+      "status": "hypothesis"
+    },
+    {
+      "id": "C11",
+      "name": "Turismo Colaborativo",
+      "sectorId": "S4",
+      "challengeIds": [
+        "04.3"
+      ],
+      "evidenceRefs": [
+        "A4",
+        "R2",
+        "R12",
+        "R14"
+      ],
+      "problem": "Prestadores precisam manter informações de locais e eventos sem depender de coleta manual periódica da Prefeitura.",
+      "audience": "Prestador turístico, curador municipal, visitante",
+      "buyerHypothesis": "Setor de turismo, hotel, organização ou entidade de destino",
+      "mvp": "Prestador cadastra ponto fictício, curador revisa e visitante vê registro com atualização e fonte.",
+      "incumbent": "SIGLON, mapa turístico e cadastros existentes",
+      "unknown": "Qual fluxo atual atualiza os pontos e se há API/protocolo de publicação?",
+      "blockers": [
+        "moderação e autorização",
+        "diferencial vs SIGLON"
+      ],
+      "status": "hypothesis"
+    },
+    {
+      "id": "C12",
+      "name": "Histórias Vivas",
+      "sectorId": "S4",
+      "challengeIds": [
+        "04.3"
+      ],
+      "evidenceRefs": [
+        "U1",
+        "A4",
+        "R6"
+      ],
+      "problem": "Criadores locais buscam remuneração por conteúdo e turistas podem querer experiências culturais autorais.",
+      "audience": "Turista e criador de vídeo/guia",
+      "buyerHypothesis": "Turista, hotel, museu/evento",
+      "mvp": "Três paradas, vídeo autoral autorizado, desbloqueio/check-in simulados, pagamento e royalty fictícios.",
+      "incumbent": "Tourizzy, VoiceMap, Questo, Tour Londrina e mapa público",
+      "unknown": "Por que o turista pagaria e o criador participaria? Como distribuir sem alta aquisição?",
+      "blockers": [
+        "direitos autorais",
+        "competição direta",
+        "marketplace de dois lados",
+        "payments/IA fora do P0"
+      ],
+      "status": "user-originated-hypothesis"
+    },
+    {
+      "id": "C13",
+      "name": "Cidadão Assistido",
+      "sectorId": "S5",
+      "challengeIds": [
+        "05.1"
+      ],
+      "evidenceRefs": [
+        "A5"
+      ],
+      "problem": "Conexão não garante autonomia em serviços digitais a idosos e grupos com barreiras de letramento.",
+      "audience": "Pessoa com dificuldade de serviço digital",
+      "buyerHypothesis": "Órgão de atendimento/educação digital",
+      "mvp": "Uma tarefa pública em modo simulado com passos visuais/áudio, acessibilidade e ajuda humana.",
+      "incumbent": "Portais públicos e atendimento presencial",
+      "unknown": "Qual tarefa repetidamente exige ajuda e quem validaria uma interface acessível?",
+      "blockers": [
+        "teste com usuário real",
+        "não coletar dados financeiros/identificáveis"
+      ],
+      "status": "hypothesis"
+    },
+    {
+      "id": "C14",
+      "name": "EduIntervenção",
+      "sectorId": "S5",
+      "challengeIds": [
+        "05.2"
+      ],
+      "evidenceRefs": [
+        "A5"
+      ],
+      "problem": "Frequência e desempenho precisam gerar ações pedagógicas revisadas por profissionais.",
+      "audience": "Professor, coordenação e responsável escolar",
+      "buyerHypothesis": "Secretaria de Educação/rede de ensino",
+      "mvp": "Frequência fictícia → sinalizar caso → revisão docente → registrar intervenção.",
+      "incumbent": "Sistemas escolares/educacionais existentes",
+      "unknown": "Qual etapa administrativa não está coberta e qual efeito mensurável?",
+      "blockers": [
+        "dados de menores",
+        "revisão docente"
+      ],
+      "status": "hypothesis"
+    },
+    {
+      "id": "C15",
+      "name": "RH em Fluxo",
+      "sectorId": "S5",
+      "challengeIds": [
+        "05.3"
+      ],
+      "evidenceRefs": [
+        "A5"
+      ],
+      "problem": "RH/previdência exige consistência e rastreabilidade em diversas etapas sensíveis.",
+      "audience": "Servidor de RH e beneficiário",
+      "buyerHypothesis": "Administração/caixa previdenciária",
+      "mvp": "Solicitação administrativa fictícia → checklist → revisões humanas → status.",
+      "incumbent": "Sistemas de RH, eSocial e ponto já em teste",
+      "unknown": "Qual etapa específica gera retrabalho e qual integração é permitida?",
+      "blockers": [
+        "dados laborais/médicos",
+        "complexidade legal"
+      ],
+      "status": "hypothesis"
+    }
+  ],
+  "deferredChallengeNotes": [
+    {
+      "id": "02.3",
+      "reason": "Detecção de conflitos jurídicos depende da estruturação e revisão qualificada. Considerar como extensão do LexBase, não MVP isolado."
+    },
+    {
+      "id": "04.2",
+      "reason": "PPPs/concessões demandam desenho jurídico e operador definido. Manter como desafio mapeado, sem produto independente aprovado."
+    }
+  ]
+}

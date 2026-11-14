@@ -4,6 +4,28 @@
 
 **Evento:** Smart Cities Hackathon, Londrina, 13–15/11/2026. Tema divulgado: **Transformação Digital na Gestão Pública**. O regulamento/desafios oficiais específicos ainda precisam ser confirmados na abertura. Não confundir hipóteses deste repositório com desafios oficiais.
 
+## Compartilhar o painel com a equipe (GitHub Pages)
+
+**[Guia de ativação do GitHub Pages](docs/decision/PUBLISHING_GITHUB_PAGES.md)** — a publicação está preparada, mas exige selecionar **Settings → Pages → GitHub Actions** e mesclar a PR #8 na `main`. Depois disso o site ficará no endereço previsto `https://raphaelfeijosalles.github.io/smartcities-ldn-2026/` (confirmar na aba Pages antes de divulgar).
+
+O Pages publica **somente o painel de brainstorm**, não o futuro MVP. O sistema concorrente poderá seguir em **Vercel + Render + Supabase** conforme a ideia escolhida.
+
+## Painel responsivo para escolher a ideia — Decision Lab
+
+**[Abrir o código e instruções do painel](tools/decision-board/README.md)** · Teste local: na raiz do repositório execute `python3 -m http.server 4173` e abra `http://localhost:4173/tools/decision-board/`.
+
+O painel apresenta 15 candidatos com filtros, fontes, ranking provisório editável, shortlist de até três, comparador e exportação Markdown/JSON para a [Issue #2](https://github.com/RaphaelFeijoSalles/smartcities-ldn-2026/issues/2). **Responsivo, sem framework/banco/backend/chave de IA.** Para manutenção por uma chamada de IA, use o prompt único no README do painel. Nenhuma escolha de produto foi feita. [SIGLON: aplicativos públicos e verificação anti-clone](docs/decision/07_SIGLON_APLICATIVOS.md).
+
+## Central de decisão — 5 setores, 15 desafios e 5 áudios (13/11)
+
+**Ponto de entrada atualizado:** [leitura de 2 minutos e documentação consolidada](docs/decision/README.md). É a síntese canônica para o brainstorm; pesquisar primeiro nesta central antes de abrir nova Issue/PR. **Ainda não escolhemos produto e o código do MVP não começou.**
+
+- [15 desafios setorizados](docs/decision/02_DESAFIOS_E_SETORES.md) · [evidências dos 5 depoimentos e pesquisa](docs/decision/03_EVIDENCIAS_E_FONTES.md)
+- [15 produtos candidatos, sem ranking antecipado](docs/decision/04_PORTFOLIO_DE_OPORTUNIDADES.md) · [critérios de seleção e gates](docs/decision/05_PROTOCOLO_DE_DECISAO.md)
+- [Mapa das PRs anteriores, anti-duplicação](docs/decision/06_ESTADO_E_PRS.md) · [dados prontos para próxima LP comparativa](data/decision/smartcities-decision-v1.json)
+
+**Regra anti-loop:** usar a central para decidir. As PRs antigas guardam evidência e aprofundamento, não tarefas paralelas de reconstrução da mesma análise.
+
 ## Para começar em 3 minutos
 1. **Toda a equipe:** leia [o guia de início](docs/team/ONBOARDING.md).
 2. **Brainstorm de hoje:** abra [as decisões de 20 minutos](docs/product/BRAINSTORM.md) e [a matriz de ideias](docs/research/IDEAS.md).
