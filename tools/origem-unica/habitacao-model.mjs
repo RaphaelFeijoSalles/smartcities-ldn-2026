@@ -43,6 +43,18 @@ export function normalizeHousing(payload){if(!object(payload))throw new Error("R
  const municipalities=rows.map(normalizeMunicipality).filter(Boolean);const codes=municipalities.map(x=>x.code);if(new Set(codes).size!==codes.length)throw new Error("Município duplicado");
  return {mode,generatedAt:date(payload.generated_at),municipalities};
 }
+export function defaultHousingFilters(municipality) {
+ return {municipality,situation:"all",requirement:"all",source:"all",freshness:"all",enterprise:"all"};
+}
+
+export function housingView(data, filters) {
+ const defaults = defaultHousingFilters(filters.municipality);
+ const filtered = Object.keys(defaults).some(key => filters[key] !== defaults[key]);
+ const panorama = selectHousing(data, defaults);
+ const results = filtered ? selectHousing(data, filters) : panorama;
+ return {panorama, results, filtered};
+}
+
 export function selectHousing(data,filters){
  const selected=data?.municipalities?.find(x=>x.code===filters.municipality)||null;
  if(!selected||filters.situation!=="all"&&selected.snhis.status!==filters.situation)return {municipality:null,snhis:null,requirements:[],enterprises:[]};
