@@ -4,6 +4,8 @@
 
 > Prioridade nesta primeira etapa = identificar **que problema merece uma entrevista agora**, não prever vencedor do hackathon. As notas antigas do desafio (PR #8) não devem ser reutilizadas automaticamente.
 
+**Por que 15 desafios e 15 ideias não significam uma ideia por desafio:** **02.3 (conflitos legais)** foi mantido como extensão futura do LexBase, por risco de parecer jurídico; **04.2 (PPPs e concessões)** não recebeu proposta independente porque falta operador/processo validado e o recorte amplo é regulatoriamente complexo. Ambos continuam na matriz e no catálogo de desafios.
+
 ## Onde fazer o esforço de validação imediatamente
 
 | Frente a testar | Qual evidência já existe | Pergunta que pode eliminar a hipótese |
