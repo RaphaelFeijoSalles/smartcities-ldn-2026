@@ -1,12 +1,26 @@
 # Smart Cities Londrina 2026 — equipe AI-First
 
-> **Fase: DISCOVERY / BRAINSTORM.** Ainda não há produto escolhido nem MVP implementado. O objetivo deste repositório é permitir que todos colaborem sem travar no Git, com pesquisa rastreável, tarefas curtas e IA com escopo seguro.
+## HOJE: decisão e início do MVP — 14/11
+
+**[Plano rápido dos 5 integrantes e handoff de Miguel → João às 13h](docs/team/START_NOW_20261114.md)** · [Issue #2 para registrar a escolha](https://github.com/RaphaelFeijoSalles/smartcities-ldn-2026/issues/2).
+
+- A **PR #8 já está MERGED**; Decision Lab e pesquisa consolidada estão na `main`.
+- A LP passa a ter **16 propostas para os 15 desafios**, incluindo **EcoVisão (C16)**.
+- **LexBase** continua melhor avaliada na LP (4,70/5); **EcoVisão** é a aposta operacional pela combinação Python + geografia + estatística + validação ambiental, **condicionada** à licença/teste de detector.
+- **Fotos da Folha de Londrina (2020)**: referências bibliográficas na [PR #17](https://github.com/RaphaelFeijoSalles/smartcities-ldn-2026/pull/17), não copiadas nem usadas para treinar sem permissão.
+- **Código inicial EcoVisão** na [PR #18](https://github.com/RaphaelFeijoSalles/smartcities-ldn-2026/pull/18) — FastAPI + SQLite + UI responsiva, **100% dados sintéticos, sem YOLO executado**. Não mesclar como produto decidido antes da votação e verificação da Issue #1.
+
+**Não é necessário fechar as 11 PRs antigas para começar:** use a [matriz de integração](docs/decision/06_ESTADO_E_PRS.md), escolha uma proposta e trabalhe em uma PR por tarefa. Proibido confundir build verde com validação de detecção real.
+
+
+
+> **Fase: decisão do brainstorm + spike técnico isolado.** Ainda não há produto escolhido; a PR #18 contém um protótipo EcoVisão com dados sintéticos, não um MVP oficialmente aprovado. O objetivo deste repositório é permitir que todos colaborem sem travar no Git, com pesquisa rastreável, tarefas curtas e IA com escopo seguro.
 
 **Evento:** Smart Cities Hackathon, Londrina, 13–15/11/2026. Tema divulgado: **Transformação Digital na Gestão Pública**. O regulamento/desafios oficiais específicos ainda precisam ser confirmados na abertura. Não confundir hipóteses deste repositório com desafios oficiais.
 
 ## Compartilhar o painel com a equipe (GitHub Pages)
 
-**[Guia de ativação do GitHub Pages](docs/decision/PUBLISHING_GITHUB_PAGES.md)** — a publicação está preparada, mas exige selecionar **Settings → Pages → GitHub Actions** e mesclar a PR #8 na `main`. Depois disso o site ficará no endereço previsto `https://raphaelfeijosalles.github.io/smartcities-ldn-2026/` (confirmar na aba Pages antes de divulgar).
+**[Guia de ativação do GitHub Pages](docs/decision/PUBLISHING_GITHUB_PAGES.md)** — a publicação está preparada, mas exige conferir **Settings → Pages → GitHub Actions**; a PR #8 **já foi mesclada**. Depois disso o site ficará no endereço previsto `https://raphaelfeijosalles.github.io/smartcities-ldn-2026/` (confirmar na aba Pages antes de divulgar).
 
 O Pages publica **somente o painel de brainstorm**, não o futuro MVP. O sistema concorrente poderá seguir em **Vercel + Render + Supabase** conforme a ideia escolhida.
 
@@ -18,7 +32,7 @@ O painel apresenta 15 candidatos com filtros, fontes, ranking provisório editá
 
 ## Central de decisão — 5 setores, 15 desafios e 5 áudios (13/11)
 
-**Ponto de entrada atualizado:** [leitura de 2 minutos e documentação consolidada](docs/decision/README.md). É a síntese canônica para o brainstorm; pesquisar primeiro nesta central antes de abrir nova Issue/PR. **Ainda não escolhemos produto e o código do MVP não começou.**
+**Ponto de entrada atualizado:** [leitura de 2 minutos e documentação consolidada](docs/decision/README.md). É a síntese canônica para o brainstorm; pesquisar primeiro nesta central antes de abrir nova Issue/PR. **Não escolhemos produto; existe apenas o protótipo isolado na PR #18.**
 
 - [15 desafios setorizados](docs/decision/02_DESAFIOS_E_SETORES.md) · [evidências dos 5 depoimentos e pesquisa](docs/decision/03_EVIDENCIAS_E_FONTES.md)
 - [15 produtos candidatos, sem ranking antecipado](docs/decision/04_PORTFOLIO_DE_OPORTUNIDADES.md) · [critérios de seleção e gates](docs/decision/05_PROTOCOLO_DE_DECISAO.md)
