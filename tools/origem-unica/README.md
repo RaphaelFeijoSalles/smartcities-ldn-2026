@@ -1,25 +1,32 @@
 # Origem Única — Habitação e laboratórios de qualidade de dados
 
-A página inicial é **Habitação**. O aplicativo estático consulta um endpoint habitacional somente leitura quando ele existir; até lá, Londrina e os três instrumentos SNHIS aparecem como **NÃO VERIFICADOS**. O botão **Explorar exemplo sintético** abre um município fictício, com situação, requisitos e empreendimento marcados como MOCK; voltar restaura Londrina. Nenhuma ausência de registro vira pendência. Saúde × CNES e Logradouros continuam acessíveis como laboratórios da arquitetura. Nenhuma ação escreve em bases oficiais.
+A página inicial de Habitação consulta snapshots públicos do Ministério das Cidades por meio da API no Render. O painel indica a fonte e a data de referência. Consulte o [SNHIS oficial](https://www.gov.br/cidades/pt-br/assuntos/habitacao/consulte-a-regularidade-do-snhis) para uso administrativo.
 
-## Produto e fontes
+| Recurso | Origem e uso |
+|---|---|
+| Situação de Londrina, Fundo, Conselho e PLHIS | Snapshot oficial, `GET /api/habitacao/municipios/4113700`. O Termo de Adesão também consta no JSON. |
+| MCMV subsidiado em Londrina | Snapshot oficial, `GET /api/habitacao/empreendimentos?municipio=411370`. A contagem representa linhas da fonte. A prévia exibe até 10 linhas, e o CSV inclui toda a seleção. |
+| Município Exemplo | MOCK local com situação, instrumentos, empreendimento e unidades fictícios. O botão de retorno restaura Londrina. |
+| Filtros, checklist e CSV | Ações locais. Os filtros afetam a listagem e exportação, mantendo o panorama municipal. |
+| Saúde × CNES | Laboratório. A API pode fornecer MOCK e o rótulo informa a proveniência. Hoje a demonstração usa dados sintéticos. |
+| Logradouros | Laboratório MOCK com registros fictícios processados no navegador. |
 
-A Origem Única organiza proveniência e conferência de dados públicos para equipes municipais. O primeiro caso comercial é regularidade habitacional SNHIS e empreendimentos Minha Casa Minha Vida. Fundo Local, Conselho Gestor e PLHIS constam das [orientações do Ministério das Cidades](https://www.gov.br/cidades/pt-br/assuntos/habitacao/adesao-ao-snhis). A [Resolução CGFNHIS nº 60/2024](https://www.gov.br/cidades/pt-br/composicao/orgaos-colegiados/arquivos/conselho-gestor-do-fundo-nacional-de-habitacao-de-interesse-social/resolucoes/RESOLUOCGFNHIS_SNHISN60de5_09_2024_DOU22_11_2024.pdf) fixa 31/01/2027 para exigências de regularidade, não para consistência cadastral. A [consulta oficial SNHIS](https://www.gov.br/cidades/pt-br/assuntos/habitacao/consulte-a-regularidade-do-snhis) é a referência para situação municipal, e a CEFUS/CAIXA recebe e analisa a documentação. A [CNM, Nota Técnica 01/2026](https://api.cnm.org.br/comunicacao/noticias/cnm-alerta-que-apenas-26-dos-municipios-estao-regulares-no-snhis), reportou 26,2% de municípios regulares no levantamento **nacional**; isso não é índice de Londrina.
-
-**Fontes efetivamente integradas em Habitação:** nenhuma fonte municipal até o backend habitacional do João publicar contrato e resposta. Não há snapshot oficial local de Londrina nem dados MCMV oficiais empacotados. O único exemplo local é 100% fictício, em `habitacao-demo.mjs`, com município `DEMO-001` sem código IBGE real. O frontend tenta `GET /api/housing/municipalities` no backend configurado e aceita `?housing_api=<URL>` para testar outro caminho quando o contrato for confirmado. A resposta esperada contém `mode` (`LIVE`, `SNAPSHOT` ou `MOCK`) e `municipalities` (ou `items`) com `ibge_code`, `name`, `snhis`, `requirements` (`fundo`, `conselho`, `plhis`) e `enterprises` opcionais. Cada status real só é exibido como confirmado/pendente se vier com URL de origem `gov.br` e data de referência/coleta; exemplos com `data_origin: MOCK:` são rotulados SIMULADO. Campos ausentes ficam não verificados. Os filtros usam apenas os dados recebidos e a situação de atualização declarada pela API. Ao chegar o contrato do João, ajustar apenas o adaptador em `habitacao-model.mjs` e o caminho da API.
-
-Estados do painel: carregando, sucesso, parcialmente disponível, indisponível e sem dados. O painel não atesta documentos, não regulariza municípios e não envia dados pessoais para IA. As explicações são determinísticas e apontam para fontes oficiais.
+Integração com outras secretarias, autenticação, auditoria permanente e escrita em sistemas oficiais são etapas futuras. Se uma fonte de Habitação falhar, o painel preserva a outra e sinaliza disponibilidade parcial. Sem evidência municipal, a situação permanece **NÃO VERIFICADO**.
 
 ## Roteiro de 2 minutos
 
-1. **0–25 s:** abrir Habitação, selecionar Londrina e mostrar **NÃO VERIFICADO**. Explicar que 26,2% é panorama nacional da CNM, sem inferir a situação local.
-2. **25–65 s:** abrir Fundo, Conselho e PLHIS; mostrar fonte normativa, data de referência quando houver e checklist. O prazo de 31/01/2027 trata de regularidade SNHIS.
-3. **65–95 s:** ativar o município fictício **SINTÉTICO**, aplicar filtros, selecionar o Conselho e mostrar a checklist. O empreendimento e suas 42 unidades também são inventados; exportar relatório CSV.
-4. **95–120 s:** abrir Saúde × CNES e Logradouros para mostrar adaptadores, revisão e rastreabilidade. Explicar que a decisão documental permanece com município, Ministério e CEFUS/CAIXA.
+Abra o [painel publicado](https://raphaelfeijosalles.github.io/smartcities-ldn-2026/tools/origem-unica/) antes da fala e deixe o snapshot carregar.
+
+1. **0–25 s.** Mostre a situação de Londrina, os três instrumentos, a data do snapshot e a contagem de linhas MCMV.
+2. **25–55 s.** Abra Conselho Gestor e mostre a referência oficial e a checklist.
+3. **55–85 s.** Selecione Conselho e Residencial Elizabeth. Exporte o CSV com as duas linhas selecionadas. Use **Limpar filtros** para restaurar a lista.
+4. **85–120 s.** Abra o Município Exemplo, mostre a pendência simulada e volte a Londrina. Apresente Saúde e Logradouros como laboratórios sintéticos no ambiente da demo.
+
+**Plano B.** Se a API demorar, abra **Explorar exemplo sintético**. Tenha à mão a captura datada do panorama e o CSV de ensaio para demonstrar a evidência offline. A regularidade depende da data de referência do snapshot.
 
 ## Executar Habitação
 
-Na raiz: `python3 -m http.server 4173`; abrir `http://localhost:4173/tools/origem-unica/`. O backend configurado é `https://origem-unica-api.onrender.com/`. Para desenvolvimento: `?housing_api=http://localhost:8000/api/housing/municipalities`. Sem resposta habitacional, o painel mostra **NÃO VERIFICADO**, sem dados sintéticos de município.
+Na raiz, execute `python3 -m http.server 4173` e abra `http://localhost:4173/tools/origem-unica/`. A origem padrão é `https://origem-unica-api.onrender.com/`. Use `?api=http://localhost:8000/` para consultar um backend local.
 
 ## Laboratório Saúde × CNES
 

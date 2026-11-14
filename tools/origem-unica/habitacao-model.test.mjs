@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {UNKNOWN,normalizeHousing,selectHousing,explainRequirement} from './habitacao-model.mjs';
+import {UNKNOWN,normalizeHousing,selectHousing,defaultHousingFilters,housingView,explainRequirement} from './habitacao-model.mjs';
 import {HOUSING_DEMO} from './habitacao-demo.mjs';
 const source='https://www.gov.br/cidades/pt-br/assuntos/habitacao/consulte-a-regularidade-do-snhis';
 const payload={mode:'MOCK',generated_at:'2026-11-14T18:00:00Z',municipalities:[
@@ -14,3 +14,41 @@ test('MCMV units and identifiers remain absent when not supplied',()=>{const cop
 test('invalid provenance and non-HTTPS links cannot assert a real status',()=>{assert.throws(()=>normalizeHousing({items:[]}));const copy=structuredClone(payload);copy.municipalities[0].requirements.fundo.source_url='javascript:alert(1)';delete copy.municipalities[0].requirements.fundo.data_origin;assert.equal(normalizeHousing(copy).municipalities[0].requirements.fundo.status,UNKNOWN)});
 test('real status requires government URL and reference or fetch date',()=>{const copy=structuredClone(payload);delete copy.municipalities[0].requirements.fundo.data_origin;copy.municipalities[0].requirements.fundo.source_url='https://example.test/status';assert.equal(normalizeHousing(copy).municipalities[0].requirements.fundo.status,UNKNOWN);copy.municipalities[0].requirements.fundo.source_url=source;delete copy.municipalities[0].requirements.fundo.reference_date;assert.equal(normalizeHousing(copy).municipalities[0].requirements.fundo.status,UNKNOWN)});
 test('public walkthrough is isolated in a fictional MOCK municipality',()=>{const data=normalizeHousing(HOUSING_DEMO);assert.equal(data.mode,'MOCK');assert.equal(data.municipalities[0].code,'DEMO-001');assert.equal(data.municipalities[0].snhis.status,'PENDENTE');assert.equal(data.municipalities[0].requirements.plhis.status,UNKNOWN);assert.equal(data.municipalities[0].enterprises[0].units,42);assert.ok(data.municipalities[0].enterprises[0].dataOrigin.startsWith('MOCK:'))});
+
+const officialPanorama = normalizeHousing({
+ mode:'SNAPSHOT',
+ municipalities:[{
+  ibge_code:'4113700', name:'Londrina',
+  snhis:{status:'REGULAR',source_url:source,source_name:'SNHIS',reference_date:'2026-10-20'},
+  requirements:Object.fromEntries(['fundo','conselho','plhis'].map(id=>[
+   id,{status:'Regular',source_url:source,source_name:'SNHIS',reference_date:'2026-10-20'}
+  ])),
+  enterprises:[{id:'E1',name:'Empreendimento de teste',source_url:source,source_name:'MCMV',reference_date:'2026-06-30'}]
+ }]
+});
+const defaults=defaultHousingFilters('4113700');
+
+for(const [filter,value] of [['situation','PENDENTE'],['freshness','updated']]){
+ test(`filtro ${value} esvazia a seleção e preserva a evidência municipal`,()=>{
+  const {panorama,results,filtered}=housingView(officialPanorama,{...defaults,[filter]:value});
+  assert.equal(filtered,true);
+  assert.equal(panorama.snhis.status,'CONFIRMADO');
+  assert.equal(panorama.snhis.referenceDate,'2026-10-20');
+  assert.equal(panorama.requirements.length,3);
+  assert.equal(panorama.enterprises.length,1);
+  assert.deepEqual(results.requirements,[]);
+  assert.deepEqual(results.enterprises,[]);
+ });
+}
+
+test('filtros combinados limitam a seleção e limpar restaura todos os resultados',()=>{
+ const view=housingView(officialPanorama,{...defaults,situation:'CONFIRMADO',requirement:'conselho',enterprise:'E1'});
+ assert.equal(view.filtered,true);
+ assert.deepEqual(view.results.requirements.map(item=>item.id),['conselho']);
+ assert.deepEqual(view.results.enterprises.map(item=>item.id),['E1']);
+ assert.equal(view.panorama.requirements.length,3);
+
+ const cleared=housingView(officialPanorama,defaultHousingFilters('4113700'));
+ assert.equal(cleared.filtered,false);
+ assert.deepEqual(cleared.results,view.panorama);
+});
