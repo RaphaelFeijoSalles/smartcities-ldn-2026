@@ -1,4 +1,4 @@
-> **Atualização de 14/11:** PR #8 já mesclada na main. O [plano operativo de hoje](../team/START_NOW_20261114.md) substitui descrições de “PR aberta” para a central. O Decision Lab terá 16 candidatos com a inclusão da EcoVisão (C16) em [branch de organização](https://github.com/RaphaelFeijoSalles/smartcities-ldn-2026/pulls) até o próximo merge. Nenhuma hipótese foi escolhida em equipe.
+> **Atualização de 14/11:** PR #8 já mesclada na main. O [plano operativo de hoje](../team/START_NOW_20261114.md) substitui descrições de “PR aberta” para a central. O Decision Lab tem 16 candidatos após [merge da PR #22](https://github.com/RaphaelFeijoSalles/smartcities-ldn-2026/pull/22), incluindo EcoVisão (C16), com notas provisórias. Nenhuma hipótese foi escolhida em equipe.
 
 # SMART CITIES 2026 — CENTRAL DE DECISÃO (fonte canônica para a equipe)
 
