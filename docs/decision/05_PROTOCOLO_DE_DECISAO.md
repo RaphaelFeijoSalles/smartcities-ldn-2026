@@ -14,7 +14,7 @@
 5. **Qual fronteira de escopo?** Backend, banco, login, IA multimodal, pagamentos, sensores e hardware ficam fora, salvo necessidade demonstrada.
 6. **Quem faz o quê?** Raphael: contrato/integração; Miguel: validação/mercado/pitch; demais: UI, lógica isolada e QA; nomes reais definidos na Issue.
 
-## Gates de eliminação antes de ranquear na próxima etapa
+## Gates antes de aceitar uma colocação do ranking
 - **G0 — Legalidade/segurança:** dependência de dados restritos, violação de direitos, falsas decisões jurídicas ou médicas → descartar versão perigosa; criar versão sintética/assistida ou eliminar.
 - **G1 — Domínio:** problema não cabe num desafio anunciado ou edital proíbe reaproveitamento → não escolher até confirmar.
 - **G2 — Evidência de dor:** ninguém confirma usuário/sistema/etapa problemática → manter só como hipótese, entrevistar; não marcar PASS.
@@ -30,7 +30,7 @@ Dê a **cada produto-candidato**, não ao nome genérico do desafio, notas de 1�
 - **Diferenciação verificável vs software existente — 10%**.
 - **Potencial comercial/de continuidade sem promessas — 10%**.
 
-A nota **é julgamento da equipe**, não resultado da banca nem probabilidade estatística de ganhar. **Não preenchê-la automaticamente a partir dos rankings anteriores**, que foram feitos antes dos áudios. Marcar campo desconhecido como `UNKNOWN`, não atribuir zero silenciosamente. Exibir incerteza/gates do lado das notas.
+A nota **é julgamento da equipe**, não resultado da banca nem probabilidade estatística de ganhar. **O painel já traz uma avaliação provisória criada após os cinco áudios**, separada dos fatos e editável; não reciclar pontuações anteriores sem revisão. Marcar campo desconhecido como `UNKNOWN`, não atribuir zero silenciosamente. Exibir incerteza/gates do lado das notas.
 
 ## Plano de 20 minutos quando todos estiverem juntos
 - **0–4 min:** cada pessoa lê [matriz de setores](02_DESAFIOS_E_SETORES.md) e escolhe duas dores.
@@ -63,5 +63,5 @@ Raphael: contrato / stack mínima:
 Ideia reserva e motivo:
 ```
 
-## Próxima etapa — comparar visualmente
-Usar `data/decision/smartcities-decision-v1.json` como única entrada da **LP comparadora**: filtros por setor/desafio, evidência dos áudios, scorecard editável, gates e link de fontes. **LP não escolhe sozinha.** Nenhum valor salvo no navegador equivale a comentário ou decisão no GitHub; exportar Markdown/JSON para Issue #2.
+## Comparação visual pronta — Decision Lab
+Usar [Decision Lab](../../tools/decision-board/README.md): o catálogo em `data/decision/smartcities-decision-v1.json` fornece ideias/evidências e `data/decision/smartcities-assessments-v1.json` contém avaliações iniciais; interface exibe filtros por setor/desafio, fontes, cards e notas editáveis. **LP não escolhe sozinha.** Nenhum valor salvo no navegador equivale a comentário ou decisão no GitHub; exportar Markdown/JSON para Issue #2.
