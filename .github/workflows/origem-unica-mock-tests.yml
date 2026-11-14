@@ -1,0 +1,41 @@
+name: Origem Unica - static mock checks
+
+on:
+  pull_request:
+    paths:
+      - "tools/origem-unica/**"
+      - "scripts/build-decision-pages.mjs"
+      - ".github/workflows/origem-unica-mock-tests.yml"
+  push:
+    branches: [main]
+    paths:
+      - "tools/origem-unica/**"
+      - "scripts/build-decision-pages.mjs"
+      - ".github/workflows/origem-unica-mock-tests.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  mock-smoke:
+    name: Syntax and static-site packaging
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: JavaScript syntax
+        run: |
+          node --check tools/origem-unica/app.js
+          node --check scripts/build-decision-pages.mjs
+      - name: Build Pages artifact
+        run: node scripts/build-decision-pages.mjs
+      - name: Assert mock assets included in Pages output
+        run: |
+          test -s .pages-site/tools/origem-unica/index.html
+          test -s .pages-site/tools/origem-unica/app.js
+          test -s .pages-site/tools/origem-unica/styles.css
+          ! grep -R 'fetch(' tools/origem-unica/app.js
+          grep -q '100% DADOS FICTÍCIOS' tools/origem-unica/index.html
+          grep -q 'SIMULADO' tools/origem-unica/index.html
