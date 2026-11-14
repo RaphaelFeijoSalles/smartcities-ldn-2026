@@ -23,13 +23,13 @@
 3. [IDEIAS — problemas e produtos candidatos sem pontuação antecipada](04_PORTFOLIO_DE_OPORTUNIDADES.md).
 4. [DECISÃO — regras de eliminação, perguntas, responsabilidades e prazo](05_PROTOCOLO_DE_DECISAO.md).
 5. [REPOSITÓRIO — 9 PRs de pesquisa em aberto, sem duplicar nem mesclar inadvertidamente](06_ESTADO_E_PRS.md).
-6. [Dados para a próxima LP/scorecard](../../data/decision/smartcities-decision-v1.json) — entidades, provas e hipóteses de forma estruturada, **sem score final**.
+6. [Dados do comparador](../../data/decision/smartcities-decision-v1.json) + [avaliações provisórias](../../data/decision/smartcities-assessments-v1.json) — conteúdo e opinião separados, sem score oficial.
 
 ## Fontes e limites
 - **Oficial presencial:** fotos dos slides 13/11/2026 (“5 contextos / 15 desafios”) no chat; não estão versionadas no GitHub.
 - **Depoimentos:** `13-11-2026 21.10.m4a`, `21.14.m4a`, `21.21.m4a`, `21.32.m4a`, `21.44.m4a` na conversa. Não publicar áudio bruto/voz de terceiros sem permissão.
 - **Fontes externas:** sites e PDFs identificados nos dossiês anteriores; **notícia e patrocinador não provam cliente ou demanda compradora**.
-- As notas anteriores da [PR #8](https://github.com/RaphaelFeijoSalles/smartcities-ldn-2026/pull/8) são **estimativas feitas ANTES de todos os áudios**; estarão marcadas como históricas para que a próxima comparação seja recalibrada.
+- As notas históricas anteriores aos áudios foram reavaliadas em [avaliações provisórias](../../data/decision/smartcities-assessments-v1.json). **Ainda são opiniões do assistente**, com gates não validados por usuário.
 
 ### Navegação rápida
 [Issue #2 — decisão do brainstorm](https://github.com/RaphaelFeijoSalles/smartcities-ldn-2026/issues/2) · [Guia de Git/IA](../../docs/team/ONBOARDING.md) · [Regras da IA](../../AGENTS.md) · [Validação comercial](../../docs/business/VALIDATION.md).
