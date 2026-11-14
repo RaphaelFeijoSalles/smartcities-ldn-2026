@@ -4,6 +4,12 @@
 
 **Evento:** Smart Cities Hackathon, Londrina, 13–15/11/2026. Tema divulgado: **Transformação Digital na Gestão Pública**. O regulamento/desafios oficiais específicos ainda precisam ser confirmados na abertura. Não confundir hipóteses deste repositório com desafios oficiais.
 
+## Compartilhar o painel com a equipe (GitHub Pages)
+
+**[Guia de ativação do GitHub Pages](docs/decision/PUBLISHING_GITHUB_PAGES.md)** — a publicação está preparada, mas exige selecionar **Settings → Pages → GitHub Actions** e mesclar a PR #8 na `main`. Depois disso o site ficará no endereço previsto `https://raphaelfeijosalles.github.io/smartcities-ldn-2026/` (confirmar na aba Pages antes de divulgar).
+
+O Pages publica **somente o painel de brainstorm**, não o futuro MVP. O sistema concorrente poderá seguir em **Vercel + Render + Supabase** conforme a ideia escolhida.
+
 ## Painel responsivo para escolher a ideia — Decision Lab
 
 **[Abrir o código e instruções do painel](tools/decision-board/README.md)** · Teste local: na raiz do repositório execute `python3 -m http.server 4173` e abra `http://localhost:4173/tools/decision-board/`.
