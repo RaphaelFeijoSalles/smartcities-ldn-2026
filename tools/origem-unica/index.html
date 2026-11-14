@@ -51,7 +51,7 @@
       <main id="main" tabindex="-1" class="content">
         <section id="view-overview" class="view active" aria-labelledby="overview-heading">
           <div class="eyebrow"><span class="eyebrow-dot"></span> CENTRAL DE QUALIDADE DE DADOS / DEMO</div>
-          <div class="hero-line"><div><h1 id="overview-heading">Uma cidade. <em>Várias fontes.</em><br>Informação confiável.</h1><p>Concilie registros, encontre divergências e encaminhe decisões sem substituir os sistemas que já existem.</p></div><button class="button primary" id="start-review">Analisar divergências <span>↗</span></button></div>
+          <div class="hero-line"><div><h1 id="overview-heading">Um endereço. <em>Vários cadastros.</em><br>Revisão rastreável.</h1><p>Adilson, gerente do SIGLON, relatou manutenção repetida de endereços em aproximadamente 13 bancos de secretarias sem padronização. Esta demo mantém o recorte SIGLON Saúde × CNES para mostrar a revisão de uma divergência.</p></div><button class="button primary" id="start-review">Analisar divergências <span>↗</span></button></div>
           <div class="metric-grid">
             <article class="metric"><div class="metric-top">Registros exibidos <span>◇</span></div><strong id="stat-total">—</strong><small id="total-summary">Dados sintéticos locais</small></article>
             <article class="metric"><div class="metric-top">Necessitam análise <span>!</span></div><strong id="stat-pending">—</strong><small>Conflitos e possíveis correspondências</small></article>
@@ -74,12 +74,12 @@
               <button class="button light" data-go="sources">Ver arquitetura de fontes →</button>
             </article>
           </div>
-          <article class="panel scenario"><div><div class="section-kicker">CASO DE USO #01</div><h2>Uma UBS, dois endereços.</h2><p>O cidadão vê informações diferentes; o servidor não sabe qual fonte corrigir. A plataforma sinaliza o conflito e encaminha a revisão com rastreabilidade.</p><button class="text-action" data-go="matching">Abrir exemplo de conciliação ↗</button></div><div class="scenario-symbol">≠</div></article>
+          <article class="panel scenario"><div><div class="section-kicker">RECORTE DA DEMO / SAÚDE × CNES</div><h2>Uma UBS, dois endereços.</h2><p>O exemplo sintético preserva os dois endereços, registra a revisão humana simulada e mostra a prévia de um registro consolidado para API. Nenhum endereço é escolhido automaticamente.</p><button class="text-action" data-go="matching">Abrir exemplo de conciliação ↗</button></div><div class="scenario-symbol">≠</div></article>
         </section>
 
         <section id="view-sources" class="view" aria-labelledby="sources-heading">
           <div class="eyebrow"><span class="eyebrow-dot"></span> ETAPA 01 / INTEGRAÇÃO</div>
-          <div class="page-head"><div><h1 id="sources-heading">Duas bases. <em>Um contexto.</em></h1><p id="source-intro">Conectores ilustrativos para fontes públicas; os registros exibidos são inteiramente inventados.</p></div><button class="button primary" id="sync">Atualizar da API ↻</button></div>
+          <div class="page-head"><div><h1 id="sources-heading">Duas bases. <em>Um contexto.</em></h1><p id="source-intro">Recorte demonstrativo SIGLON Saúde × CNES. A validação com o SIGLON aponta um problema mais amplo de endereços; não há conexão com os demais bancos.</p></div><button class="button primary" id="sync">Atualizar da API ↻</button></div>
           <div class="source-grid" id="source-grid"></div>
           <article class="panel">
             <div class="panel-header"><div><div class="section-kicker">EXEMPLO SINTÉTICO / CAMPOS MODELADOS</div><h2>O que seria comparado?</h2></div></div>
@@ -118,17 +118,17 @@
 
         <section id="view-impact" class="view" aria-labelledby="impact-heading">
           <div class="eyebrow"><span class="eyebrow-dot"></span> MERCADO / EXPLORAÇÃO DE VALOR</div>
-          <div class="page-head"><div><h1 id="impact-heading">O valor não é o mapa. <em>É a confiança.</em></h1><p>Explore o problema do ponto de vista de quem usa, opera e compra a solução.</p></div></div>
+          <div class="page-head"><div><h1 id="impact-heading">Um endereço. <em>Muitas bases.</em></h1><p>Segundo Adilson, gerente do SIGLON, aproximadamente 13 bancos de secretarias exigem manutenção repetida de endereços sem padrão comum. O SIGLON já usa endereços da Fazenda e constrói uma base georreferenciada; a proposta deve aproveitar esse trabalho.</p></div></div>
           <div class="audience-grid">
             <article class="audience"><span class="audience-icon">♡</span><h2>Paciente</h2><p>Precisa descobrir o endereço e contato corretos de uma UBS. Informações inconsistentes podem gerar deslocamento ou ligação desnecessária.</p><b>Beneficiário indireto</b></article>
-            <article class="audience"><span class="audience-icon">▦</span><h2>Servidor da saúde</h2><p>Precisa verificar divergências, registrar a justificativa da atualização e encaminhar ao gestor do dado.</p><b>Usuário operacional</b></article>
-            <article class="audience"><span class="audience-icon">◎</span><h2>CTD / Secretaria</h2><p>Precisa reduzir retrabalho e acompanhar a qualidade das bases sem trocar os sistemas existentes.</p><b>Comprador hipotético B2G</b></article>
+            <article class="audience"><span class="audience-icon">▦</span><h2>Servidor da saúde</h2><p>Precisa conferir endereços divergentes, registrar a decisão e encaminhar a manutenção à fonte responsável.</p><b>Usuário operacional</b></article>
+            <article class="audience"><span class="audience-icon">◎</span><h2>SIGLON / Secretarias</h2><p>Precisam reduzir manutenção repetida de endereços e distribuir dados revisados sem substituir os cadastros existentes.</p><b>Adoção a validar</b></article>
           </div>
           <div class="columns">
-            <article class="panel"><div class="section-kicker">PITCH EM 20 SEGUNDOS</div><h2>Dados diferentes. Uma revisão confiável.</h2><p>“A Prefeitura não precisa substituir todos os seus sistemas para ter dados melhores. Nossa plataforma identifica inconsistências, mostra sua origem e organiza a correção com responsabilidade e rastreabilidade.”</p></article>
+            <article class="panel"><div class="section-kicker">PROPOSTA A VALIDAR</div><h2>Revisar uma vez. Compartilhar com contexto.</h2><p>A dor relatada é repetir a manutenção de endereços em cerca de 13 bancos. Origem Única propõe detectar divergências, registrar revisão humana e disponibilizar um registro consolidado por API. A demo SIGLON Saúde × CNES mostra apenas esse fluxo inicial.</p></article>
             <article class="panel"><div class="section-kicker">O QUE PRECISAMOS VALIDAR</div><h2>Hipóteses de negócio</h2><div class="check-lines"><span>□ Qual par de bases gera retrabalho hoje?</span><span>□ Quem pode corrigir cada campo?</span><span>□ Já existe um conciliador interno?</span><span>□ Quanto tempo uma correção demanda?</span><span>□ Quem autorizaria um piloto?</span></div></article>
           </div>
-          <article class="panel"><div class="section-kicker">CANVAS RESUMIDO</div><div class="canvas-grid"><div><b>Dor</b><p>Dados divergentes entre sistemas.</p></div><div><b>Proposta de valor</b><p>Conciliação auditável, sem substituir legados.</p></div><div><b>Cliente</b><p>Prefeituras e secretarias gestoras.</p></div><div><b>Receita possível</b><p>Piloto, integração, manutenção e suporte.</p></div><div><b>Risco</b><p>Já existir conciliação semelhante no órgão.</p></div><div><b>Métrica de valor</b><p>Conflitos confirmados e tempo de resolução.</p></div></div></article>
+          <article class="panel"><div class="section-kicker">CANVAS RESUMIDO</div><div class="canvas-grid"><div><b>Dor</b><p>Endereços mantidos repetidamente em bancos de secretarias.</p></div><div><b>Proposta de valor</b><p>Revisão rastreável e registro consolidado para API.</p></div><div><b>Cliente</b><p>Prefeituras e secretarias gestoras.</p></div><div><b>Receita possível</b><p>Piloto, integração, manutenção e suporte.</p></div><div><b>Risco</b><p>Duplicar a base da Fazenda ou o georreferenciamento em construção no SIGLON.</p></div><div><b>Métrica de valor</b><p>Retrabalho e tempo de revisão a medir em piloto.</p></div></div></article>
         </section>
         <div class="content-footer" id="content-footer">DEMONSTRAÇÃO CONCEITUAL · MOCK · DADOS SINTÉTICOS</div>
       </main>

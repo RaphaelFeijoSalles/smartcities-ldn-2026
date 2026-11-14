@@ -75,3 +75,8 @@ h2{font-size:21px;letter-spacing:-.035em}
 @media(max-width:800px){.sync-banner{padding:9px 17px}}
 @media(max-width:600px){.sync-banner{display:block}.sync-banner span{display:block}.demo-tag{max-width:135px;line-height:1.25}}
 .mobile-nav{scrollbar-width:none}.mobile-nav::-webkit-scrollbar{display:none}
+.source-top,.compare-header{flex-wrap:wrap;gap:6px}
+.api-preview{margin-top:18px;border:1px solid var(--line);border-radius:11px;padding:12px;background:#f8fbf9}
+.api-preview summary{cursor:pointer;color:#146c58;font-size:12px;font-weight:800}
+.api-preview p{color:var(--muted);font-size:11px;margin:9px 0}
+.api-preview pre{max-height:300px;overflow:auto;margin:8px 0 0;padding:12px;border-radius:8px;background:#153b3a;color:#e6f5ed;font-size:11px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}

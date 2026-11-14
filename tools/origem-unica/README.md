@@ -2,6 +2,10 @@
 
 Protótipo estático integrado, sem framework. Consulta **somente** `GET /api/records`; revisão humana e auditoria são simulações locais. Nenhuma ação escreve em SIGLON, CNES ou outra base oficial.
 
+## Posicionamento validado e recorte
+
+Validação direta comunicada à equipe em 14/11/2026: Adilson, gerente do SIGLON, relatou manutenção repetida de endereços em aproximadamente 13 bancos de secretarias sem padronização. O SIGLON já usa endereços da Fazenda e está construindo uma base georreferenciada. A proposta é apoiar revisão rastreável e futura distribuição por API, aproveitando esse trabalho. **A demo continua restrita a SIGLON Saúde × CNES**; não conecta as 13 bases nem afirma ter encontrado divergências reais nelas.
+
 ## Executar
 
 Na raiz do repositório:
@@ -16,7 +20,7 @@ Para integrar ao FastAPI do João, sirva o frontend e `GET /api/records` na mesm
 
 ## Contrato aceito
 
-`GET /api/records` deve responder JSON com `mode` (`LIVE`, `SNAPSHOT`, `MOCK` ou `DEMO_SYNTHETIC`) e `items` (array). Cada item deve ter `id`, `name`, `sources`, `comparison_status`, `score` e `conflicts`. No contrato de QA, `sources` é um array de registros com `system`, `source_id`, `name` e `fetched_at`; `comparison_status` aceita `MATCH`, `POSSIBLE_MATCH`, `CONFLICT`, `ONLY_IN_A` e `ONLY_IN_B`. O modo `MOCK` recebido da API também é rotulado **DADOS SINTÉTICOS**.
+`GET /api/records` deve responder JSON com `mode` (`LIVE`, `SNAPSHOT`, `MOCK` ou `DEMO_SYNTHETIC`) e `items` (array). Cada item deve ter `id`, `name`, `sources`, `comparison_status`, `score` e `conflicts`. No contrato de QA, `sources` é um array de registros com `system`, `source_id`, `name` e `fetched_at`; `comparison_status` aceita `MATCH`, `POSSIBLE_MATCH`, `CONFLICT`, `ONLY_IN_A` e `ONLY_IN_B`. A UI também lê `data_origin` por fonte: se a API mistura uma fonte pública com fallback sintético sob `mode=MOCK`, mostra **FONTES MISTAS** e rotula cada fonte separadamente.
 
 O adaptador em `adapter.js` também aceita pequenas variações: `sources` por item como objeto (`{"siglon": {...}, "cnes": {...}}`) ou array de objetos com `record`, além de `a`/`b` e `source_a`/`source_b` quando esses objetos declaram sistema, identificador, nome e coleta. `sources` no topo pode ser um catálogo opcional de nomes e URLs. `score` deve ser 0–1 ou `null`; `conflicts` aceita nomes de campos ou objetos com `field`. Uma fonte única em `ONLY_IN_B` aparece na coluna B. Atributos originais de cada fonte são preservados no adaptador, inclusive coordenadas quando presentes; campos ausentes aparecem como “Não informado”. Respostas sem campos obrigatórios ativam o fallback sintético, sem criar identificadores ou valores para completar a API.
 
@@ -27,6 +31,7 @@ Um item mínimo para smoke:
   "mode": "MOCK",
   "items": [{
     "id": "PAIR-1",
+    "name": "UBS Exemplo",
     "comparison_status": "conflict",
     "score": 0.91,
     "conflicts": [{"field": "address", "values": {"SIGLON": "Rua A, 1", "CNES": "Rua A, 2"}}],
@@ -38,7 +43,7 @@ Um item mínimo para smoke:
 }
 ```
 
-A interface mostra a proveniência **declarada pela API**, sem atestar que a fonte ou o registro seja oficial. O CSV exporta as linhas atualmente filtradas, incluindo modo, status de comparação, score, conflitos, identificadores e proveniência dos dois lados. A trilha de revisão é local; no modo API, as decisões ficam somente na sessão da página e são preservadas ao atualizar se os dados do par continuarem iguais. O botão **Reiniciar demo** apaga as revisões locais.
+A interface mostra a proveniência **declarada pela API**, sem atestar que a fonte ou o registro seja oficial. O CSV exporta as linhas atualmente filtradas, incluindo modo, status de comparação, score, conflitos, identificadores e proveniência dos dois lados. A trilha de revisão é local; no modo API, as decisões ficam somente na sessão da página e são preservadas ao atualizar se os dados do par continuarem iguais. O botão **Reiniciar demo** apaga as revisões locais. Na comparação, escolha **Usar endereço da fonte só na prévia**, registre a revisão e abra **Ver prévia JSON do registro para API**. O JSON mostra os dois endereços candidatos, a decisão simulada e o endereço escolhido em `consolidated_address`. Esse modelo não é um endpoint e não publica um endereço como oficial.
 
 ## Verificar
 

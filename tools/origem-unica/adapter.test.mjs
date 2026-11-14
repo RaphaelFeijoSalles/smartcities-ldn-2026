@@ -50,6 +50,19 @@ test("accepts LIVE only with declared fetch timestamps", () => {
   assert.equal(result.items[0].a.fetchedAt, "2026-11-14T17:00:00-03:00");
 });
 
+test("keeps real and synthetic origins separate in a mixed MOCK response", () => {
+  const result = normalizePayload({ mode: "MOCK", items: [
+    { id: "S", name: "Fonte pública", comparison_status: "ONLY_IN_A", score: null, conflicts: [],
+      sources: [{ system: "SIGLON", source_id: "S-9", name: "Fonte pública", fetched_at: "2026-11-14T17:00:00Z", data_origin: "https://example.test/query" }] },
+    { id: "C", name: "Fixture", comparison_status: "ONLY_IN_B", score: null, conflicts: [],
+      sources: [{ system: "CNES", source_id: "C-9", name: "Fixture", fetched_at: "2026-11-14T17:00:00Z", data_origin: "MOCK: fixture sintética" }] }
+  ] });
+  assert.equal(result.items[0].a.dataOrigin, "https://example.test/query");
+  assert.equal(result.items[0].a.provenance, "https://example.test/query");
+  assert.equal(result.items[1].a, null);
+  assert.equal(result.items[1].b.dataOrigin, "MOCK: fixture sintética");
+});
+
 test("rejects missing or invalid contract fields instead of inventing them", () => {
   const changed = edit => { const value = structuredClone(fixture); edit(value); return value; };
   assert.throws(() => normalizePayload({ records: [] }), /items/);

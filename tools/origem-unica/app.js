@@ -42,18 +42,27 @@ try{
 state.baseItems=clone(seed);
 const safeText=(tag,value,cls)=>{const n=document.createElement(tag);n.textContent=String(value??"—");if(cls)n.className=cls;return n;};
 function persist(){if(state.mode!=="MOCK")return;try{localStorage.setItem(STORE,JSON.stringify({items:state.items,logs:state.logs,selected:state.selected}));}catch{}}
+function originType(value){
+ if(state.mode==="MOCK"||/^MOCK:/i.test(value?.dataOrigin??""))return "MOCK";
+ if(/^https?:\/\//i.test(value?.dataOrigin??""))return "FONTE PÚBLICA DECLARADA";
+ return state.dataMode==="MOCK"?"MOCK · ORIGEM NÃO DETALHADA":"ORIGEM NÃO INFORMADA";
+}
+function hasMixedOrigins(){
+ const sources=state.items.flatMap(item=>[item.a,item.b]).filter(Boolean);
+ return sources.some(source=>/^MOCK:/i.test(source.dataOrigin??""))&&sources.some(source=>/^https?:\/\//i.test(source.dataOrigin??""));
+}
 function modeLabel(){
  if(state.mode==="MOCK")return "MOCK · DADOS SINTÉTICOS";
- if(["MOCK","DEMO_SYNTHETIC"].includes(state.dataMode))return "API · MOCK · DADOS SINTÉTICOS";
+ if(["MOCK","DEMO_SYNTHETIC"].includes(state.dataMode))return hasMixedOrigins()?"API · MOCK · FONTES MISTAS":"API · MOCK · DADOS SINTÉTICOS";
  return "API · "+(state.dataMode==="UNSPECIFIED"?"MODO NÃO INFORMADO":state.dataMode)+" · origem declarada";
 }
 function renderSync(){
  $("data-mode").textContent=modeLabel();
  $("sync-status").textContent=state.sync;
- $("total-summary").textContent=state.mode==="MOCK"?"Dados sintéticos locais":state.dataMode==="MOCK"||state.dataMode==="DEMO_SYNTHETIC"?"Dados sintéticos da API":"Dados recebidos da API";
+ $("total-summary").textContent=state.mode==="MOCK"?"Dados sintéticos locais":hasMixedOrigins()?"Origens mistas declaradas":state.dataMode==="MOCK"||state.dataMode==="DEMO_SYNTHETIC"?"Dados sintéticos da API":"Dados recebidos da API";
  $("source-summary").textContent=state.mode==="MOCK"?"Fontes modeladas no cenário sintético":"Fontes declaradas pela API";
  $("overview-note").textContent=state.mode==="MOCK"?"Ocorrências do cenário sintético. Nenhuma inconsistência real foi identificada no SIGLON ou no CNES.":"Ocorrências retornadas pela API ("+state.dataMode+"). A proveniência é a declarada pelo serviço; nenhuma fonte foi validada por esta interface.";
- $("source-intro").textContent=state.mode==="MOCK"?"Conectores ilustrativos para fontes públicas; os registros exibidos são inteiramente inventados.":"Fontes declaradas pelo serviço de conciliação. Confira a proveniência em cada registro.";
+ $("source-intro").textContent=state.mode==="MOCK"?"Recorte demonstrativo SIGLON Saúde × CNES com registros inventados. A dor relatada ao SIGLON envolve mais bancos, que não estão conectados aqui.":"Recorte SIGLON Saúde × CNES. Confira a origem declarada de cada fonte; os demais bancos citados na validação não estão conectados aqui.";
  $("source-notice").textContent="A sincronização consulta somente GET /api/records. As revisões ficam nesta página e não alteram bases oficiais.";
  $("content-footer").textContent="DEMONSTRAÇÃO CONCEITUAL · "+modeLabel()+" · Revisões somente locais; nenhuma base oficial é alterada.";
  $("sync").disabled=state.sync==="Consultando API…";
@@ -73,9 +82,9 @@ async function syncRecords(){
   const response=await fetch(apiUrl(),{signal:controller.signal,headers:{Accept:"application/json"}});
   if(!response.ok)throw new Error("HTTP "+response.status);
   const normalized=OrigemAdapter.normalizePayload(await response.json());
-  const reviews=new Map(state.mode==="API"?state.items.filter(x=>x.status==="reviewed").map(x=>[x.id,JSON.stringify([x.a,x.b,x.kind,x.score,x.fields])+"|"+x.decisionLabel]):[]);
+  const reviews=new Map(state.mode==="API"?state.items.filter(x=>x.status==="reviewed").map(x=>[x.id,{signature:JSON.stringify([x.a,x.b,x.kind,x.score,x.fields]),decisionLabel:x.decisionLabel,previewAddressSource:x.previewAddressSource}]):[]);
   state.baseItems=normalized.items;state.items=clone(normalized.items);state.sources=normalized.sources;
-  for(const item of state.items){const saved=reviews.get(item.id);if(saved?.startsWith(JSON.stringify([item.a,item.b,item.kind,item.score,item.fields])+"|")){item.status="reviewed";item.decisionLabel=saved.split("|").at(-1)}}
+  for(const item of state.items){const saved=reviews.get(item.id);if(saved?.signature===JSON.stringify([item.a,item.b,item.kind,item.score,item.fields])){item.status="reviewed";item.decisionLabel=saved.decisionLabel;item.previewAddressSource=saved.previewAddressSource}}
   state.mode="API";state.dataMode=normalized.mode;state.selected=state.items.some(x=>x.id===state.selected)?state.selected:state.items[0]?.id;
   state.sync="API sincronizada às "+new Date().toLocaleTimeString("pt-BR");
   audit("API consultada","GET /api/records · "+state.items.length+" registro(s) · modo "+state.dataMode+". Proveniência declarada pelo serviço.");
@@ -83,7 +92,7 @@ async function syncRecords(){
  }catch(error){
   const saved=state.mode==="MOCK"?state.items:clone(seed);
   state.items=saved;state.baseItems=clone(seed);state.sources={};state.mode="MOCK";state.dataMode="MOCK";state.selected=state.items.some(x=>x.id===state.selected)?state.selected:state.items[0]?.id;
-  state.sync="API indisponível ("+(error.name==="AbortError"?"tempo esgotado":error.message)+") · fallback MOCK";
+  state.sync="API indisponível ("+(error.name==="AbortError"?"tempo esgotado":error instanceof TypeError?"falha de conexão":error.message)+") · fallback MOCK";
   audit("Fallback MOCK ativado","API indisponível; cenário sintético local carregado.");
   toast("API indisponível. Exibindo dados MOCK.");
  }finally{clearTimeout(timeout);renderSync();refresh()}
@@ -122,7 +131,8 @@ function renderSources(){
   const records=state.items.flatMap(item=>[item.a,item.b]).filter(value=>value?.source===name);
   const card=safeText("article",undefined,"source-card");card.textContent="";
   const top=safeText("div",undefined,"source-top");top.textContent="";
-  top.append(safeText("span",name[0]??"?","source-icon"),safeText("span",state.dataMode,"pill "+(["MOCK","DEMO_SYNTHETIC"].includes(state.dataMode)?"warning":"good")));
+  const origin=originType(records[0]);
+  top.append(safeText("span",name[0]??"?","source-icon"),safeText("span",origin,"pill "+(origin.startsWith("MOCK")?"warning":"good")));
   card.append(top,safeText("h2",name),safeText("p",state.mode==="MOCK"?"Referência de fonte no cenário sintético local.":"Nome e proveniência declarados pelo serviço de conciliação."));
   const summary=safeText("div",undefined,"source-stats");summary.textContent="";
   summary.append(safeText("span",records.length+" registro(s) exibido(s)"),safeText("b",state.mode));card.append(summary);
@@ -155,7 +165,7 @@ function fieldCompare(item,side){
  const root=safeText("div",undefined,"compare-col");root.textContent="";
  const header=safeText("div",undefined,"compare-header");header.textContent="";root.append(header);
  const values=item[side];
- header.replaceChildren(safeText("b",values?.source??(side==="a"?"Fonte A":"Fonte B")),safeText("span",state.mode));
+ header.replaceChildren(safeText("b",values?.source??(side==="a"?"Fonte A":"Fonte B")),safeText("span",values?originType(values):"SEM REGISTRO"));
  const body=safeText("div",undefined,"compare-body");body.textContent="";
  for(const [key,label] of [["name","Estabelecimento"],["address","Endereço"],["phone","Telefone"],["ref","Identificador"],["updated","Atualização"],["fetchedAt","Coleta"],["provenance","URL / proveniência declarada"]]){
    const conflictKeys={name:["name","nome","estabelecimento"],address:["address","endereco","logradouro","numero","número"],phone:["phone","telefone"],ref:["id","ref","identificador"]};
@@ -164,6 +174,32 @@ function fieldCompare(item,side){
    line.append(safeText("small",label),safeText("b",values?(values[key]||"Não informado"):"Registro não presente"));body.append(line);
  }
  root.append(body);return root;
+}
+function appendApiPreview(root,item){
+ const chosen=item.status==="reviewed"&&item.previewAddressSource?item[item.previewAddressSource]:null;
+ const candidates=[item.a,item.b].filter(Boolean).map(source=>({
+  system:source.source,
+  source_id:source.ref,
+  address:source.address||null,
+  fetched_at:source.fetchedAt??null,
+  data_origin:source.dataOrigin|| (state.mode==="MOCK"?"MOCK: cenário sintético local":null)
+ }));
+ const preview={
+  preview_only:true,
+  mode:state.dataMode,
+  record:{
+   id:item.id,name:item.name,
+   comparison_status:item.comparisonStatus||({conflict:"CONFLICT",match:"MATCH",missing:"ONLY_IN_A",possible:"POSSIBLE_MATCH"}[item.kind]),
+   score:item.score,
+   conflicts:item.raw?.conflicts??item.fields,
+   address_candidates:candidates,
+   consolidated_address:chosen?.address||null,
+   review_local:item.status==="reviewed"?{simulated:true,decision:item.decisionLabel??null,selected_source:chosen?{system:chosen.source,source_id:chosen.ref}:null}:null
+  }
+ };
+ const details=safeText("details",undefined,"api-preview");details.textContent="";
+ details.append(safeText("summary","Ver prévia JSON do registro para API"),safeText("p","Modelo local de uma resposta futura. Um endereço escolhido aparece somente nesta prévia simulada; nenhum endpoint de publicação ou escrita foi criado."),safeText("pre",JSON.stringify(preview,null,2)));
+ root.append(details);
 }
 function renderDetail(){
  const item=state.items.find(x=>x.id===state.selected),root=$("details");root.replaceChildren();if(!item){root.append(safeText("p","Selecione um registro."));return;}
@@ -177,21 +213,26 @@ function renderDetail(){
  if(item.fields.length)verdict.append(safeText("p","Campos em conflito: "+item.fields.join(", ")));
  if(item.comparisonStatus)verdict.append(safeText("p","Estado informado pela API: "+item.comparisonStatus));
  root.append(verdict);
- if(item.status==="matched"){root.append(safeText("p","Correspondência sugerida; não equivale a validação oficial.","review-note"));return;}
+ if(item.status==="matched"){root.append(safeText("p","Correspondência sugerida; não equivale a validação oficial.","review-note"));appendApiPreview(root,item);return;}
  if(item.status==="reviewed"){
   root.append(safeText("p","Decisão registrada: "+(item.decisionLabel||"Conferência")+". A origem permanece intacta.","review-note"));
-  const reopen=safeText("button","↺ Reabrir para análise","button outline");reopen.type="button";reopen.addEventListener("click",()=>{item.status="pending";delete item.decisionLabel;audit("Pendência reaberta: "+item.id,"Revisão local reiniciada.");refresh();toast("Registro reaberto.");});root.append(reopen);return;
+  const reopen=safeText("button","↺ Reabrir para análise","button outline");reopen.type="button";reopen.addEventListener("click",()=>{item.status="pending";delete item.decisionLabel;delete item.previewAddressSource;audit("Pendência reaberta: "+item.id,"Revisão local reiniciada.");refresh();toast("Registro reaberto.");});root.append(reopen);appendApiPreview(root,item);return;
  }
  root.append(safeText("label","Escolha uma ação de revisão (simulada)","choice-label"));
  const select=document.createElement("select");select.className="choice-select";select.id="decision-"+item.id;
- for(const [value,label] of [["VERIFY_A","Conferir dados da "+(item.a?.source??"fonte A")],["VERIFY_B","Conferir dados da "+(item.b?.source??"fonte B")],["MATCH_LINK","Confirmar vínculo entre registros, sem corrigir fonte"],["NO_MATCH","Declarar que não são o mesmo estabelecimento"],["MANUAL","Encaminhar para conferência do órgão responsável"]])select.add(new Option(label,value));
+ const choices=[];
+ if(item.a?.address)choices.push(["PREVIEW_A","Usar endereço da "+item.a.source+" só na prévia"]);
+ if(item.b?.address)choices.push(["PREVIEW_B","Usar endereço da "+item.b.source+" só na prévia"]);
+ choices.push(["VERIFY_A","Conferir dados da "+(item.a?.source??"fonte A")],["VERIFY_B","Conferir dados da "+(item.b?.source??"fonte B")],["MATCH_LINK","Confirmar vínculo entre registros, sem corrigir fonte"],["NO_MATCH","Declarar que não são o mesmo estabelecimento"],["MANUAL","Encaminhar para conferência do órgão responsável"]);
+ for(const [value,label] of choices)select.add(new Option(label,value));
  root.append(select);
  const actions=safeText("div",undefined,"review-actions");actions.textContent="";
  const approve=safeText("button","✓ Registrar decisão","button primary");approve.type="button";
- approve.addEventListener("click",()=>{item.status="reviewed";item.decisionLabel=select.options[select.selectedIndex].text;audit("Revisão simulada: "+item.id,item.decisionLabel+" · nenhum dado oficial foi alterado.");refresh();toast("Revisão local registrada.");});
+ approve.addEventListener("click",()=>{item.status="reviewed";item.decisionLabel=select.options[select.selectedIndex].text;item.previewAddressSource=select.value==="PREVIEW_A"?"a":select.value==="PREVIEW_B"?"b":null;audit("Revisão simulada: "+item.id,item.decisionLabel+" · nenhum dado oficial foi alterado.");refresh();toast("Revisão local registrada.");});
  const pending=safeText("button","Manter pendente","button outline");pending.type="button";pending.addEventListener("click",()=>toast("Registro mantido para análise do responsável."));
  actions.append(approve,pending);root.append(actions);
  root.append(safeText("p","Uma correspondência sugerida não é uma correção oficial. Esta etapa representa somente uma decisão de teste.","review-note"));
+ appendApiPreview(root,item);
 }
 function renderAudit(){
  const root=$("audit-list");root.replaceChildren();
@@ -206,8 +247,8 @@ function refresh(){stats();renderSources();renderRecords();renderDetail();render
 function download(filename,text,type){const blob=new Blob([text],{type});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 const csvEsc=v=>'"'+String(v??"").replace(/"/g,'""')+'"';
 function exportCsv(){
- const head=["modo","id","estabelecimento","comparison_status","tipo","score","conflicts","fonte_a","id_a","endereco_a","telefone_a","atualizacao_a","coleta_a","proveniencia_a","fonte_b","id_b","endereco_b","telefone_b","atualizacao_b","coleta_b","proveniencia_b","status_local","decisao_simulada"];
- const data=filtered().map(x=>[state.dataMode,x.id,x.name,x.comparisonStatus??"",x.kind,x.score??"",x.fields.join(" | "),x.a?.source,x.a?.ref,x.a?.address,x.a?.phone,x.a?.updated,x.a?.fetchedAt,x.a?.provenance,x.b?.source,x.b?.ref,x.b?.address,x.b?.phone,x.b?.updated,x.b?.fetchedAt,x.b?.provenance,x.status,x.decisionLabel??""]);
+ const head=["modo","id","estabelecimento","comparison_status","tipo","score","conflicts","fonte_a","id_a","endereco_a","telefone_a","atualizacao_a","coleta_a","proveniencia_a","fonte_b","id_b","endereco_b","telefone_b","atualizacao_b","coleta_b","proveniencia_b","status_local","decisao_simulada","endereco_previa_local"];
+ const data=filtered().map(x=>[state.dataMode,x.id,x.name,x.comparisonStatus??"",x.kind,x.score??"",x.fields.join(" | "),x.a?.source,x.a?.ref,x.a?.address,x.a?.phone,x.a?.updated,x.a?.fetchedAt,x.a?.provenance,x.b?.source,x.b?.ref,x.b?.address,x.b?.phone,x.b?.updated,x.b?.fetchedAt,x.b?.provenance,x.status,x.decisionLabel??"",x.previewAddressSource?x[x.previewAddressSource]?.address:""]);
  const csv="\uFEFF"+[head,...data].map(line=>line.map(csvEsc).join(";")).join("\r\n")+"\r\n";
  download("origem-unica-conciliacao-"+state.mode+(state.mode==="API"?"-"+state.dataMode:"")+".csv",csv,"text/csv;charset=utf-8");toast("CSV "+modeLabel()+" exportado.");
 }

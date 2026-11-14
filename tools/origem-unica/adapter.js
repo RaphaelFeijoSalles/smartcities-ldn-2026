@@ -43,7 +43,8 @@
       updated: text(first(value.updated_at, value.updated, value.collected_at, metadata.updated_at)),
       fetchedAt: value.fetched_at,
       ref: text(ref),
-      provenance: text(first(typeof provenance === "object" ? first(provenance?.url, provenance?.source, provenance?.name, provenance?.id) : provenance, value.origin, value.url, metadata.url, metadata.endpoint)),
+      dataOrigin: text(value.data_origin),
+      provenance: text(first(value.data_origin, typeof provenance === "object" ? first(provenance?.url, provenance?.source, provenance?.name, provenance?.id) : provenance, value.origin, value.url, metadata.url, metadata.endpoint)),
       raw: { ...value }
     };
   }
@@ -93,7 +94,8 @@
         name: text(item.name),
         kind, score, fields, status: kind === "match" ? "matched" : "pending", a, b,
         origin: "API",
-        comparisonStatus: text(item.comparison_status)
+        comparisonStatus: text(item.comparison_status),
+        raw: { ...item }
       };
     });
     return { items, sources: catalogue, mode };
