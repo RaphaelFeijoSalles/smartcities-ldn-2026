@@ -30,7 +30,7 @@ function normalizeRequirements(raw){const collection=Array.isArray(raw)?Object.f
  return Object.fromEntries(REQUIREMENTS.map(meta=>[meta.id,normalizeEvidence(collection[meta.id])]))}
 function normalizeEnterprise(raw){if(!object(raw))return null;const name=clean(raw.name||raw.enterprise_name);const dataOrigin=clean(raw.data_origin);const synthetic=dataOrigin?.startsWith("MOCK:");const url=synthetic?safeUrl(raw.source_url||raw.source?.url):officialUrl(raw.source_url||raw.source?.url);if(!name||!(synthetic||url&&date(raw.reference_date||raw.fetched_at)))return null;
  const units=Number.isInteger(raw.units)&&raw.units>=0?raw.units:Number.isInteger(raw.housing_units)&&raw.housing_units>=0?raw.housing_units:null;
- return {id:clean(raw.id)||name,name,units,status:clean(raw.status),source:sourceLabel(raw),url,referenceDate:date(raw.reference_date),freshness:normalizeFreshness(raw.freshness),dataOrigin};
+ return {id:clean(raw.id),name,units,status:clean(raw.status),source:sourceLabel(raw),url,referenceDate:date(raw.reference_date),freshness:normalizeFreshness(raw.freshness),dataOrigin};
 }
 function normalizeMunicipality(raw){if(!object(raw))return null;const code=String(raw.ibge_code??raw.municipality_code??raw.code??"").trim();const name=clean(raw.name||raw.municipality||raw.municipality_name);if(!code||!name)return null;
  const snhis=normalizeEvidence(raw.snhis||raw.regularity);
@@ -48,7 +48,7 @@ export function selectHousing(data,filters){
  if(!selected||filters.situation!=="all"&&selected.snhis.status!==filters.situation)return {municipality:null,snhis:null,requirements:[],enterprises:[]};
  const snhis=(filters.source==="all"||selected.snhis.source===filters.source)&&(filters.freshness==="all"||selected.snhis.freshness===filters.freshness)?selected.snhis:null;
  const requirements=REQUIREMENTS.map(meta=>({...meta,...selected.requirements[meta.id]})).filter(item=>(filters.requirement==="all"||item.id===filters.requirement)&&(filters.source==="all"||item.source===filters.source)&&(filters.freshness==="all"||item.freshness===filters.freshness));
- const enterprises=selected.enterprises.filter(item=>(filters.enterprise==="all"||item.id===filters.enterprise)&&(filters.source==="all"||item.source===filters.source)&&(filters.freshness==="all"||item.freshness===filters.freshness));
+ const enterprises=selected.enterprises.filter(item=>(filters.enterprise==="all"||(item.id||item.name)===filters.enterprise)&&(filters.source==="all"||item.source===filters.source)&&(filters.freshness==="all"||item.freshness===filters.freshness));
  return {municipality:selected,snhis,requirements,enterprises};
 }
 export function explainRequirement(item){
