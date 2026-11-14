@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Any
 from urllib.parse import urlencode
 
-from app.adapters.base import SourceAdapter, utc_now
+from app.adapters.base import SourceAdapter, normalize_coordinates, utc_now
 from app.models import AdapterResult, NormalizedRecord
 
 
@@ -51,14 +51,15 @@ class SiglonAdapter(SourceAdapter):
         attributes = feature.get("attributes") or {}
         geometry = feature.get("geometry") or {}
         source_id = attributes.get("OBJECTID_1") or attributes.get("OBJECTID")
+        latitude, longitude = normalize_coordinates(geometry.get("y"), geometry.get("x"))
         return NormalizedRecord(
             source=self.source,
             source_id=str(source_id),
             name=_clean(attributes.get("UBS")) or "Unidade sem nome",
             address=_clean(attributes.get("ENDEREÇO")),
             phone=_clean(attributes.get("TELEFONE")),
-            latitude=_float_or_none(geometry.get("y")),
-            longitude=_float_or_none(geometry.get("x")),
+            latitude=latitude,
+            longitude=longitude,
             fetched_at=fetched_at,
             data_origin=self.data_origin,
             original={"attributes": attributes, "geometry": geometry},
@@ -70,10 +71,3 @@ def _clean(value: Any) -> str | None:
         return None
     cleaned = " ".join(str(value).replace("\u00a0", " ").split())
     return cleaned or None
-
-
-def _float_or_none(value: Any) -> float | None:
-    try:
-        return float(value) if value is not None else None
-    except (TypeError, ValueError):
-        return None

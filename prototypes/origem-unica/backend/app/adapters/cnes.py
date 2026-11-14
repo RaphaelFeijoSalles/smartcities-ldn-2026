@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Any
 from urllib.parse import urlencode
 
-from app.adapters.base import SourceAdapter, utc_now
+from app.adapters.base import SourceAdapter, normalize_coordinates, utc_now
 from app.models import AdapterResult, NormalizedRecord
 
 
@@ -80,14 +80,18 @@ class CnesAdapter(SourceAdapter):
         long_id = _clean(raw.get("codigo_estabelecimento_saude"))
         if long_id:
             identifiers["CNES_LONG"] = long_id
+        latitude, longitude = normalize_coordinates(
+            raw.get("latitude_estabelecimento_decimo_grau"),
+            raw.get("longitude_estabelecimento_decimo_grau"),
+        )
         return NormalizedRecord(
             source=self.source,
             source_id=source_id,
             name=_clean(raw.get("nome_fantasia")) or _clean(raw.get("nome_razao_social")) or "Unidade sem nome",
             address=address,
             phone=_clean(raw.get("numero_telefone_estabelecimento")),
-            latitude=_float_or_none(raw.get("latitude_estabelecimento_decimo_grau")),
-            longitude=_float_or_none(raw.get("longitude_estabelecimento_decimo_grau")),
+            latitude=latitude,
+            longitude=longitude,
             fetched_at=fetched_at,
             data_origin=self.data_origin,
             original=raw,
@@ -100,10 +104,3 @@ def _clean(value: Any) -> str | None:
         return None
     cleaned = " ".join(str(value).split())
     return cleaned or None
-
-
-def _float_or_none(value: Any) -> float | None:
-    try:
-        return float(value) if value is not None else None
-    except (TypeError, ValueError):
-        return None
