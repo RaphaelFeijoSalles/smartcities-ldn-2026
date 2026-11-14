@@ -29,3 +29,6 @@ target/
 .tmp/
 tmp/
 *.log
+
+# Disposable GitHub Pages build artifact
+.pages-site/
