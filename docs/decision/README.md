@@ -2,6 +2,12 @@
 
 **Estado em 13/11/2026:** pesquisas e depoimentos consolidados; **nenhum produto decidido, nenhuma parceria prometida, nenhum MVP implementado**. Esta central está na **PR #8**, aguardando revisão. Seu papel é eliminar retrabalho e servir de base para a comparação visual da próxima etapa. Não recomeçar um ranking antigo sem reler os áudios.
 
+## AGORA EXISTE COMPARADOR VISUAL RESPONSIVO
+
+**[Decision Lab — como rodar no navegador](../../tools/decision-board/README.md)**. Página estática em `tools/decision-board/`; carrega 15 propostas do catálogo e opiniões iniciais separadas em `smartcities-assessments-v1.json`. Filtre, ajuste notas, compare até 3 e exporte uma proposta de decisão para a Issue #2. Nenhum ranking da interface equivale a prêmio ou decisão oficial.
+
+**Atenção:** após os cinco áudios, a shortlist inicial sugere LexBase, Reconcilia Dados e Turismo Colaborativo, mas os gates de validação de usuários e dados ainda são **UNKNOWN**. [Catálogo público SIGLON e limites de verificação](07_SIGLON_APLICATIVOS.md).
+
 ## LEITURA DE 2 MINUTOS (para explicar no carro/à equipe)
 **Contexto:** 5 áreas e **15 desafios específicos** apresentados presencialmente, não confundir com os cinco eixos genéricos do website. Os **cinco áudios** dão evidências operacionais mais fortes que a lista de títulos.
 
