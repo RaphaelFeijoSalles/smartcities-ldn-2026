@@ -21,7 +21,7 @@ No Windows: `py -m http.server 4173`. Encerrar: Ctrl+C. Não abra `index.html` c
 
 ## Funcionalidades
 - Página **responsiva** (celular, notebook e projetor); filtros por setor, desafio e busca.
-- **15 propostas**, 15 desafios e cinco depoimentos, com referências, principais bloqueios e um MVP recortado por ideia.
+- **16 propostas**, 15 desafios e cinco depoimentos, com referências, principais bloqueios e um MVP recortado por ideia.
 - Ranking calculado de **notas provisórias do assistente**, não da banca, com seis critérios ponderados, fontes e justificativas.
 - Notas **editáveis** por candidato; comparar até três lado a lado; exportar `.md` e `.json` para a [Issue #2](https://github.com/RaphaelFeijoSalles/smartcities-ldn-2026/issues/2).
 - Ajustes mantidos **somente no navegador (localStorage)**; sem sincronização com outras máquinas ou publicação automática no GitHub.
