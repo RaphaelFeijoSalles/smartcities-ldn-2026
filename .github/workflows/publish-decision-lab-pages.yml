@@ -48,11 +48,13 @@ jobs:
           node --check tools/origem-unica/adapter.js
           node --check tools/origem-unica/app.js
           node --check tools/origem-unica/habitacao.mjs
+          node --check tools/origem-unica/habitacao-official.mjs
           node --check tools/origem-unica/habitacao-model.mjs
           node --check tools/origem-unica/habitacao-demo.mjs
           node --test tools/decision-board/model.test.mjs
           node --test tools/origem-unica/adapter.test.mjs
           node --test tools/origem-unica/habitacao-model.test.mjs
+          node --test tools/origem-unica/habitacao-official.test.mjs
 
       - name: Package site and check relative paths
         env:
