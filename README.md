@@ -4,6 +4,16 @@
 
 **Evento:** Smart Cities Hackathon, Londrina, 13–15/11/2026. Tema divulgado: **Transformação Digital na Gestão Pública**. O regulamento/desafios oficiais específicos ainda precisam ser confirmados na abertura. Não confundir hipóteses deste repositório com desafios oficiais.
 
+## Central de decisão — 5 setores, 15 desafios e 5 áudios (13/11)
+
+**Ponto de entrada atualizado:** [leitura de 2 minutos e documentação consolidada](docs/decision/README.md). É a síntese canônica para o brainstorm; pesquisar primeiro nesta central antes de abrir nova Issue/PR. **Ainda não escolhemos produto e o código do MVP não começou.**
+
+- [15 desafios setorizados](docs/decision/02_DESAFIOS_E_SETORES.md) · [evidências dos 5 depoimentos e pesquisa](docs/decision/03_EVIDENCIAS_E_FONTES.md)
+- [15 produtos candidatos, sem ranking antecipado](docs/decision/04_PORTFOLIO_DE_OPORTUNIDADES.md) · [critérios de seleção e gates](docs/decision/05_PROTOCOLO_DE_DECISAO.md)
+- [Mapa das PRs anteriores, anti-duplicação](docs/decision/06_ESTADO_E_PRS.md) · [dados prontos para próxima LP comparativa](data/decision/smartcities-decision-v1.json)
+
+**Regra anti-loop:** usar a central para decidir. As PRs antigas guardam evidência e aprofundamento, não tarefas paralelas de reconstrução da mesma análise.
+
 ## Para começar em 3 minutos
 1. **Toda a equipe:** leia [o guia de início](docs/team/ONBOARDING.md).
 2. **Brainstorm de hoje:** abra [as decisões de 20 minutos](docs/product/BRAINSTORM.md) e [a matriz de ideias](docs/research/IDEAS.md).
