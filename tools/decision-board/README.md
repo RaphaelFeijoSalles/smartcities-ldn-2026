@@ -2,6 +2,12 @@
 
 **Status:** ferramenta interna de apoio à escolha, NÃO produto concorrente, decisão oficial ou votação com backend.
 
+## Acesso público para os colegas (após ativação)
+
+**[Como publicar e obter o link do GitHub Pages](../../docs/decision/PUBLISHING_GITHUB_PAGES.md)**. Existe um workflow que testa a branch em PR e publica na `main` após o merge. O endereço previsto é `https://raphaelfeijosalles.github.io/smartcities-ldn-2026/`; **não considerar ativo antes de verificar Settings → Pages e o job de deploy**.
+
+A partir de então qualquer colega poderá visualizar e comparar, sem clonar o repositório. **As notas editadas não sincronizam entre colegas**: use `Exportar decisão .md` e a Issue #2 para o consenso.
+
 ## Abrir em 30 segundos
 Execute na **raiz** do repositório:
 
