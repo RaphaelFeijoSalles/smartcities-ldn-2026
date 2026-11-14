@@ -372,6 +372,13 @@
       "location": "mensagem do participante nesta conversa",
       "confidence": "owner_hypothesis",
       "limitations": "necessidade comercial ainda não validada"
+    },
+    {
+      "id": "R14",
+      "type": "official_public_application",
+      "title": "SIGLON — catálogo de aplicativos públicos",
+      "url": "https://geo.londrina.pr.gov.br/portal/apps/sites/#/aplicativospublicossiglon",
+      "limitations": "Catálogo é aplicação web com carregamento dinâmico; sua lista completa de aplicações não foi extraída nesta pesquisa. Verificar manualmente cada aplicativo, permissões e atualização antes de afirmar lacuna."
     }
   ],
   "concepts": [
@@ -386,7 +393,8 @@
       "evidenceRefs": [
         "A1",
         "A4",
-        "R2"
+        "R2",
+        "R14"
       ],
       "problem": "Duas fontes divergem e ninguém sabe, sem regra de autoridade, qual registro revisar.",
       "audience": "Servidor responsável por dados e integrador de sistemas",
@@ -547,7 +555,8 @@
       "evidenceRefs": [
         "A3",
         "A4",
-        "R2"
+        "R2",
+        "R14"
       ],
       "problem": "Mapas, obras e documentos de drenagem podem estar dispersos ou defasados.",
       "audience": "Técnico de drenagem, planejamento e manutenção",
@@ -569,7 +578,8 @@
         "03.3"
       ],
       "evidenceRefs": [
-        "A4"
+        "A4",
+        "R14"
       ],
       "problem": "Levantamentos arbóreos por agentes diferentes podem não formar cadastro vivo e consistente.",
       "audience": "SEMA e responsáveis por inventário urbano",
@@ -596,7 +606,8 @@
         "A4",
         "R7",
         "R8",
-        "R9"
+        "R9",
+        "R14"
       ],
       "problem": "Ativos carecem de informações comparáveis para orientar vistorias e manutenção.",
       "audience": "Engenheiro/técnico municipal",
@@ -620,7 +631,8 @@
       "evidenceRefs": [
         "A4",
         "R2",
-        "R12"
+        "R12",
+        "R14"
       ],
       "problem": "Prestadores precisam manter informações de locais e eventos sem depender de coleta manual periódica da Prefeitura.",
       "audience": "Prestador turístico, curador municipal, visitante",
