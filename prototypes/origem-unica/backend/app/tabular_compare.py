@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 
+from app.data_review import identify_report
 from app.tabular_import import ImportRejected, Table, analyze, identity_key
 
 
@@ -59,8 +60,8 @@ def compare(left: Table, left_meta: dict, right: Table, right_meta: dict,
             if different or missing:
                 review.append({**refs, 'rule': 'EXACT_VALUE_DIFFERENCE' if different else 'MISSING_COMPARISON_VALUE',
                                'fields': different, 'missing_fields': missing, 'state': 'PENDING'})
-    return {'contract_version': '1', 'sources': [a, b], 'compared_fields': fields, 'metrics': counts,
+    return identify_report({'contract_version': '1', 'sources': [a, b], 'compared_fields': fields, 'metrics': counts,
             'review_queue': review, 'writes_performed': False, 'official_validity': 'UNKNOWN',
             'quality_status': 'FAIL' if review else 'PASS',
             'row_reference': '1-based logical table row including header; blank rows omitted',
-            'notice': 'Exact identifiers in caller-declared namespace; review only, no official corrections.'}
+            'notice': 'Exact identifiers in caller-declared namespace; review only, no official corrections.'})

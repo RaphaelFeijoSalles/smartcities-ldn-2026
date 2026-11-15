@@ -10,6 +10,7 @@ import secrets
 from fastapi import APIRouter, FastAPI, HTTPException, Request
 from starlette.concurrency import run_in_threadpool
 
+from app.data_review import ReviewRejected, review
 from app.tabular_compare import compare
 from app.tabular_import import MAX_BYTES, ImportRejected, analyze, read_table
 
@@ -40,11 +41,13 @@ def _execute(data, operation):
         if set(data) != {'document'}:
             raise ImportRejected('expected_document')
         return analyze(*_document(data['document']))[0]
-    if set(data) != {'left', 'right'}:
-        raise ImportRejected('expected_left_and_right')
+    required = {'left', 'right', 'report_id', 'decisions'} if operation == 'review' else {'left', 'right'}
+    if set(data) != required:
+        raise ImportRejected('invalid_comparison_or_review_fields')
     left, lm, lmap = _document(data['left'])
     right, rm, rmap = _document(data['right'])
-    return compare(left, lm, right, rm, lmap, rmap)
+    report = compare(left, lm, right, rm, lmap, rmap)
+    return review(report, data['report_id'], data['decisions']) if operation == 'review' else report
 
 
 def data_import_router(token: str | None = None) -> APIRouter:
@@ -69,7 +72,7 @@ def data_import_router(token: str | None = None) -> APIRouter:
             return await run_in_threadpool(_execute, data, operation)
         except (UnicodeError, json.JSONDecodeError, RecursionError):
             raise HTTPException(422, 'invalid_json') from None
-        except ImportRejected as exc:
+        except (ImportRejected, ReviewRejected) as exc:
             raise HTTPException(422, str(exc)) from None
 
     @router.post('/profile')
@@ -79,6 +82,10 @@ def data_import_router(token: str | None = None) -> APIRouter:
     @router.post('/compare')
     async def comparison(request: Request):
         return await process(request, 'compare')
+
+    @router.post('/review')
+    async def human_review(request: Request):
+        return await process(request, 'review')
 
     return router
 

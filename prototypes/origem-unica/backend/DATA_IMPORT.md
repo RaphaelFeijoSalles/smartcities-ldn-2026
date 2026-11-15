@@ -119,3 +119,37 @@ Verificação deste incremento: 148 PASS Python; 44 PASS Node; smoke de Uvicorn 
 em localhost comparou XLS com CSV sintéticos e retornou 200, 1 match, 1 conflict e nenhuma escrita.
 Um primeiro teste entre sessões isoladas recebeu connection refused; o smoke acima executou
 servidor e cliente no mesmo ambiente e passou. CI remoto deste head deve ser consultado.
+
+## Incremento 4 — recibo de revisão vinculado ao snapshot
+
+`profile` e `compare` passam a incluir report_id e item_id por pendência. IDs são SHA-256
+reproduzíveis sobre conteúdo estruturado, incluindo hashes de arquivos/proveniência; não são
+assinaturas digitais nem certificação de origem. Alterar bytes ou metadados muda a identidade.
+
+`POST /api/data-import/review` recebe `left`, `right`, `report_id` e `decisions`.
+Os documentos são reenviados no mesmo formato do compare; o servidor recalcula o relatório.
+Não aceita relatório arbitrário do cliente. Fonte diferente ou relatório antigo retorna 422.
+Decisões: de 1 a 256, sem IDs repetidos, cada objeto contendo exclusivamente item_id e resolution.
+Resoluções: ACKNOWLEDGED_DIFFERENCE, REQUEST_SOURCE_CHECK ou DEFERRED.
+
+A resposta mantém métricas, quality_status, provenance e official_validity intactos e adiciona
+review_receipt (report_id, decisões ordenadas, receipt_id) e review_summary. Reconhecer uma
+diferença não torna qualidade PASS nem altera uma fonte. Pedido de verificação/adiamento mantém
+PENDING. Não há texto livre ou dados de revisor. O recibo é declaração do cliente autenticado,
+com actor_identity_verified=false e persistence=NONE_EXPORT_ONLY. Não é trilha de auditoria
+persistente. Para preservar decisões, exportar a resposta JSON. A cada chamada reenviar o conjunto
+de decisões a preservar; decisões de chamada anterior não ficam armazenadas no servidor.
+
+Exemplo do trecho adicional ao par de documentos:
+
+```json
+{
+  "report_id": "hash retornado por compare",
+  "decisions": [
+    {"item_id": "hash da pendência", "resolution": "REQUEST_SOURCE_CHECK"}
+  ]
+}
+```
+
+Verificação: testes de IDs estáveis, invalidação por mudança de fonte, rejeição de decisões
+inventadas/repetidas, imutabilidade do relatório original e contrato HTTP autenticado.
