@@ -1,3 +1,15 @@
+# ESTADO CANÔNICO — 15/11/2026 (substitui o status histórico abaixo)
+
+- **Produto ativo:** Origem Única. Primeiro caso Habitação Social: consulta e análise de evidências públicas SNHIS/MCMV. Saúde × CNES e Logradouros são laboratórios de expansão. A escolha atual invalida afirmações históricas abaixo de que produto não foi selecionado.
+- **Main:** integração de IA/segurança, UX, importação e qualidade de dados nas PRs #43, #45, #46, #47, #48, #50, #51, #52, #55, #56, #57, #58, #59; PRs #7, #9, #10, #12, #13, #14, #15 preservam pesquisas de alternativas, sem selecioná-las.
+- **Infra:** Render `origem-unica-api`, Python, root `prototypes/origem-unica/backend`, branch main, autodeploy desabilitado; GitHub Pages frontend. Verificar commit publicado após merges. Serviço antigo `smartcities-ldn-2026` em Node não é API canônica.
+- **IA:** `ORIGEM_UNICA_AI_MODE=demo` no serviço principal. O modo `live` requer chave privada, token separado, ledger SQLite persistente e teste controlado; o Render Free não fornece disco persistente. Nenhum segredo deve ir ao frontend ou ao Git.
+- **Dados:** snapshot oficial SNHIS Londrina REGULAR em 20/10/2026, não certificação atual. MCMV: 42 **linhas** na referência 30/06/2026, não necessariamente 42 empreendimentos. Importadores autenticados CSV/XLS e adaptador SIGLON estão no código, mas **a API de importação não está montada na FastAPI principal**. Trabalho aberto na Issue #49; não publicar upload de dados com Bearer embutido na UI estática.
+- **Qualidade/segurança:** contratos e checks por PR passaram; faltam smoke integrado da main, validação visual/acessibilidade e consulta SIGLON real. Não atualizar cadastros oficiais nem acessar bases pessoais sem autorização.
+- **Próximas frentes com ownership distinto:** (A) integração restrita/API + interface da Issue #49; (B) QA ponta a ponta e browser na Issue #25; (C) geodados e fonte SIGLON real na Issue #29. Evitar duplicar importadores já entregues.
+
+---
+
 ## STATUS MAIS RECENTE — 14/11/2026
 
 - **#8 MERGED:** Decision Lab e 15 desafios estão em `main`. Este registro substitui afirmações anteriores de que a PR #8 continua aberta.

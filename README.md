@@ -1,5 +1,12 @@
 # Smart Cities Londrina 2026 — equipe AI-First
 
+> **ESTADO ATUAL — 15/11/2026:** produto escolhido: **Origem Única**, governança e conciliação de dados públicos, com primeiro caso em **Habitação (SNHIS/MCMV)**. O texto histórico de brainstorm abaixo é um registro anterior à escolha e não descreve a fase atual.
+>
+> **Aplicação:** https://raphaelfeijosalles.github.io/smartcities-ldn-2026/tools/origem-unica/ · **API:** https://origem-unica-api.onrender.com · **Contratos:** [backend](prototypes/origem-unica/backend/README.md), [importação pública](prototypes/origem-unica/backend/DATA_IMPORT.md), [IA/segurança](prototypes/origem-unica/backend/HABITACAO_IA.md).
+>
+> **Integração 15/11:** PRs #43, #45–#48, #50–#52, #55–#59 (exceto #53 e #54, que são issues resolvidas pela PR #59) integradas; #7, #9, #10, #12–#15 são pesquisas históricas. **Backend Render:** versão combinada anterior aos novos merges de documentação; conferir deploy. **Pendente:** Issue #49 (interface/API restrita para importação e revisão); QA independente e coleta SIGLON real; análise IA paga deve continuar desabilitada até storage persistente, credenciais e validação controlada. **Referência:** Londrina REGULAR no snapshot SNHIS 20/10/2026; MCMV 42 linhas no snapshot 30/06/2026, não 42 empreendimentos únicos.
+
+
 ## HOJE: decisão e início do MVP — 14/11
 
 **[Plano rápido dos 5 integrantes e handoff de Miguel → João às 13h](docs/team/START_NOW_20261114.md)** · [Issue #2 para registrar a escolha](https://github.com/RaphaelFeijoSalles/smartcities-ldn-2026/issues/2).
