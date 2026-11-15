@@ -163,6 +163,14 @@ def identity_key(value):
     return str(value).strip()
 
 
+def identity_format_valid(value, nature):
+    """Check shape only, never claim that a municipality actually exists."""
+    key = identity_key(value)
+    if key is None or nature != 'housing_status':
+        return True
+    return len(key) == 7 and key.isascii() and key.isdecimal()
+
+
 def analyze(table: Table, metadata: dict, explicit: dict | None = None) -> tuple[dict, dict]:
     source = provenance(metadata, table)
     mapping = column_mapping(table, source['nature'], explicit)
@@ -177,6 +185,10 @@ def analyze(table: Table, metadata: dict, explicit: dict | None = None) -> tuple
                         ('MISSING_CELLS', missing_cells), ('HEADER_COLLISION', len(profile['header_collisions']))]:
         if count:
             review.append({'rule': rule, 'count': count, 'state': 'PENDING', 'action': 'human_review_only'})
+    invalid = sum(not identity_format_valid(row.get(mapping[key]), source['nature']) for row in table.rows)
+    if invalid:
+        profile['requires_human_review'] = True
+        review.append({'rule': 'INVALID_IBGE_CODE_FORMAT', 'count': invalid, 'state': 'PENDING', 'action': 'human_review_only'})
     report = {'contract_version': '1', 'provenance': source, 'profile': profile, 'field_mapping': mapping,
               'review_queue': review, 'quality_status': 'FAIL' if review else 'PASS',
               'official_validity': 'UNKNOWN', 'writes_performed': False}
