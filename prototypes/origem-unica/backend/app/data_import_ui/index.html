@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Importação pública · Origem Única</title>
+  <link rel="stylesheet" href="/data-import/workspace.css">
+  <script type="module" src="/data-import/workspace.mjs"></script>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="label">Origem Única</p>
+      <h1>Conferir bases tabulares</h1>
+      <p>Área local para importar dados públicos, comparar registros e registrar decisões de conferência.</p>
+    </header>
+    <form id="import-form" novalidate>
+      <fieldset id="upload-controls">
+        <legend>Fontes da conferência</legend>
+        <label>Natureza
+          <select id="nature"><option value="street_registry">Arruamento</option><option value="housing_status">Habitação municipal agregada</option></select>
+        </label>
+        <label>Escopo do identificador <input id="namespace" required pattern=".*\S.*" maxlength="128" placeholder="Ex.: municipio:codlog"></label>
+        <p>CSV UTF-8 ou XLS com uma planilha. Até 1 MiB, 5.000 linhas e 64 colunas por arquivo.</p>
+        <div class="sources" id="sources"></div>
+        <label class="check"><input id="public-data" type="checkbox" required> Confirmo que os arquivos e metadados são públicos e estão livres de dados pessoais.</label>
+        <div class="actions">
+          <button type="submit" value="profile">Gerar perfil da fonte A</button>
+          <button type="submit" value="compare">Comparar fontes</button>
+        </div>
+      </fieldset>
+    </form>
+    <p id="feedback" role="status" aria-live="polite"></p>
+    <section id="analysis" aria-labelledby="report-heading" hidden>
+      <h2 id="report-heading" tabindex="-1">Relatório de conferência</h2>
+      <p id="quality"></p>
+      <div id="provenance" class="sources"></div>
+      <dl id="metrics"></dl>
+      <h3 id="queue-heading">Fila de revisão</h3>
+      <p id="review-note">Siga as referências de linha e campo nos seus arquivos originais.</p>
+      <div class="actions">
+        <button id="review" type="button" hidden>Gerar recibo de revisão</button>
+        <button id="download" type="button" hidden>Exportar recibo JSON</button>
+      </div>
+      <p id="receipt" role="status"></p>
+      <div id="queue" aria-labelledby="queue-heading"></div>
+      <div id="pager" class="actions" hidden>
+        <button id="previous" type="button">Página anterior</button>
+        <span id="page-label" role="status"></span>
+        <button id="next" type="button">Próxima página</button>
+      </div>
+    </section>
+  </main>
+  <template id="source-template">
+    <fieldset>
+      <legend></legend>
+      <label>Arquivo CSV ou XLS <input data-input="file" type="file" accept=".csv,.xls"></label>
+      <label>Nome da fonte <input data-input="name" maxlength="128"></label>
+      <label>URL de referência (HTTPS) <input data-input="url" type="url" maxlength="512"></label>
+      <label>Data de referência <input data-input="reference_date" type="date"></label>
+      <label>Versão <input data-input="version" maxlength="128"></label>
+      <label>Classificação declarada
+        <select data-input="classification">
+          <option value="unverified">Não verificada</option>
+          <option value="official_claimed">Oficial declarada pelo responsável</option>
+          <option value="synthetic">Sintética</option>
+        </select>
+      </label>
+      <details><summary>Indicar cabeçalhos explicitamente</summary>
+        <p>Informe o nome exato do cabeçalho quando houver mais de uma opção.</p>
+        <div data-mapping></div>
+      </details>
+    </fieldset>
+  </template>
+</body>
+</html>
