@@ -10,3 +10,32 @@ main{max-width:1320px;margin:auto;padding:28px 24px 0}.hero{min-height:330px;bac
 .filter-actions p{margin:0;color:var(--muted);font-size:12px}
 .filter-actions .button:disabled{opacity:.55;cursor:default}
 .button[hidden]{display:none}
+
+/* Foco de teclado e leitura do panorama nos diferentes tamanhos. */
+:focus-visible{outline:3px solid #8b410d;outline-offset:3px}
+.hero :focus-visible,.labs>a:focus-visible{outline-color:#ffca86}
+.table-wrap:focus-visible{outline-offset:-3px}
+.topnav a,.filters select,.heading-actions .button{min-height:44px}
+.topnav a{display:inline-flex;align-items:center}
+.summary-card p,.card-bottom,.requirement-card .card-end{color:#415f55}
+.subtle{color:#415f55!important}
+.metric-label,.filters label,.evidence dt,.small-note{color:#48655b}
+.section-kicker,.source-icon{color:#187454}
+.summary-card,.panel,.filters label{min-width:0}
+@media(max-width:700px){
+ .topnav{flex-wrap:wrap;overflow:visible;gap:3px}
+ .topnav a{flex:1 0 auto;justify-content:center;padding-inline:8px}
+ .heading-actions{justify-content:flex-start}
+ .filter-actions{justify-content:space-between}
+}
+@media(min-width:360px) and (max-width:550px){
+ .summary-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .summary-card{padding:14px}
+ .summary-card.feature strong{font-size:18px}
+ .summary-card .card-bottom{margin-top:12px}
+}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}
+ .requirement-card{transition:none}
+ .requirement-card:hover,.requirement-card.selected{transform:none}
+}
