@@ -1,0 +1,12 @@
+{
+  "url": "https://geo.londrina.pr.gov.br/server/rest/services/Publico/SmopArruamento/FeatureServer/0?f=json",
+  "http_status": 200,
+  "bytes": 11687,
+  "sha256": "f145ceb9a1b6f3b284435a9f18b5dd3ef971cc22665a4fc4a8c124114d349edc",
+  "observed_at": "2026-11-15T11:00:15.074121+00:00",
+  "timestamp_basis": "local file modification time after curl download",
+  "reference_date": null,
+  "reference_date_status": "UNKNOWN",
+  "inventory_status": "BLOCKED: httpx.ReadTimeout after 12 seconds; no records received",
+  "sample_status": "BLOCKED: curl exit 28, timeout 15.001808 seconds, HTTP 000, zero bytes"
+}
