@@ -7,6 +7,7 @@ from urllib.parse import urlsplit
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.data_import_local import enable_local_data_import
 from app.service import ReconciliationService
 from app.evidence_ai import evidence_router
 from app.habitacao import SnhisService, housing_router
@@ -83,6 +84,7 @@ def create_app(service: ReconciliationService | None = None, housing_service: Sn
     def empreendimentos(municipio: str):
         return mcmv_service.empreendimentos(municipio)
 
+    enable_local_data_import(app)
     return app
 
 
