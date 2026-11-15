@@ -12,8 +12,12 @@
   <script src="./app.js" defer></script>
 </head>
 <body>
-  <a href="./" style="position:relative;z-index:10;display:block;background:#e9f5ee;color:#145c47;padding:10px 18px;font:700 13px system-ui;text-decoration:none">← Habitação · primeira experiência da Origem Única</a>
   <a href="#main" class="skip">Pular para o conteúdo</a>
+  <nav class="case-nav" aria-label="Casos de uso">
+    <a href="./">Habitação</a>
+    <a href="./saude.html" aria-current="page">Saúde × CNES</a>
+    <a href="./logradouros.html">Logradouros</a>
+  </nav>
   <div class="app">
     <aside class="sidebar" aria-label="Navegação do protótipo">
       <a href="#overview" class="brand" data-route="overview" aria-label="Origem Única, visão geral">
@@ -22,11 +26,11 @@
       </a>
       <div class="nav-caption">WORKSPACE</div>
       <nav class="nav" aria-label="Seções">
-        <button data-view="overview" class="nav-item active"><span class="nav-glyph">◫</span> Visão geral</button>
-        <button data-view="sources" class="nav-item"><span class="nav-glyph">⇄</span> Fontes de dados</button>
-        <button data-view="matching" class="nav-item"><span class="nav-glyph">⊞</span> Conciliação <span id="nav-pending" class="nav-count">4</span></button>
-        <button data-view="audit" class="nav-item"><span class="nav-glyph">☷</span> Auditoria</button>
-        <button data-view="impact" class="nav-item"><span class="nav-glyph">◎</span> Valor público</button>
+        <button data-view="overview" class="nav-item active"><span class="nav-glyph" aria-hidden="true">◫</span> Visão geral</button>
+        <button data-view="sources" class="nav-item"><span class="nav-glyph" aria-hidden="true">⇄</span> Fontes de dados</button>
+        <button data-view="matching" class="nav-item"><span class="nav-glyph" aria-hidden="true">⊞</span> Conciliação <span id="nav-pending" class="nav-count">4</span></button>
+        <button data-view="audit" class="nav-item"><span class="nav-glyph" aria-hidden="true">☷</span> Auditoria</button>
+        <button data-view="impact" class="nav-item"><span class="nav-glyph" aria-hidden="true">◎</span> Valor público</button>
       </nav>
       <div class="sidebar-bottom">
         <div class="sidebar-callout"><span class="live-dot"></span><div><b>Revisão simulada</b><small>Consulta somente leitura à API. Decisões locais não alteram registros oficiais.</small></div></div>
@@ -54,7 +58,7 @@
         <section id="view-overview" class="view active" aria-labelledby="overview-heading">
           <div class="eyebrow"><span class="eyebrow-dot"></span> CENTRAL DE QUALIDADE DE DADOS / DEMO</div>
           <div style="margin-bottom:16px;border:1px solid #b9ddca;border-radius:12px;padding:12px 15px;background:#e7f6ec"><strong>Nova demonstração: Logradouros de Londrina</strong><p style="font-size:12px;margin:5px 0">Veja como o conciliador trata grafias diferentes, CODLOG e LEI ausentes, LONDRINA × SEDE e vielas/acessos sem nome, em um cenário 100% sintético.</p><a href="./logradouros.html" style="color:#107354;font-weight:800">Abrir laboratório de logradouros →</a></div>
-          <div class="hero-line"><div><h1 id="overview-heading">Um endereço. <em>Vários cadastros.</em><br>Revisão rastreável.</h1><p>Adilson, gerente do SIGLON, relatou manutenção repetida de endereços em aproximadamente 13 bancos de secretarias sem padronização. Esta demo mantém o recorte SIGLON Saúde × CNES para mostrar a revisão de uma divergência.</p></div><button class="button primary" id="start-review">Analisar divergências <span>↗</span></button></div>
+          <div class="hero-line"><div><h1 id="overview-heading">Conciliação de <em>cadastros de saúde</em></h1><p>Compare os campos declarados pelo SIGLON e pelo CNES. Filtre divergências, registre a revisão na sessão e exporte a seleção para conferência.</p></div><button class="button primary" id="start-review">Analisar divergências <span>↗</span></button></div>
           <div class="metric-grid">
             <article class="metric"><div class="metric-top">Registros exibidos <span>◇</span></div><strong id="stat-total">—</strong><small id="total-summary">Dados sintéticos locais</small></article>
             <article class="metric"><div class="metric-top">Necessitam análise <span>!</span></div><strong id="stat-pending">—</strong><small>Conflitos e possíveis correspondências</small></article>
@@ -101,14 +105,14 @@
 
         <section id="view-matching" class="view" aria-labelledby="matching-heading">
           <div class="eyebrow"><span class="eyebrow-dot"></span> ETAPA 02 / MATCHING E GESTÃO DE CONFLITOS</div>
-          <div class="page-head"><div><h1 id="matching-heading">Resolver o que <em>não bate.</em></h1><p>Compare duas fontes, confirme vínculos e documente o que ainda precisa de conferência oficial.</p></div><button class="button outline" id="export">↓ Exportar CSV</button></div>
+          <div class="page-head"><div><h1 id="matching-heading">Revisar <em>divergências cadastrais</em></h1><p>Compare duas fontes, confirme vínculos e documente o que ainda precisa de conferência oficial.</p></div><button class="button outline" id="export">↓ Exportar CSV</button></div>
           <div class="workspace">
             <div class="list-panel">
               <div class="list-controls"><label class="visually-hidden" for="search">Pesquisar registros</label><input id="search" type="search" placeholder="Buscar UBS ou endereço…"><label class="visually-hidden" for="filter">Filtrar registros</label><select id="filter"><option value="all">Todos</option><option value="pending">Pendentes</option><option value="conflict">Com conflito</option><option value="possible">Possível vínculo</option><option value="match">Correspondência</option><option value="missing">Sem par</option><option value="reviewed">Revisados</option></select></div>
-              <div class="list-meta"><span id="list-count">— registros</span><span>Selecione uma linha</span></div>
+              <div class="list-meta"><span id="list-count" role="status">— registros</span><button id="clear-review-filters" type="button">Limpar filtros</button></div>
               <div id="records" class="records"></div>
             </div>
-            <div class="detail-panel" id="details" aria-live="polite"></div>
+            <div class="detail-panel" id="details" role="region" aria-label="Comparação do registro" tabindex="-1"></div>
           </div>
         </section>
 
