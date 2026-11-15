@@ -107,6 +107,14 @@ const run={
     assert.match(await page.locator("#details").innerText(),/Rua das Flores, 170/);
     assert.doesNotMatch(await page.locator("#details").innerText(),/Decisão registrada/);
     assert.equal(request,4);
+    // Synthetic transport simulation: exercises the LIVE label, not a live source.
+    data.mode="LIVE";
+    await navigate(/^Fontes/);
+    await page.locator("#sync").click();
+    await page.locator("#data-mode").getByText(/API · LIVE/).waitFor();
+    data.mode="MOCK";
+    await page.locator("#sync").click();
+    await page.locator("#data-mode").getByText(/API · MOCK/).waitFor();
   },
   async logradouros(page){
     await page.goto(origin+"/tools/origem-unica/logradouros.html");
