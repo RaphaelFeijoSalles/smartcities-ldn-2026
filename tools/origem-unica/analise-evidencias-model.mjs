@@ -44,6 +44,9 @@ export function analysisFailure(status, detail) {
   if (status === 429) return 'Cota ou intervalo mínimo atingido. Aguarde e confira o limite com o responsável antes de tentar novamente.';
   if (status === 504) return 'O serviço de IA excedeu o tempo limite. O painel oficial continua disponível.';
   if (status === 503 && detail === 'O provedor de IA atingiu um limite de uso ou cota. Consulte o responsável antes de tentar novamente.') return detail;
+  if (status === 503 && detail === 'Controle de orçamento indisponível.') return 'Controle de orçamento indisponível. Solicite a verificação ao responsável antes de repetir a análise.';
+  if (status === 503 && detail === 'Análise desativada.') return 'Análise desativada neste ambiente. Consulte as evidências no painel de Habitação.';
+  if (status === 502 && detail === 'Falha de conexão com o serviço de IA.') return 'Não foi possível conectar ao serviço de IA. O painel oficial continua disponível; nenhuma nova tentativa será feita automaticamente.';
   if (status === 503) return 'Análise indisponível. Confira se as duas fontes oficiais carregaram; o painel de Habitação continua disponível.';
   if (status === 502) return 'Não foi possível validar a análise. Consulte as evidências no painel de Habitação.';
   return 'Análise indisponível. Consulte o painel de Habitação.';

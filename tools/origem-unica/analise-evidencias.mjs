@@ -59,9 +59,6 @@ function showAnalysis(data) {
   const evidence = document.createElement("ol");
   for (const fact of data.evidence) {
     const url = new URL(fact.url);
-    if (url.protocol !== "https:" || url.hostname !== "www.gov.br" || url.username || url.password) {
-      throw new Error("Fonte de evidência inválida.");
-    }
     const row = element("li", fact.label + " · " + fact.value + " · " +
       fact.dates.map(date => date.split("-").reverse().join("/")).join(", ") + " · ");
     row.id = "fato-" + fact.id;

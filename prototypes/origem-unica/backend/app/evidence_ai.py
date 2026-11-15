@@ -231,6 +231,10 @@ def reserve_live_call(path):
         return True
 
 
+def analysis_error(status, detail, headers=None):
+    return HTTPException(status, detail, headers={"Cache-Control": "no-store", **(headers or {})})
+
+
 def evidence_router(snhis, mcmv, provider=openai_plan):
     router = APIRouter(tags=["Habitação"])
     next_demo = 0.0
@@ -241,17 +245,17 @@ def evidence_router(snhis, mcmv, provider=openai_plan):
         started = time.monotonic()
         mode = os.getenv("ORIGEM_UNICA_AI_MODE", "demo").strip().lower()
         if mode not in {"demo", "live"}:
-            raise HTTPException(503, "Análise desativada.")
+            raise analysis_error(503, "Análise desativada.")
         if mode == "live":
             api_key = os.getenv("OPENAI_API_KEY", "").strip()
             token = os.getenv("ORIGEM_UNICA_AI_ACCESS_TOKEN", "").strip()
             budget = os.getenv("ORIGEM_UNICA_AI_BUDGET_DB", "").strip()
             if not api_key or len(token) < 32 or not os.path.isabs(budget):
-                raise HTTPException(503, "Modo IA temporariamente indisponível.")
+                raise analysis_error(503, "Modo IA temporariamente indisponível.")
             if not hmac.compare_digest(authorization.encode(), f"Bearer {token}".encode()):
-                raise HTTPException(401, "Código de acesso necessário.", headers={"WWW-Authenticate": "Bearer"})
+                raise analysis_error(401, "Código de acesso necessário.", headers={"WWW-Authenticate": "Bearer"})
         elif started < next_demo:
-            raise HTTPException(429, "Aguarde antes de pedir outra análise.", headers={"Retry-After": "2"})
+            raise analysis_error(429, "Aguarde antes de pedir outra análise.", headers={"Retry-After": "2"})
         else:
             next_demo = started + 2
 
@@ -259,31 +263,34 @@ def evidence_router(snhis, mcmv, provider=openai_plan):
             # The normal housing endpoints warm and replace these validated snapshots.
             facts = housing_facts(snhis.cached, mcmv.cached)
         except AnalysisUnavailable as exc:
-            raise HTTPException(503, "Abra Habitação para carregar os dois snapshots oficiais e tente novamente.") from exc
+            raise analysis_error(503, "Abra Habitação para carregar os dois snapshots oficiais e tente novamente.") from exc
 
         if mode == "live":
             try:
                 reserved = await asyncio.to_thread(reserve_live_call, budget)
             except sqlite3.Error as exc:
                 log.info("housing_ai outcome=budget_unavailable")
-                raise HTTPException(503, "Controle de orçamento indisponível.") from exc
+                raise analysis_error(503, "Controle de orçamento indisponível.") from exc
             if not reserved:
-                raise HTTPException(429, "Cota de análise ou intervalo mínimo atingido.", headers={"Retry-After": str(COOLDOWN)})
+                raise analysis_error(429, "Cota de análise ou intervalo mínimo atingido.", headers={"Retry-After": str(COOLDOWN)})
             model = os.getenv("ORIGEM_UNICA_AI_MODEL", MODEL).strip() or MODEL
             try:
                 plan = validate_plan(await provider(facts, api_key, model), facts)
             except (TimeoutError, httpx.TimeoutException) as exc:
                 log.info("housing_ai outcome=timeout")
-                raise HTTPException(504, "O serviço de IA excedeu o tempo limite.") from exc
+                raise analysis_error(504, "O serviço de IA excedeu o tempo limite.") from exc
             except httpx.HTTPStatusError as exc:
                 upstream_status = exc.response.status_code
                 log.info("housing_ai outcome=provider_http_error status=%d", upstream_status)
                 if upstream_status == 429:
-                    raise HTTPException(503, "O provedor de IA atingiu um limite de uso ou cota. Consulte o responsável antes de tentar novamente.") from exc
-                raise HTTPException(502, "O provedor de IA está indisponível.") from exc
+                    raise analysis_error(503, "O provedor de IA atingiu um limite de uso ou cota. Consulte o responsável antes de tentar novamente.") from exc
+                raise analysis_error(502, "O provedor de IA está indisponível.") from exc
+            except httpx.RequestError as exc:
+                log.info("housing_ai outcome=provider_transport_error")
+                raise analysis_error(502, "Falha de conexão com o serviço de IA.") from exc
             except (httpx.HTTPError, KeyError, TypeError, ValueError) as exc:
-                log.info("housing_ai outcome=invalid_or_unavailable")
-                raise HTTPException(502, "Não foi possível validar a análise de IA.") from exc
+                log.info("housing_ai outcome=invalid_response")
+                raise analysis_error(502, "Não foi possível validar a análise de IA.") from exc
         else:
             plan = demo_plan(facts)
         log.info("housing_ai outcome=success mode=%s duration_ms=%d", mode, (time.monotonic() - started) * 1000)

@@ -86,3 +86,30 @@ test('unexpected backend errors cannot display arbitrary payloads', async () => 
   assert.doesNotMatch(h.nodes['analysis-status'].textContent, /synthetic-secret/);
   assert.match(h.nodes['analysis-status'].textContent, /indisponível/);
 });
+
+for (const [status, detail, expected] of [
+  [503, 'Controle de orçamento indisponível.', /responsável antes de repetir/],
+  [503, 'Análise desativada.', /desativada neste ambiente/],
+  [502, 'Falha de conexão com o serviço de IA.', /nenhuma nova tentativa será feita automaticamente/],
+]) {
+  test(`controlled diagnostic guides recovery: ${detail}`, async () => {
+    const h = harness({ok: false, status, json: async () => ({detail})});
+    await h.submit();
+    assert.match(h.nodes['analysis-status'].textContent, expected);
+    assert.equal(h.calls.length, 1);
+    assert.equal(h.nodes['analysis-result'].hidden, true);
+  });
+}
+test('simultaneous submit events make exactly one request', async () => {
+  let release;
+  const pending = new Promise(resolve => {release=resolve;});
+  const h = harness(pending);
+  const first = h.submit();
+  await h.submit();
+  assert.equal(h.calls.length, 1);
+  assert.equal(h.button.disabled, true);
+  release({ok: true, json: async () => fixture});
+  await first;
+  assert.equal(h.button.disabled, false);
+  assert.equal(h.nodes['analysis-result'].hidden, false);
+});

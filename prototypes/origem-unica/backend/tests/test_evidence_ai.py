@@ -102,6 +102,7 @@ def test_live_gates_before_provider(monkeypatch, snapshots, live, issue):
         snapshots[0].cached = None
     response = client_for(snapshots, unexpected_provider).post(ENDPOINT, headers=live)
     assert response.status_code == (401 if issue == "wrong_token" else 503)
+    assert response.headers["cache-control"] == "no-store"
 
 
 def test_live_uses_configured_model_and_applies_cooldown(monkeypatch, snapshots, live):
@@ -120,7 +121,8 @@ def test_live_uses_configured_model_and_applies_cooldown(monkeypatch, snapshots,
 
 
 @pytest.mark.parametrize("failure, status", [("timeout", 504), ("invented", 502), ("upstream", 502)])
-def test_provider_errors_do_not_fall_back_or_reveal_payload(snapshots, live, failure, status):
+def test_provider_errors_do_not_fall_back_or_reveal_payload(snapshots, live, failure, status, caplog):
+    caplog.set_level("INFO", logger="app.evidence_ai")
     async def fail(facts, *_):
         if failure == "timeout":
             raise TimeoutError("debug secret timeout")
@@ -133,6 +135,10 @@ def test_provider_errors_do_not_fall_back_or_reveal_payload(snapshots, live, fai
     assert "debug secret" not in response.text
     assert "fato_inventado" not in response.text
     assert "mode" not in response.json()
+    assert response.headers["cache-control"] == "no-store"
+    outcome = {"timeout": "timeout", "upstream": "provider_transport_error", "invented": "invalid_response"}[failure]
+    assert f"outcome={outcome}" in caplog.text
+    assert "debug secret" not in caplog.text
 
 
 def test_budget_is_atomic_and_persists_across_connections(tmp_path, monkeypatch):
