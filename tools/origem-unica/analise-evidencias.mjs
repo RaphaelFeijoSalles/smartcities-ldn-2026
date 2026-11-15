@@ -1,3 +1,10 @@
+import {validateAnalysis, analysisModeLabel, analysisFailure, analysisReport} from "./analise-evidencias-model.mjs";
+
+const stylesheet = document.createElement("link");
+stylesheet.rel = "stylesheet";
+stylesheet.href = new URL("./analise-evidencias.css", import.meta.url).href;
+document.head.append(stylesheet);
+
 const form = document.getElementById("analysis-form");
 const access = document.getElementById("analysis-access");
 const status = document.getElementById("analysis-status");
@@ -32,11 +39,12 @@ function references(ids, index) {
 }
 
 function showAnalysis(data) {
-  if (!["AI", "DEMO"].includes(data.mode)) throw new Error("Modo de análise inválido.");
+  validateAnalysis(data);
   const fragment = document.createDocumentFragment();
   const index = new Map(data.evidence.map(({id}, i) => [id, i + 1]));
-  fragment.append(element("h2", data.mode === "AI" ?
-    "Assistência automatizada por IA" : "Demonstração determinística · sem chamada de IA"));
+  fragment.append(element("h3", analysisModeLabel(data.mode)),
+    element("p", "Londrina/PR · " + data.evidence.length + " evidências de SNHIS e MCMV para conferência por analistas e gestores públicos."),
+    element("p", "A análise organiza os fatos dos snapshots. Não certifica a situação atual nem executa decisão administrativa."));
 
   for (const [label, items] of [["Resumo", data.summary], ["Limitações", data.limitations], ["Próximos passos", data.next_steps]]) {
     const list = document.createElement("ul");
@@ -45,7 +53,7 @@ function showAnalysis(data) {
       row.append(references(item.fact_ids, index));
       list.append(row);
     }
-    fragment.append(element("h3", label), list);
+    fragment.append(element("h4", label), list);
   }
 
   const evidence = document.createElement("ol");
@@ -57,23 +65,38 @@ function showAnalysis(data) {
     const row = element("li", fact.label + " · " + fact.value + " · " +
       fact.dates.map(date => date.split("-").reverse().join("/")).join(", ") + " · ");
     row.id = "fato-" + fact.id;
-    const source = element("a", "Abrir fonte oficial");
+    const source = element("a", (fact.id === "mcmv" ? "MCMV" : "SNHIS") + " · fonte oficial");
+    source.setAttribute("aria-label", "Abrir fonte oficial: " + fact.label);
     source.href = url.href;
     source.target = "_blank";
     source.rel = "noopener noreferrer";
     row.append(source);
     evidence.append(row);
   }
-  fragment.append(element("h3", "Evidências citadas"), evidence);
+  fragment.append(element("h4", "Evidências citadas"), evidence);
+  const download = element("button", "Baixar relatório de conferência (.txt)");
+  download.type = "button";
+  download.className = "button outline";
+  download.addEventListener("click", () => {
+    const url = URL.createObjectURL(new Blob([analysisReport(data)], {type: "text/plain;charset=utf-8"}));
+    const anchor = element("a", "Baixar relatório");
+    anchor.href = url;
+    anchor.download = "origem-unica-londrina-conferencia.txt";
+    anchor.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  });
+  fragment.append(download);
   result.replaceChildren(fragment);
   result.hidden = false;
 }
 
 form.addEventListener("submit", async event => {
   event.preventDefault();
+  if (button.disabled) return;
   result.hidden = true;
   status.textContent = "Consultando análise…";
   button.disabled = true;
+  form.setAttribute("aria-busy", "true");
   const token = access.value.trim();
   access.value = "";
   try {
@@ -85,16 +108,19 @@ form.addEventListener("submit", async event => {
     });
     if (!response.ok) {
       const body = await response.json().catch(() => null);
-      throw new Error(typeof body?.detail === "string" ? body.detail : "Análise indisponível.");
+      status.textContent = analysisFailure(response.status, body?.detail);
+      return;
     }
     const data = await response.json();
     showAnalysis(data);
     status.textContent = data.mode === "AI" ? "Análise carregada · assistência por IA." :
       "Análise carregada · demonstração sem chamada de IA.";
   } catch (error) {
-    status.textContent = error.name === "TimeoutError" ? "A análise excedeu o tempo limite." :
-      (error instanceof TypeError ? "Análise indisponível. Consulte o painel de Habitação." : error.message);
+    status.textContent = ["TimeoutError", "AbortError"].includes(error.name) ?
+      "A análise excedeu o tempo limite. O painel oficial continua disponível." :
+      "Não foi possível carregar uma análise válida. Consulte o painel de Habitação.";
   } finally {
     button.disabled = false;
+    form.setAttribute("aria-busy", "false");
   }
 });

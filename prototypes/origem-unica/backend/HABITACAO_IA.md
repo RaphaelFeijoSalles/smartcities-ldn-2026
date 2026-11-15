@@ -7,7 +7,7 @@ O piloto atende somente Londrina/PR. A seção aparece junto às evidências de 
 1. No backend, instale as dependências existentes e rode `ORIGEM_UNICA_AI_MODE=demo uvicorn app.main:app --port 8000 --no-access-log`.
 2. Na raiz, rode `python3 -m http.server 4173`.
 3. Abra `http://localhost:4173/tools/origem-unica/?api=http://localhost:8000/` e espere os snapshots SNHIS e MCMV carregarem.
-4. Na seção **Análise de evidências de Londrina**, deixe o código em branco e clique em **Analisar evidências com IA**.
+4. Na seção **Análise de evidências de Londrina**, deixe o código em branco e clique em **Analisar evidências**.
 5. Confira o rótulo **Demonstração determinística · sem chamada de IA**, os fatos citados, as datas e os links da fonte.
 
 O endpoint `POST /api/habitacao/municipios/4113700/analise` lê apenas o cache validado dos serviços existentes. Aqueça os dois caches no mesmo processo pelo fluxo de Habitação. Sem algum snapshot, o endpoint retorna HTTP 503 e o painel original continua disponível. O modo `demo` usa fatos oficiais carregados e um plano determinístico. `off` desativa o endpoint de análise.
@@ -65,3 +65,21 @@ Observabilidade: tokens são registrados somente se ambos os contadores forem in
 Regressões adicionais: virada UTC preserva cooldown antes de reiniciar a contagem diária; requisição sem Bearer válido não reserva orçamento; entrada acima de 6 KiB falha antes do transporte. Próxima tarefa independente: smoke visual local DEMO/AI com transporte interceptado e sem credenciais; não usar a chamada real anterior como evidência desta revisão.
 
 Timeout de parede verificado com transporte assíncrono lento: cancelamento efetivo, uma única tentativa e nenhum retry. Commits incrementais após integração: `f9a9e69` (telemetria desconhecida), `2313cba` (limites e UTC); o commit seguinte adiciona esta regressão de cancelamento.
+
+## Resultado utilizável e smoke isolado — incremento de produto
+
+O resultado informa o público (analistas/gestores), as seis evidências e o limite da análise. O botão **Baixar relatório de conferência (.txt)** exporta somente conteúdo validado, modo, fontes, datas e próximos passos humanos; não inclui token ou credenciais. A geração do relatório é local. Mensagens de falha são controladas no navegador, sem exibir texto arbitrário de exceções/backend. O formulário indica `aria-busy`, impede submissão duplicada em andamento e limpa o código ao enviar. O CSS é exclusivo de `#analysis-panel`, carregado pelo módulo, sem editar o layout do Work B.
+
+O navegador valida município, seis IDs únicos, referências existentes, valores, datas e links oficiais antes de exibir/exportar. A fixture compartilhada é conferida pelo renderer Python. **MCMV dessa fixture é SINTÉTICO**; ela não prova download real nem chamada live. A etiqueta QA nas capturas reforça essa distinção.
+
+Validação deste incremento: **128 PASS Python**, **58 PASS Node**, sintaxe dos dois módulos, build Pages e `git diff --check` aprovados. Smoke Chromium: **PASS 1440×900, 1366×768, 768×1024, 375×812 e 320×720**, cobrindo DEMO/AI interceptada, download via teclado, erros 401/429/502/503/504, preservação dos indicadores, filtros, ocultação no exemplo sintético, ausência de overflow e erros JavaScript. Capturas: `.github/qa/ai-evidence-20261115/`. Modelo efetivo e tokens da chamada live anterior continuam **UNKNOWN**.
+
+Reprodução opcional (Playwright deve estar instalado em ambiente de desenvolvimento separado; nenhuma dependência adicionada ao produto):
+
+```bash
+AI_PLAYWRIGHT=/caminho/para/playwright-core/index.mjs AI_CHROMIUM=/usr/bin/google-chrome node tests/origem-unica/analysis-browser.mjs
+```
+
+O script intercepta todas as chamadas e não consulta provedor nem fontes externas. Os testes Node da análise são executados localmente pelo glob acima; os workflows existentes não executam esse novo módulo de testes JS explicitamente. Incluir o teste em CI exige alinhamento do integrador (workflow é hot file). O pytest de contrato compartilhado já roda no CI existente.
+
+Ensaio de 120 segundos: (0–20 s) situar o analista municipal e as fontes fragmentadas; (20–45 s) mostrar panorama SNHIS e datas, três instrumentos e linhas MCMV, sem equiparar linhas a empreendimentos; (45–80 s) analisar em DEMO, mostrar seis evidências e referências; (80–105 s) baixar relatório para conferência humana; (105–120 s) explicar limites e laboratórios sintéticos de expansão. No ensaio com fontes oficiais, usar caches públicos previamente validados; este smoke usa fixtures de teste identificadas.

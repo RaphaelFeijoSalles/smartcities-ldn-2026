@@ -1,0 +1,17 @@
+/* Scoped to evidence analysis; the general Habitação layout belongs to the UX workstream. */
+#analysis-panel { scroll-margin-top: 24px; }
+#analysis-panel[hidden] { display: none; }
+#analysis-form { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; margin: 20px 0 12px; }
+#analysis-form p { margin: 0; flex: 1 1 240px; }
+#analysis-access { display: block; box-sizing: border-box; width: 100%; max-width: 28rem; min-height: 44px; padding: 10px 12px; border: 1px solid var(--line, #dce9e3); border-radius: 8px; font: inherit; color: var(--ink, #15373b); background: #fff; }
+#analysis-panel .button { min-height: 44px; max-width: 100%; white-space: normal; }
+#analysis-panel .button:disabled { opacity: .65; cursor: wait; }
+#analysis-panel :is(input, button, a):focus-visible { outline: 3px solid #137b61; outline-offset: 3px; }
+#analysis-status { min-height: 1.5em; }
+#analysis-result { border-top: 1px solid var(--line, #dce9e3); margin-top: 20px; padding-top: 16px; overflow-wrap: anywhere; }
+#analysis-result h4 { margin-bottom: 8px; }
+#analysis-result :is(ul, ol) { padding-left: 24px; }
+#analysis-result li { margin-bottom: 8px; }
+#analysis-result a { text-decoration: underline; text-underline-offset: 3px; }
+#analysis-result ol { padding: 16px 16px 8px 36px; background: var(--paper, #f5f8f6); border-radius: 8px; }
+@media (max-width: 480px) { #analysis-form > :is(p, button) { width: 100%; } }

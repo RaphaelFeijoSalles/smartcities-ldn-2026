@@ -306,3 +306,16 @@ def test_wall_clock_timeout_interrupts_slow_transport_without_retry(snapshots, m
         asyncio.run(openai_plan(facts, "synthetic-key", MODEL, httpx.MockTransport(slow_transport)))
     assert len(calls) == 1
     assert cancelled == [True]
+
+
+def test_shared_browser_fixture_preserves_the_server_contract(snapshots):
+    # SNHIS is the official cutout; MCMV rows are explicitly SYNTHETIC in this fixture.
+    snhis, mcmv = snapshots
+    mcmv.cached["records"] *= 21
+    mcmv.cached["source"]["url"] = "https://www.gov.br/cidades/SINTETICO-teste.zip"
+    facts = housing_facts(snhis.cached, mcmv.cached)
+    from app.evidence_ai import render_analysis
+    fixture_path = Path(__file__).resolve().parents[4] / "tests/origem-unica/analysis-synthetic.fixture.json"
+    expected = json.loads(fixture_path.read_text())
+    assert expected.pop("_fixture_note").startswith("SINTÉTICO")
+    assert render_analysis(demo_plan(facts), facts, "DEMO") == expected
