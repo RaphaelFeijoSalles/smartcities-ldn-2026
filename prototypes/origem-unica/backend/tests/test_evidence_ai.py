@@ -226,3 +226,28 @@ def test_upstream_http_failure_is_safe_counted_and_not_retried(snapshots, live, 
     import os
     with sqlite3.connect(os.environ["ORIGEM_UNICA_AI_BUDGET_DB"]) as db:
         assert db.execute("SELECT calls FROM housing_ai_budget").fetchone() == (1,)
+
+
+@pytest.mark.parametrize("usage,known", [
+    (None, False), ({}, False), ("synthetic-secret", False),
+    ({"input_tokens": 12}, False),
+    ({"input_tokens": True, "output_tokens": 1}, False),
+    ({"input_tokens": -1, "output_tokens": 1}, False),
+    ({"input_tokens": "synthetic-secret", "output_tokens": 1}, False),
+    ({"input_tokens": 12, "output_tokens": 3}, True),
+    ({"input_tokens": 0, "output_tokens": 0}, True),
+])
+def test_optional_usage_is_unknown_unless_valid_and_never_breaks_plan(snapshots, caplog, usage, known):
+    facts = housing_facts(*(item.cached for item in snapshots))
+    payload = {"status": "completed", "usage": usage, "output": [
+        {"type": "message", "role": "assistant", "content": [
+            {"type": "output_text", "text": json.dumps(demo_plan(facts))}]}]}
+    caplog.set_level("INFO", logger="app.evidence_ai")
+    plan = asyncio.run(openai_plan(facts, "synthetic-key", MODEL,
+                                  httpx.MockTransport(lambda _: httpx.Response(200, json=payload))))
+    assert plan == demo_plan(facts)
+    assert f"usage_known={str(known).lower()}" in caplog.text
+    assert "synthetic-secret" not in caplog.text
+    assert "synthetic-key" not in caplog.text
+    if not known:
+        assert " input=" not in caplog.text

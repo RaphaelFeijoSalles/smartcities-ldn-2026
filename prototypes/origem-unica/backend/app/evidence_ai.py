@@ -189,14 +189,17 @@ async def openai_plan(facts, api_key, model, transport=None):
         if len(content) != 1 or content[0]["type"] != "output_text":
             raise AnalysisUnavailable("Resposta recusada ou inválida")
         plan = validate_plan(json.loads(content[0]["text"]), facts)
-        usage = payload.get("usage") or {}
-        input_tokens = int(usage.get("input_tokens", 0))
-        output_tokens = int(usage.get("output_tokens", 0))
     except AnalysisUnavailable:
         raise
     except (AttributeError, KeyError, TypeError, ValueError, OverflowError) as exc:
         raise AnalysisUnavailable("Resposta do provedor inválida") from exc
-    log.info("housing_ai_tokens input=%d output=%d", input_tokens, output_tokens)
+    # Optional telemetry must not fabricate zero consumption or invalidate a valid plan.
+    usage = payload.get("usage")
+    counts = [usage.get(key) for key in ("input_tokens", "output_tokens")] if isinstance(usage, dict) else []
+    if len(counts) == 2 and all(type(value) is int and 0 <= value <= 10_000_000 for value in counts):
+        log.info("housing_ai_tokens usage_known=true input=%d output=%d", *counts)
+    else:
+        log.info("housing_ai_tokens usage_known=false")
     return plan
 
 
