@@ -83,3 +83,9 @@ AI_PLAYWRIGHT=/caminho/para/playwright-core/index.mjs AI_CHROMIUM=/usr/bin/googl
 O script intercepta todas as chamadas e não consulta provedor nem fontes externas. Os testes Node da análise são executados localmente pelo glob acima; os workflows existentes não executam esse novo módulo de testes JS explicitamente. Incluir o teste em CI exige alinhamento do integrador (workflow é hot file). O pytest de contrato compartilhado já roda no CI existente.
 
 Ensaio de 120 segundos: (0–20 s) situar o analista municipal e as fontes fragmentadas; (20–45 s) mostrar panorama SNHIS e datas, três instrumentos e linhas MCMV, sem equiparar linhas a empreendimentos; (45–80 s) analisar em DEMO, mostrar seis evidências e referências; (80–105 s) baixar relatório para conferência humana; (105–120 s) explicar limites e laboratórios sintéticos de expansão. No ensaio com fontes oficiais, usar caches públicos previamente validados; este smoke usa fixtures de teste identificadas.
+
+## Orçamento inválido: falha fechada
+
+Defeito reproduzido antes da correção: contagem negativa/zero ou data inconsistente no ledger podia reservar uma tentativa; tipos inválidos em `calls`/`last` causavam erro interno. Sete regressões inicialmente **FAIL**, depois **PASS**. O estado persistido agora exige contagem inteira de 1 a 8, timestamp finito não negativo e dia UTC coerente com o timestamp. Ledger inválido retorna **503 Controle de orçamento indisponível**, registra somente `outcome=budget_unavailable` e não chama o provedor. Não repara, apaga nem zera o orçamento automaticamente. O operador precisa investigar a cópia persistente e preservar as reservas ao recuperar o serviço.
+
+Verificação após a correção: suíte completa Python **135 PASS**, um aviso Starlette/httpx; `git diff --check` PASS. Testes comprovam que a linha inválida não é modificada. CI do incremento de produto `19cddef`: quatro checks **PASS**, deploy **SKIPPED**.

@@ -319,3 +319,29 @@ def test_shared_browser_fixture_preserves_the_server_contract(snapshots):
     expected = json.loads(fixture_path.read_text())
     assert expected.pop("_fixture_note").startswith("SINTÉTICO")
     assert render_analysis(demo_plan(facts), facts, "DEMO") == expected
+
+
+@pytest.mark.parametrize("broken", ["negative_calls", "zero_calls", "text_calls", "missing_last", "text_last", "invalid_day", "mismatched_day"])
+def test_corrupt_budget_fails_closed_before_paid_transport(snapshots, live, broken, caplog):
+    import os
+    from datetime import datetime, timezone
+    import time
+    last = time.time() - 31
+    day = datetime.fromtimestamp(last, timezone.utc).date().isoformat()
+    calls = 1
+    if broken == "negative_calls": calls = -50
+    if broken == "zero_calls": calls = 0
+    if broken == "text_calls": calls = "synthetic-secret"
+    if broken == "missing_last": last = None
+    if broken == "text_last": last = "synthetic-secret"
+    if broken == "invalid_day": day = "synthetic-secret"
+    if broken == "mismatched_day": day = "2000-01-01"
+    with sqlite3.connect(os.environ["ORIGEM_UNICA_AI_BUDGET_DB"]) as db:
+        db.execute("CREATE TABLE housing_ai_budget (id INTEGER PRIMARY KEY, day TEXT, calls INTEGER, last REAL)")
+        db.execute("INSERT INTO housing_ai_budget VALUES (1, ?, ?, ?)", (day, calls, last))
+    response = client_for(snapshots, unexpected_provider).post(ENDPOINT, headers=live)
+    assert response.status_code == 503
+    assert response.json()["detail"] == "Controle de orçamento indisponível."
+    assert "synthetic-secret" not in response.text + caplog.text
+    with sqlite3.connect(os.environ["ORIGEM_UNICA_AI_BUDGET_DB"]) as db:
+        assert db.execute("SELECT calls FROM housing_ai_budget").fetchone() == (calls,)

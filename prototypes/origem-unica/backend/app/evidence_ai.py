@@ -5,6 +5,7 @@ import asyncio
 import hmac
 import json
 import logging
+import math
 import os
 import sqlite3
 import time
@@ -212,6 +213,17 @@ def reserve_live_call(path):
         db.execute("""CREATE TABLE IF NOT EXISTS housing_ai_budget
                    (id INTEGER PRIMARY KEY, day TEXT, calls INTEGER, last REAL)""")
         previous = db.execute("SELECT day, calls, last FROM housing_ai_budget WHERE id=1").fetchone()
+        if previous:
+            try:
+                stored_day, calls, last = previous
+                valid = (type(calls) is int and 1 <= calls <= DAILY_CALLS
+                         and type(last) in (int, float) and math.isfinite(last) and last >= 0
+                         and dated_iso(stored_day) == datetime.fromtimestamp(last, timezone.utc).date().isoformat())
+            except (TypeError, ValueError, OverflowError, OSError):
+                valid = False
+            if not valid:
+                # Never repair/reset a corrupt ledger automatically: that would restore paid quota.
+                raise sqlite3.DatabaseError("Invalid AI budget state")
         if previous and (now - previous[2] < COOLDOWN or (previous[0] == day and previous[1] >= DAILY_CALLS)):
             return False
         count = previous[1] + 1 if previous and previous[0] == day else 1
@@ -253,6 +265,7 @@ def evidence_router(snhis, mcmv, provider=openai_plan):
             try:
                 reserved = await asyncio.to_thread(reserve_live_call, budget)
             except sqlite3.Error as exc:
+                log.info("housing_ai outcome=budget_unavailable")
                 raise HTTPException(503, "Controle de orçamento indisponível.") from exc
             if not reserved:
                 raise HTTPException(429, "Cota de análise ou intervalo mínimo atingido.", headers={"Retry-After": str(COOLDOWN)})
