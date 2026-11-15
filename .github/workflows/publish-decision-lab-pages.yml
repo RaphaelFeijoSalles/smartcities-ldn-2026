@@ -51,6 +51,8 @@ jobs:
           node --check tools/origem-unica/habitacao-official.mjs
           node --check tools/origem-unica/habitacao-model.mjs
           node --check tools/origem-unica/habitacao-demo.mjs
+          node --check tools/origem-unica/analise-evidencias-model.mjs
+          node --test tools/origem-unica/analise-evidencias.test.mjs
           node --test tools/decision-board/model.test.mjs
           node --test tools/origem-unica/adapter.test.mjs
           node --test tools/origem-unica/habitacao-model.test.mjs
