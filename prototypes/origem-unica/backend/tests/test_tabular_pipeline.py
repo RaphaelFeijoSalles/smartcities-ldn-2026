@@ -91,9 +91,29 @@ def test_review_queue_and_duplicate_identity_not_paired():
     result = compare(left, meta(), right, meta())
     assert result['metrics'] == dict(match=0, conflict=1, incomplete=0, only_left=1, only_right=1, ambiguous=1, missing_key=1)
     assert result['writes_performed'] is False
-    assert len(result['review_queue']) == 5
+    assert len([r for r in result['review_queue'] if r['rule'] != 'SOURCE_QUALITY_ISSUES']) == 5
     assert 'Rua X' not in json.dumps(result)
     assert next(r for r in result['review_queue'] if r['rule'] == 'EXACT_VALUE_DIFFERENCE')['left_rows'] == [5]
+
+
+def test_matching_fields_do_not_hide_source_quality_defects():
+    left = table('CODLOG;Nome;Observacao\n1;Rua A;\n')
+    right = table('CODLOG;Nome\n1;Rua A\n')
+    result = compare(left, meta(), right, meta())
+    assert result['metrics']['match'] == 1
+    assert result['quality_status'] == 'FAIL'
+    issue = next(item for item in result['review_queue'] if item['rule'] == 'SOURCE_QUALITY_ISSUES')
+    assert issue['side'] == 'left'
+    assert issue['source_report_id'] == result['sources'][0]['report_id']
+    assert result['sources'][1]['quality_status'] == 'PASS'
+    assert result == compare(left, meta(), right, meta())
+
+
+def test_clean_sources_and_matching_values_remain_pass():
+    t = table('CODLOG;Nome\n1;Rua A\n')
+    result = compare(t, meta(), t, meta())
+    assert result['quality_status'] == 'PASS'
+    assert result['review_queue'] == []
 
 
 def test_missing_comparison_values_are_not_matches():
