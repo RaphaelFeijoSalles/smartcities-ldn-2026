@@ -4,7 +4,7 @@ from __future__ import annotations
 from collections import defaultdict
 
 from app.data_review import identify_report
-from app.tabular_import import ImportRejected, Table, analyze, identity_key
+from app.tabular_import import ImportRejected, Table, analyze, identity_key, identity_format_valid
 
 
 def compare(left: Table, left_meta: dict, right: Table, right_meta: dict,
@@ -23,20 +23,26 @@ def compare(left: Table, left_meta: dict, right: Table, right_meta: dict,
     def index(table, mapping):
         result = defaultdict(list)
         missing = []
+        invalid = []
         for line, row in enumerate(table.rows, 2):
             value = identity_key(row[mapping[key]])
             if value is None:
                 missing.append(line)
+            elif not identity_format_valid(row[mapping[key]], left_meta['nature']):
+                invalid.append(line)
             else:
                 result[value].append((line, row))
-        return result, missing
-    ai, ax = index(left, am)
-    bi, bx = index(right, bm)
+        return result, missing, invalid
+    ai, ax, az = index(left, am)
+    bi, bx, bz = index(right, bm)
     review = []
-    counts = dict(match=0, conflict=0, incomplete=0, only_left=0, only_right=0, ambiguous=0, missing_key=len(ax) + len(bx))
+    counts = dict(match=0, conflict=0, incomplete=0, only_left=0, only_right=0, ambiguous=0, missing_key=len(ax) + len(bx), invalid_key=len(az) + len(bz))
     for side, rows in [('left', ax), ('right', bx)]:
         for row in rows:
             review.append({'rule': 'MISSING_IDENTITY', side + '_rows': [row], 'fields': [key], 'state': 'PENDING'})
+    for side, rows in [('left', az), ('right', bz)]:
+        for row in rows:
+            review.append({'rule': 'INVALID_IDENTITY_FORMAT', side + '_rows': [row], 'fields': [key], 'state': 'PENDING'})
     for value in sorted(ai.keys() | bi.keys()):
         ar, br = ai.get(value, []), bi.get(value, [])
         refs = {'left_rows': [r[0] for r in ar], 'right_rows': [r[0] for r in br]}
