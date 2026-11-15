@@ -67,6 +67,13 @@ com cabeçalhos colidentes em qualidade PASS. Reconhecer uma pendência não alt
 a qualidade nem corrige os dados originais.
 PASS significa ausência das regras sinalizadas; não comprova completude semântica ou legal.
 
+Para `housing_status`, códigos de município precisam ter sete dígitos ASCII
+após a conversão numérica já utilizada na identidade. Código malformado gera
+`INVALID_IBGE_CODE_FORMAT` no perfil e `INVALID_IDENTITY_FORMAT` na comparação;
+as linhas são postas em revisão e não participam do pareamento. A métrica
+`invalid_key` conta linhas inválidas dos dois lados. O formato não confirma que
+o município existe, nem verifica nome, UF ou situação em fontes oficiais.
+
 ## POST /api/data-import/compare
 
 Corpo `{"left": documento, "right": documento}` no mesmo formato do exemplo.
@@ -82,7 +89,7 @@ A fila é uma projeção reproduzível do relatório, não um workflow persisten
 Reenviar os mesmos bytes e metadados produz o mesmo relatório.
 
 Métricas: match, conflict, incomplete, only_left, only_right, ambiguous (grupos de identidade),
-missing_key (linhas). Métricas de grupos e linhas não devem ser somadas como contagem de linhas.
+missing_key e invalid_key (linhas). Métricas de grupos e linhas não devem ser somadas como contagem de linhas.
 Comparações entre datas diferentes descrevem diferenças de snapshots, não necessariamente erros.
 
 ## Limites e erros

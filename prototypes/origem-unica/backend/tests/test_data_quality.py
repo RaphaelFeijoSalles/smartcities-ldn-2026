@@ -32,3 +32,8 @@ def test_empty_input_is_safe_and_source_required():
 def test_unknown_key_is_rejected_not_silently_ignored():
     with pytest.raises(ValueError):
         profile_rows([{"x": 1}], source="TEST", key_fields=["missing"])
+
+
+def test_missing_nonkey_field_alone_requires_review():
+    report = profile_rows([{'id': '1', 'observation': ''}], source='SYNTHETIC', key_fields=['id'])
+    assert report['requires_human_review'] is True

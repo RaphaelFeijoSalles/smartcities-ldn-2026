@@ -89,7 +89,7 @@ def test_review_queue_and_duplicate_identity_not_paired():
     left = table('CODLOG;Nome\n1;A\n1;B\n;C\n2;R. X\n3;D\n')
     right = table('codigo_logradouro;nome_logradouro\n1;A\n2;Rua X\n4;E\n')
     result = compare(left, meta(), right, meta())
-    assert result['metrics'] == dict(match=0, conflict=1, incomplete=0, only_left=1, only_right=1, ambiguous=1, missing_key=1)
+    assert result['metrics'] == dict(match=0, conflict=1, incomplete=0, only_left=1, only_right=1, ambiguous=1, missing_key=1, invalid_key=0)
     assert result['writes_performed'] is False
     assert len([r for r in result['review_queue'] if r['rule'] != 'SOURCE_QUALITY_ISSUES']) == 5
     assert 'Rua X' not in json.dumps(result)

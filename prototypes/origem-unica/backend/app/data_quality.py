@@ -73,6 +73,6 @@ def profile_rows(
         "key_fields": list(key_fields),
         "incomplete_key_rows": incomplete,
         "duplicate_key_rows": duplicates,
-        "requires_human_review": bool(collisions or duplicates or incomplete),
+        "requires_human_review": bool(collisions or duplicates or incomplete or any(missing.values())),
         "notice": "Diagnóstico agregado, não constitui validação jurídica nem correção automática.",
     }
