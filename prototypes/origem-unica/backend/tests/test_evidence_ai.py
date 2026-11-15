@@ -251,3 +251,37 @@ def test_optional_usage_is_unknown_unless_valid_and_never_breaks_plan(snapshots,
     assert "synthetic-key" not in caplog.text
     if not known:
         assert " input=" not in caplog.text
+
+
+def test_budget_rolls_over_at_utc_midnight_without_bypassing_cooldown(tmp_path, monkeypatch):
+    from datetime import datetime, timezone
+    path = tmp_path / "utc-budget.sqlite"
+    clock = [datetime(2026, 11, 14, 23, 59, 45, tzinfo=timezone.utc).timestamp()]
+    monkeypatch.setattr("app.evidence_ai.time.time", lambda: clock[0])
+    assert reserve_live_call(path)
+    clock[0] += 15
+    assert not reserve_live_call(path)  # New UTC day still respects the last paid reservation.
+    clock[0] += 16
+    assert reserve_live_call(path)
+    with sqlite3.connect(path) as db:
+        assert db.execute("SELECT day, calls FROM housing_ai_budget").fetchone() == ("2026-11-15", 1)
+
+
+def test_unauthenticated_request_never_reserves_budget(snapshots, live, monkeypatch):
+    def forbidden_reservation(*_):
+        raise AssertionError("unauthorized requests must not reserve paid quota")
+    monkeypatch.setattr("app.evidence_ai.reserve_live_call", forbidden_reservation)
+    client = client_for(snapshots, unexpected_provider)
+    for headers in ({}, {"Authorization": "Bearer incorrect"}):
+        response = client.post(ENDPOINT, headers=headers)
+        assert response.status_code == 401
+        assert response.headers["www-authenticate"] == "Bearer"
+
+
+def test_paid_request_byte_limit_is_enforced_before_transport(snapshots):
+    facts = housing_facts(*(item.cached for item in snapshots))
+    facts["snhis"]["label"] = "SINTÉTICO" * 1000
+    def forbidden_transport(_):
+        raise AssertionError("oversized inputs must not reach the provider")
+    with pytest.raises(AnalysisUnavailable, match="Entrada acima do limite"):
+        asyncio.run(openai_plan(facts, "synthetic-key", MODEL, httpx.MockTransport(forbidden_transport)))
