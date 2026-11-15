@@ -259,6 +259,12 @@ def evidence_router(snhis, mcmv, provider=openai_plan):
             except (TimeoutError, httpx.TimeoutException) as exc:
                 log.info("housing_ai outcome=timeout")
                 raise HTTPException(504, "O serviço de IA excedeu o tempo limite.") from exc
+            except httpx.HTTPStatusError as exc:
+                upstream_status = exc.response.status_code
+                log.info("housing_ai outcome=provider_http_error status=%d", upstream_status)
+                if upstream_status == 429:
+                    raise HTTPException(503, "O provedor de IA atingiu um limite de uso ou cota. Consulte o responsável antes de tentar novamente.") from exc
+                raise HTTPException(502, "O provedor de IA está indisponível.") from exc
             except (httpx.HTTPError, KeyError, TypeError, ValueError) as exc:
                 log.info("housing_ai outcome=invalid_or_unavailable")
                 raise HTTPException(502, "Não foi possível validar a análise de IA.") from exc

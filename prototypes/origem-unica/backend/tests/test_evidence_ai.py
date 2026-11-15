@@ -198,3 +198,31 @@ def test_responses_http_contract_and_untrusted_output(snapshots, response_mode):
     else:
         with pytest.raises(AnalysisUnavailable):
             asyncio.run(call)
+
+
+@pytest.mark.parametrize("upstream,status", [(429, 503), (401, 502), (500, 502), (503, 502)])
+def test_upstream_http_failure_is_safe_counted_and_not_retried(snapshots, live, upstream, status, caplog, monkeypatch):
+    calls = []
+
+    def respond(request):
+        calls.append(request)
+        return httpx.Response(upstream, headers={"Retry-After": "synthetic-secret"},
+                              json={"error": {"message": "synthetic-secret"}})
+
+    async def provider(facts, key, model):
+        return await openai_plan(facts, key, model, httpx.MockTransport(respond))
+
+    caplog.set_level("INFO", logger="app.evidence_ai")
+    client = client_for(snapshots, provider)
+    response = client.post(ENDPOINT, headers=live)
+    assert response.status_code == status
+    assert "synthetic-secret" not in response.text + caplog.text
+    assert "sk-test-not-real" not in response.text + caplog.text
+    assert "retry-after" not in response.headers
+    assert "mode" not in response.json()
+    assert f"status={upstream}" in caplog.text
+    assert client.post(ENDPOINT, headers=live).status_code == 429
+    assert len(calls) == 1
+    import os
+    with sqlite3.connect(os.environ["ORIGEM_UNICA_AI_BUDGET_DB"]) as db:
+        assert db.execute("SELECT calls FROM housing_ai_budget").fetchone() == (1,)

@@ -87,8 +87,10 @@ form.addEventListener("submit", async event => {
       const body = await response.json().catch(() => null);
       throw new Error(typeof body?.detail === "string" ? body.detail : "Análise indisponível.");
     }
-    showAnalysis(await response.json());
-    status.textContent = "Análise carregada.";
+    const data = await response.json();
+    showAnalysis(data);
+    status.textContent = data.mode === "AI" ? "Análise carregada · assistência por IA." :
+      "Análise carregada · demonstração sem chamada de IA.";
   } catch (error) {
     status.textContent = error.name === "TimeoutError" ? "A análise excedeu o tempo limite." :
       (error instanceof TypeError ? "Análise indisponível. Consulte o painel de Habitação." : error.message);

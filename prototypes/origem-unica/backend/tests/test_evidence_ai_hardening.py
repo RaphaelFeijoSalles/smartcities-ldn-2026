@@ -9,7 +9,7 @@ import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
-ai = pytest.importorskip("app.evidence_ai")
+import app.evidence_ai as ai
 
 ENDPOINT = "/api/habitacao/municipios/4113700/analise"
 TOKEN = "synthetic-" + "x" * 40
@@ -63,7 +63,7 @@ def test_oversized_provider_response_is_rejected(facts_and_services):
 
 @pytest.mark.parametrize("failure,expected", [("wrong_token", 401), ("missing_key", 503),
                                                ("bad_db", 503), ("timeout", 504),
-                                               ("provider_429", 502)])
+                                               ("provider_429", 503)])
 def test_live_fail_closed(monkeypatch, tmp_path, facts_and_services, failure, expected):
     _, services = facts_and_services
     monkeypatch.setenv("ORIGEM_UNICA_AI_MODE", "live")

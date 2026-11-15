@@ -42,3 +42,20 @@ python -m pytest -q
 ```
 
 Os testes cobrem o endpoint FastAPI, o transporte simulado da Responses API, recusa, saída incompleta, referências inválidas, autenticação, cota concorrente, timeout e ausência de dados. O modo online precisa de uma chamada de validação com chave autorizada antes de merge ou publicação. Não use chave falsa para alegar evidência de integração online.
+
+## Integração noturna #40 + #42 — 15/11/2026
+
+Owner: Codex (IA/segurança). Branch `fix/ai-integration-night-20261115`, base remota `63f6a91`.
+
+- HTTP 429 do provedor retorna **503** com mensagem controlada de limite/cota; HTTP 429 local permanece reservado ao orçamento/cooldown do aplicativo. Outros status HTTP upstream retornam 502. Nenhum corpo, header Retry-After arbitrário ou exceção do provedor é repassado. O log registra somente o status numérico nesse caminho.
+- Falhas consomem a tentativa já reservada. Não há retry automático nem fallback silencioso de AI para DEMO. Recuperação requer revisão humana da cota/configuração antes de nova tentativa manual.
+- Botão neutro e resultado/status distinguem DEMO e AI. A explicação estática contempla os dois modos.
+- Testes adversariais agora importam o módulo diretamente: ausência da integração falha em vez de ocultar a suíte com skip.
+
+Evidências locais: `prototypes/origem-unica/backend/.venv/bin/python -m pytest -q prototypes/origem-unica/backend/tests` → 114 PASS, um aviso de depreciação Starlette/httpx. `node --test tools/origem-unica/*.test.mjs tools/decision-board/*.test.mjs tests/origem-unica/*.test.mjs` → 47 PASS. `node scripts/build-decision-pages.mjs`, `node --check tools/origem-unica/analise-evidencias.mjs` e `git diff --check` → PASS. Testes DOM simulados não equivalem a screenshot ou smoke visual.
+
+Relatório: **PASS** autenticação, orçamento concorrente/persistente, timeout, JSON inválido, resposta incompleta, referências não autorizadas e HTTP upstream simulado. **UNKNOWN** smoke visual desta revisão, disponibilidade real, modelo efetivo e tokens da execução live anterior. O responsável relatou execução local live preservando SNHIS REGULAR e 42 linhas MCMV e reserva SQLite UTC em 15/11; esses fatos não foram reproduzidos nesta sessão. Nenhuma chamada paga executada.
+
+Riscos: P0/P1 não comprovados nos cenários testados; isso não certifica produção. P2: SQLite exige disco persistente compartilhado em host único; token compartilhado não é identidade individual; smoke visual pendente. Modo público live permanece **NO-GO**. Não houve alteração de configuração de hospedagem, importadores, PR #41, dependências, CI ou layout geral.
+
+Roteiro para o integrador: revisar o diff da PR integradora; evitar aplicar #40/#42 novamente (históricos incluídos); repetir Python/Node/build e smoke DEMO local; conferir os modos e a preservação do panorama; manter live público desabilitado. Para deploy futuro, revisar HTTPS/CORS, segredo separado, arquivo SQLite privado persistente e host/worker único antes de qualquer autorização. Merge/deploy dependem do responsável.
