@@ -59,6 +59,12 @@ validade administrativa sempre UNKNOWN. SHA-256 identifica os bytes, não autent
 Resposta v1: provenance (metadados, hash, formato, versão do adaptador), profile (contagem,
 mapa de cabeçalhos, colisões, ausências, duplicatas e chaves incompletas), field_mapping,
 review_queue, quality_status, official_validity e writes_performed=false.
+
+O resultado da comparação também inclui `SOURCE_QUALITY_ISSUES` para cada
+fonte cujo perfil tenha pendências, apontando `source_report_id` para os detalhes.
+Assim, coincidência nos campos comparados não transforma uma fonte incompleta ou
+com cabeçalhos colidentes em qualidade PASS. Reconhecer uma pendência não altera
+a qualidade nem corrige os dados originais.
 PASS significa ausência das regras sinalizadas; não comprova completude semântica ou legal.
 
 ## POST /api/data-import/compare
