@@ -32,3 +32,5 @@ tmp/
 
 # Disposable GitHub Pages build artifact
 .pages-site/
+
+db/

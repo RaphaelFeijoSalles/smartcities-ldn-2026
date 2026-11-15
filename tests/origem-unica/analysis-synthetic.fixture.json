@@ -1,0 +1,108 @@
+{
+  "mode": "DEMO",
+  "municipality": {
+    "name": "Londrina",
+    "uf": "PR",
+    "ibge": "4113700"
+  },
+  "summary": [
+    {
+      "text": "Situação municipal no SNHIS: REGULAR.",
+      "fact_ids": [
+        "snhis"
+      ]
+    },
+    {
+      "text": "Linhas da fonte MCMV: 42.",
+      "fact_ids": [
+        "mcmv"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "snhis",
+      "label": "Situação municipal no SNHIS",
+      "value": "REGULAR",
+      "dates": [
+        "2026-10-20"
+      ],
+      "url": "https://www.gov.br/cidades/pt-br/acesso-a-informacao/acoes-e-programas/habitacao/programa-minha-casa-minha-vida/minha-casa-minha-vida-fnhis-sub-50-1/arquivos-fnhis-sub-50/FNHIS_QUINZENAL_MCID_2026_10_20.xls"
+    },
+    {
+      "id": "fundo",
+      "label": "Lei do Fundo Local de Habitação de Interesse Social",
+      "value": "REGULAR",
+      "dates": [
+        "2026-10-20"
+      ],
+      "url": "https://www.gov.br/cidades/pt-br/acesso-a-informacao/acoes-e-programas/habitacao/programa-minha-casa-minha-vida/minha-casa-minha-vida-fnhis-sub-50-1/arquivos-fnhis-sub-50/FNHIS_QUINZENAL_MCID_2026_10_20.xls"
+    },
+    {
+      "id": "conselho",
+      "label": "Lei do Conselho Gestor do Fundo Local",
+      "value": "REGULAR",
+      "dates": [
+        "2026-10-20"
+      ],
+      "url": "https://www.gov.br/cidades/pt-br/acesso-a-informacao/acoes-e-programas/habitacao/programa-minha-casa-minha-vida/minha-casa-minha-vida-fnhis-sub-50-1/arquivos-fnhis-sub-50/FNHIS_QUINZENAL_MCID_2026_10_20.xls"
+    },
+    {
+      "id": "adesao",
+      "label": "Assinatura e publicação do termo de adesão ao SNHIS",
+      "value": "REGULAR",
+      "dates": [
+        "2026-10-20"
+      ],
+      "url": "https://www.gov.br/cidades/pt-br/acesso-a-informacao/acoes-e-programas/habitacao/programa-minha-casa-minha-vida/minha-casa-minha-vida-fnhis-sub-50-1/arquivos-fnhis-sub-50/FNHIS_QUINZENAL_MCID_2026_10_20.xls"
+    },
+    {
+      "id": "plhis",
+      "label": "Plano Local de Habitação de Interesse Social",
+      "value": "REGULAR",
+      "dates": [
+        "2026-10-20"
+      ],
+      "url": "https://www.gov.br/cidades/pt-br/acesso-a-informacao/acoes-e-programas/habitacao/programa-minha-casa-minha-vida/minha-casa-minha-vida-fnhis-sub-50-1/arquivos-fnhis-sub-50/FNHIS_QUINZENAL_MCID_2026_10_20.xls"
+    },
+    {
+      "id": "mcmv",
+      "label": "Linhas da fonte MCMV",
+      "value": 42,
+      "dates": [
+        "2026-06-30"
+      ],
+      "url": "https://www.gov.br/cidades/SINTETICO-teste.zip"
+    }
+  ],
+  "limitations": [
+    {
+      "text": "Os snapshots retratam as datas indicadas. Confira a situação atual no sistema oficial.",
+      "fact_ids": [
+        "snhis",
+        "mcmv"
+      ]
+    },
+    {
+      "text": "A contagem MCMV representa linhas da fonte. O conjunto pode conter operações repetidas.",
+      "fact_ids": [
+        "mcmv"
+      ]
+    }
+  ],
+  "next_steps": [
+    {
+      "text": "Conferir a situação municipal e as datas no SNHIS oficial.",
+      "fact_ids": [
+        "snhis"
+      ]
+    },
+    {
+      "text": "Revisar as linhas MCMV na fonte antes de comparar ou agregar registros.",
+      "fact_ids": [
+        "mcmv"
+      ]
+    }
+  ],
+  "_fixture_note": "SINTÉTICO: MCMV inventado para testes de contrato; SNHIS usa o recorte oficial já versionado. Não usar como evidência de download MCMV."
+}

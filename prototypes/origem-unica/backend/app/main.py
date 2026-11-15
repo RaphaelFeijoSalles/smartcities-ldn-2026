@@ -8,6 +8,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.service import ReconciliationService
+from app.evidence_ai import evidence_router
 from app.habitacao import SnhisService, housing_router
 from app.mcmv import McmvService
 
@@ -35,8 +36,8 @@ def create_app(service: ReconciliationService | None = None, housing_service: Sn
         CORSMiddleware,
         allow_origins=cors_origins(),
         allow_credentials=False,
-        allow_methods=["GET"],
-        allow_headers=["Accept", "Content-Type"],
+        allow_methods=["GET", "POST"],
+        allow_headers=["Accept", "Content-Type", "Authorization"],
     )
     app.state.reconciliation_service = service or ReconciliationService()
 
@@ -73,8 +74,10 @@ def create_app(service: ReconciliationService | None = None, housing_service: Sn
             "sources": snapshot["sources"],
         }
 
-    app.include_router(housing_router(housing_service or SnhisService()))
+    snhis_service = housing_service or SnhisService()
     mcmv_service = McmvService()
+    app.include_router(housing_router(snhis_service))
+    app.include_router(evidence_router(snhis_service, mcmv_service))
 
     @app.get('/api/habitacao/empreendimentos', tags=['Habitação'])
     def empreendimentos(municipio: str):
