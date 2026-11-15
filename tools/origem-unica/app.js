@@ -32,6 +32,18 @@ const labels={conflict:"Conflito",match:"Correspondência",missing:"Sem par",pos
 const statusLabels={pending:"Pendente",reviewed:"Revisado",matched:"Sugerido"};
 let state={items:clone(seed),baseItems:clone(seed),sources:{},mode:"MOCK",dataMode:"MOCK",sync:"Aguardando API",logs:[{id:"audit-initial",at:null,message:"Seis registros sintéticos carregados para o cenário de UBS.",details:"Dados inventados; aguardando tentativa de conexão com a API."}],selected:"OU-001",search:"",filter:"all",view:"overview"};
 let timer=null;
+let lastSync=null;
+const normalizeQuery=value=>String(value??"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLocaleLowerCase("pt-BR").trim();
+
+function reviewSignature(item) {
+ const snapshotSource=source=>{
+  if(!source)return null;
+  const {fetchedAt,raw,...values}=source;
+  const {fetched_at,...original}=raw??{};
+  return [values,original];
+ };
+ return JSON.stringify([snapshotSource(item.a),snapshotSource(item.b),item.kind,item.comparisonStatus,item.score,item.fields]);
+}
 try{
   const saved=JSON.parse(localStorage.getItem(STORE)||"null");
   if(saved&&Array.isArray(saved.items)&&saved.items.length===seed.length&&saved.items.every((r,i)=>r.id===seed[i].id)&&Array.isArray(saved.logs)){
@@ -57,8 +69,15 @@ function modeLabel(){
  return "API · "+(state.dataMode==="UNSPECIFIED"?"MODO NÃO INFORMADO":state.dataMode)+" · origem declarada";
 }
 function renderSync(){
- $("data-mode").textContent=modeLabel();
- $("sync-status").textContent=state.sync;
+ const mode=$("data-mode");
+ mode.textContent=modeLabel();
+ mode.dataset.provenance=hasMixedOrigins()?"mixed":
+  state.mode==="MOCK"||["MOCK","DEMO_SYNTHETIC"].includes(state.dataMode)?"mock":
+   ["LIVE","SNAPSHOT"].includes(state.dataMode)?"declared":"unverified";
+ const sync=$("sync-status");
+ sync.textContent=state.sync;
+ sync.parentElement.dataset.state=state.sync.includes("indisponível")?"warning":
+  state.sync==="Consultando API…"?"loading":"ready";
  $("total-summary").textContent=state.mode==="MOCK"?"Dados sintéticos locais":hasMixedOrigins()?"Origens mistas declaradas":state.dataMode==="MOCK"||state.dataMode==="DEMO_SYNTHETIC"?"Dados sintéticos da API":"Dados recebidos da API";
  $("source-summary").textContent=state.mode==="MOCK"?"Fontes modeladas no cenário sintético":"Fontes declaradas pela API";
  $("overview-note").textContent=state.mode==="MOCK"?"Ocorrências do cenário sintético. Nenhuma inconsistência real foi identificada no SIGLON ou no CNES.":"Ocorrências retornadas pela API ("+state.dataMode+"). A proveniência é a declarada pelo serviço; nenhuma fonte foi validada por esta interface.";
@@ -76,34 +95,42 @@ function apiUrl(){
  return new URL("api/records",url.href.endsWith("/")?url.href:url.href+"/").href;
 }
 async function syncRecords(){
+ if($("sync").disabled)return;
  state.sync="Consultando API…";renderSync();
  const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),75000);
  try{
   const response=await fetch(apiUrl(),{signal:controller.signal,headers:{Accept:"application/json"}});
   if(!response.ok)throw new Error("HTTP "+response.status);
   const normalized=OrigemAdapter.normalizePayload(await response.json());
-  const reviews=new Map(state.mode==="API"?state.items.filter(x=>x.status==="reviewed").map(x=>[x.id,{signature:JSON.stringify([x.a,x.b,x.kind,x.score,x.fields]),decisionLabel:x.decisionLabel,previewAddressSource:x.previewAddressSource}]):[]);
+  const reviews=new Map(state.mode==="API"?state.items.filter(x=>x.status==="reviewed").map(x=>[x.id,{signature:reviewSignature(x),decisionLabel:x.decisionLabel,previewAddressSource:x.previewAddressSource}]):[]);
   state.baseItems=normalized.items;state.items=clone(normalized.items);state.sources=normalized.sources;
-  for(const item of state.items){const saved=reviews.get(item.id);if(saved?.signature===JSON.stringify([item.a,item.b,item.kind,item.score,item.fields])){item.status="reviewed";item.decisionLabel=saved.decisionLabel;item.previewAddressSource=saved.previewAddressSource}}
+  for(const item of state.items){const saved=reviews.get(item.id);if(saved?.signature===reviewSignature(item)){item.status="reviewed";item.decisionLabel=saved.decisionLabel;item.previewAddressSource=saved.previewAddressSource}}
   state.mode="API";state.dataMode=normalized.mode;state.selected=state.items.some(x=>x.id===state.selected)?state.selected:state.items[0]?.id;
-  state.sync="API sincronizada às "+new Date().toLocaleTimeString("pt-BR");
+  lastSync=new Date().toLocaleTimeString("pt-BR");
+  state.sync="API sincronizada às "+lastSync;
   audit("API consultada","GET /api/records · "+state.items.length+" registro(s) · modo "+state.dataMode+". Proveniência declarada pelo serviço.");
   toast("Dados da API carregados.");
  }catch(error){
-  const saved=state.mode==="MOCK"?state.items:clone(seed);
-  state.items=saved;state.baseItems=clone(seed);state.sources={};state.mode="MOCK";state.dataMode="MOCK";state.selected=state.items.some(x=>x.id===state.selected)?state.selected:state.items[0]?.id;
-  state.sync="API indisponível ("+(error.name==="AbortError"?"tempo esgotado":error instanceof TypeError?"falha de conexão":error.message)+") · fallback MOCK";
-  audit("Fallback MOCK ativado","API indisponível; cenário sintético local carregado.");
-  toast("API indisponível. Exibindo dados MOCK.");
+  const reason=error.name==="AbortError"?"tempo esgotado":error instanceof TypeError?"falha de conexão":error.message;
+  if(state.mode==="API"){
+   state.sync="Atualização indisponível ("+reason+"). Mantendo dados da API carregados às "+lastSync+".";
+   audit("Atualização indisponível","Dados anteriores da API e revisões preservados nesta página.");
+   toast("Atualização indisponível. Dados e revisões preservados.");
+  }else{
+   state.sync="API indisponível ("+reason+") · fallback MOCK";
+   audit("Fallback MOCK ativado","API indisponível. Cenário sintético local mantido.");
+   toast("API indisponível. Exibindo dados MOCK.");
+  }
  }finally{clearTimeout(timeout);renderSync();refresh()}
 }
 function audit(message,details){state.logs.unshift({id:"a-"+Date.now()+"-"+Math.random().toString(36).slice(2,5),at:new Date().toLocaleString("pt-BR"),message,details});state.logs=state.logs.slice(0,50);persist();renderAudit();}
 function toast(message){const t=$("toast");t.textContent=message;t.classList.add("visible");clearTimeout(timer);timer=setTimeout(()=>t.classList.remove("visible"),3500)}
-function viewPage(name){if(!["overview","sources","matching","audit","impact"].includes(name))return;state.view=name;
+function viewPage(name,moveFocus=true){if(!["overview","sources","matching","audit","impact"].includes(name))return;state.view=name;
  for(const el of document.querySelectorAll(".view"))el.classList.toggle("active",el.id==="view-"+name);
  for(const el of document.querySelectorAll("[data-view]")){const active=el.dataset.view===name;el.classList.toggle("active",active);if(active)el.setAttribute("aria-current","page");else el.removeAttribute("aria-current");}
  $("current-page").textContent={overview:"Visão geral",sources:"Fontes de dados",matching:"Conciliação",audit:"Auditoria",impact:"Valor público"}[name];
  window.scrollTo({top:0,behavior:"auto"});
+ if(moveFocus)$("main").focus({preventScroll:true});
 }
 function kindClass(item){return item.status==="reviewed"?"reviewed":item.kind==="conflict"?"warning":""}
 function kindLabel(item){return item.status==="reviewed"?"Revisado":labels[item.kind]}
@@ -142,22 +169,27 @@ function renderSources(){
  }
 }
 function filtered(){
- const q=state.search.toLocaleLowerCase("pt-BR");
+ const q=normalizeQuery(state.search);
  return state.items.filter(x=>{
-   const text=[x.name,x.id,x.a?.address,x.b?.address,x.a?.source,x.b?.source,x.fields.join(" ")].join(" ").toLocaleLowerCase("pt-BR");
-   return(!q||text.includes(q))&&(state.filter==="all"||(state.filter==="pending"&&x.status==="pending")||(state.filter==="reviewed"&&x.status==="reviewed")||x.kind===state.filter);
+   const text=[x.name,x.id,x.a?.address,x.b?.address,x.a?.source,x.b?.source,x.fields.join(" ")].join(" ");
+   return(!q||normalizeQuery(text).includes(q))&&(state.filter==="all"||(state.filter==="pending"&&x.status==="pending")||(state.filter==="reviewed"&&x.status==="reviewed")||x.kind===state.filter);
  });
 }
 function renderRecords(){
  const rows=filtered(),root=$("records");root.replaceChildren();
+ if(!rows.some(item=>item.id===state.selected))state.selected=rows[0]?.id??null;
+ $("export").disabled=!rows.length;
+ $("clear-review-filters").disabled=!state.search&&state.filter==="all";
  $("list-count").textContent=rows.length+" registro(s) · "+state.mode;
  if(!rows.length){root.append(safeText("p","Nenhum cadastro com estes filtros.","panel-note"));return;}
  for(const item of rows){
   const node=safeText("button",undefined,"record"+(state.selected===item.id?" active":""));node.textContent="";node.type="button";
+  node.setAttribute("aria-pressed",String(state.selected===item.id));
+  node.setAttribute("aria-controls","details");
   const left=safeText("span",undefined);left.textContent="";
   left.append(safeText("b",item.name),safeText("small",item.id+" · "+(item.score===null?"sem score":Math.round(item.score*100)+"% de score sugerido")+" · "+state.mode));
   node.append(left,safeText("span",kindLabel(item),"pill "+kindClass(item)));
-  node.addEventListener("click",()=>{state.selected=item.id;persist();renderRecords();renderDetail();});
+  node.addEventListener("click",()=>{state.selected=item.id;persist();renderRecords();renderDetail();$("details").focus();});
   root.append(node);
  }
 }
@@ -202,7 +234,7 @@ function appendApiPreview(root,item){
  root.append(details);
 }
 function renderDetail(){
- const item=state.items.find(x=>x.id===state.selected),root=$("details");root.replaceChildren();if(!item){root.append(safeText("p","Selecione um registro."));return;}
+ const item=state.items.find(x=>x.id===state.selected),root=$("details");root.replaceChildren();if(!item){root.append(safeText("p","Nenhum registro disponível para comparação nesta seleção."));return;}
  const title=safeText("div",undefined,"detail-title");title.textContent="";
  const left=safeText("div",undefined);left.textContent="";left.append(safeText("div",state.mode+" · REGISTRO "+item.id,"section-kicker"),safeText("h2",item.name),safeText("p",modeLabel()+" · nenhuma base oficial foi alterada"));
  title.append(left,safeText("span",item.status==="reviewed"?"Revisado":statusLabels[item.status],"pill "+(item.status==="reviewed"?"reviewed":item.status==="pending"?"warning":"good")));root.append(title);
@@ -210,25 +242,30 @@ function renderDetail(){
  const verdict=safeText("div",undefined,"verdict"+(item.status==="matched"||item.status==="reviewed"?" good":""));verdict.textContent="";
  const explanation=item.kind==="match"?"Os formatos parecem representar o mesmo registro; isso não valida a origem.":"Existem campos divergentes ou um cadastro sem par. Um humano precisa confirmar a correspondência e definir o encaminhamento.";
  verdict.append(safeText("b",item.status==="reviewed"?"Decisão de simulação registrada":item.kind==="match"?"Correspondência sugerida":item.kind==="missing"?"Registro sem par":"Conferência recomendada"),safeText("p",explanation));
- if(item.fields.length)verdict.append(safeText("p","Campos em conflito: "+item.fields.join(", ")));
+ if(item.fields.length){
+  const fieldNames={address:"Endereço",phone:"Telefone",name:"Nome",coordinates:"Coordenadas"};
+  verdict.append(safeText("p","Campos sinalizados: "+item.fields.map(field=>fieldNames[field]||field).join(", ")));
+ }
  if(item.comparisonStatus)verdict.append(safeText("p","Estado informado pela API: "+item.comparisonStatus));
  root.append(verdict);
  if(item.status==="matched"){root.append(safeText("p","Correspondência sugerida; não equivale a validação oficial.","review-note"));appendApiPreview(root,item);return;}
  if(item.status==="reviewed"){
   root.append(safeText("p","Decisão registrada: "+(item.decisionLabel||"Conferência")+". A origem permanece intacta.","review-note"));
-  const reopen=safeText("button","↺ Reabrir para análise","button outline");reopen.type="button";reopen.addEventListener("click",()=>{item.status="pending";delete item.decisionLabel;delete item.previewAddressSource;audit("Pendência reaberta: "+item.id,"Revisão local reiniciada.");refresh();toast("Registro reaberto.");});root.append(reopen);appendApiPreview(root,item);return;
+  const reopen=safeText("button","↺ Reabrir para análise","button outline");reopen.type="button";reopen.addEventListener("click",()=>{item.status="pending";delete item.decisionLabel;delete item.previewAddressSource;audit("Pendência reaberta: "+item.id,"Revisão local reiniciada.");refresh();if(state.selected===item.id)$("details").focus();else $("filter").focus();toast("Registro reaberto.");});root.append(reopen);appendApiPreview(root,item);return;
  }
- root.append(safeText("label","Escolha uma ação de revisão (simulada)","choice-label"));
+ const label=safeText("label","Escolha uma ação de revisão (simulada)","choice-label");
  const select=document.createElement("select");select.className="choice-select";select.id="decision-"+item.id;
- const choices=[];
+ label.htmlFor=select.id;
+ const choices=[["","Selecione uma ação"]];
  if(item.a?.address)choices.push(["PREVIEW_A","Usar endereço da "+item.a.source+" só na prévia"]);
  if(item.b?.address)choices.push(["PREVIEW_B","Usar endereço da "+item.b.source+" só na prévia"]);
  choices.push(["VERIFY_A","Conferir dados da "+(item.a?.source??"fonte A")],["VERIFY_B","Conferir dados da "+(item.b?.source??"fonte B")],["MATCH_LINK","Confirmar vínculo entre registros, sem corrigir fonte"],["NO_MATCH","Declarar que não são o mesmo estabelecimento"],["MANUAL","Encaminhar para conferência do órgão responsável"]);
  for(const [value,label] of choices)select.add(new Option(label,value));
- root.append(select);
+ root.append(label,select);
  const actions=safeText("div",undefined,"review-actions");actions.textContent="";
- const approve=safeText("button","✓ Registrar decisão","button primary");approve.type="button";
- approve.addEventListener("click",()=>{item.status="reviewed";item.decisionLabel=select.options[select.selectedIndex].text;item.previewAddressSource=select.value==="PREVIEW_A"?"a":select.value==="PREVIEW_B"?"b":null;audit("Revisão simulada: "+item.id,item.decisionLabel+" · nenhum dado oficial foi alterado.");refresh();toast("Revisão local registrada.");});
+ const approve=safeText("button","✓ Registrar decisão","button primary");approve.type="button";approve.disabled=true;
+ select.addEventListener("change",()=>{approve.disabled=!select.value;});
+ approve.addEventListener("click",()=>{if(!select.value)return;item.status="reviewed";item.decisionLabel=select.options[select.selectedIndex].text;item.previewAddressSource=select.value==="PREVIEW_A"?"a":select.value==="PREVIEW_B"?"b":null;audit("Revisão simulada: "+item.id,item.decisionLabel+" · nenhum dado oficial foi alterado.");refresh();if(state.selected===item.id)$("details").focus();else $("filter").focus();toast("Revisão local registrada.");});
  const pending=safeText("button","Manter pendente","button outline");pending.type="button";pending.addEventListener("click",()=>toast("Registro mantido para análise do responsável."));
  actions.append(approve,pending);root.append(actions);
  root.append(safeText("p","Uma correspondência sugerida não é uma correção oficial. Esta etapa representa somente uma decisão de teste.","review-note"));
@@ -248,7 +285,8 @@ function download(filename,text,type){const blob=new Blob([text],{type});const u
 const csvEsc=v=>'"'+String(v??"").replace(/"/g,'""')+'"';
 function exportCsv(){
  const head=["modo","id","estabelecimento","comparison_status","tipo","score","conflicts","fonte_a","id_a","endereco_a","telefone_a","atualizacao_a","coleta_a","proveniencia_a","fonte_b","id_b","endereco_b","telefone_b","atualizacao_b","coleta_b","proveniencia_b","status_local","decisao_simulada","endereco_previa_local"];
- const data=filtered().map(x=>[state.dataMode,x.id,x.name,x.comparisonStatus??"",x.kind,x.score??"",x.fields.join(" | "),x.a?.source,x.a?.ref,x.a?.address,x.a?.phone,x.a?.updated,x.a?.fetchedAt,x.a?.provenance,x.b?.source,x.b?.ref,x.b?.address,x.b?.phone,x.b?.updated,x.b?.fetchedAt,x.b?.provenance,x.status,x.decisionLabel??"",x.previewAddressSource?x[x.previewAddressSource]?.address:""]);
+ const selected=filtered();if(!selected.length)return;
+ const data=selected.map(x=>[state.dataMode,x.id,x.name,x.comparisonStatus??"",x.kind,x.score??"",x.fields.join(" | "),x.a?.source,x.a?.ref,x.a?.address,x.a?.phone,x.a?.updated,x.a?.fetchedAt,x.a?.provenance,x.b?.source,x.b?.ref,x.b?.address,x.b?.phone,x.b?.updated,x.b?.fetchedAt,x.b?.provenance,x.status,x.decisionLabel??"",x.previewAddressSource?x[x.previewAddressSource]?.address:""]);
  const csv="\uFEFF"+[head,...data].map(line=>line.map(csvEsc).join(";")).join("\r\n")+"\r\n";
  download("origem-unica-conciliacao-"+state.mode+(state.mode==="API"?"-"+state.dataMode:"")+".csv",csv,"text/csv;charset=utf-8");toast("CSV "+modeLabel()+" exportado.");
 }
@@ -260,9 +298,14 @@ function exportAudit(){
 for(const n of document.querySelectorAll("[data-view]"))n.addEventListener("click",()=>viewPage(n.dataset.view));
 for(const n of document.querySelectorAll("[data-go]"))n.addEventListener("click",()=>viewPage(n.dataset.go));
 $("start-review").addEventListener("click",()=>viewPage("matching"));
-$("search").addEventListener("input",e=>{state.search=e.target.value;renderRecords()});
-$("filter").addEventListener("change",e=>{state.filter=e.target.value;renderRecords()});
+$("search").addEventListener("input",e=>{state.search=e.target.value;renderRecords();renderDetail()});
+$("filter").addEventListener("change",e=>{state.filter=e.target.value;renderRecords();renderDetail()});
+$("clear-review-filters").addEventListener("click",()=>{
+ state.search=$("search").value="";
+ state.filter=$("filter").value="all";
+ renderRecords();renderDetail();$("search").focus();
+});
 $("export").addEventListener("click",exportCsv);$("audit-export").addEventListener("click",exportAudit);
 $("sync").addEventListener("click",syncRecords);
 $("reset").addEventListener("click",()=>{if(!confirm("Apagar as revisões locais desta simulação?"))return;state.items=clone(state.baseItems);state.logs=[{id:"audit-reset",at:new Date().toLocaleString("pt-BR"),message:"Revisões locais reiniciadas.",details:"Nenhuma fonte oficial foi modificada."}];state.selected=state.items[0]?.id;state.search="";state.filter="all";$("search").value="";$("filter").value="all";persist();refresh();viewPage("overview");toast("Simulação reiniciada.");});
-refresh();renderSync();viewPage("overview");syncRecords();
+refresh();renderSync();viewPage("overview",false);syncRecords();
