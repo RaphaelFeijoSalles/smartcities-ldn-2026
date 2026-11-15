@@ -21,7 +21,7 @@ class SiglonStreetsAdapter:
     def __init__(self, client: httpx.Client | None = None):
         self.client = client
 
-    def _json(self, client, url, params):
+    def _json(self, client, url, params, budget):
         try:
             with client.stream('GET', url, params=params, follow_redirects=False, timeout=12) as response:
                 if response.status_code != 200:
@@ -31,6 +31,9 @@ class SiglonStreetsAdapter:
                     if len(body) + len(chunk) > MAX_RESPONSE_BYTES:
                         raise ImportRejected('siglon_response_limit')
                     body.extend(chunk)
+            budget[0] += len(body)
+            if budget[0] > 4 * MAX_BYTES:
+                raise ImportRejected('siglon_total_response_limit')
             result = json.loads(body)
             if not isinstance(result, dict) or result.get('error'):
                 raise ImportRejected('siglon_invalid_response')
@@ -47,7 +50,8 @@ class SiglonStreetsAdapter:
         return self._fetch(self.client, reference_date, selected_ids)
 
     def _fetch(self, client, reference_date, selected_ids):
-        metadata, metadata_hash = self._json(client, LAYER_URL, {'f': 'json'})
+        budget = [0]
+        metadata, metadata_hash = self._json(client, LAYER_URL, {'f': 'json'}, budget)
         fields = metadata.get('fields')
         if not isinstance(fields, list) or not fields or any(not isinstance(f, dict) or not isinstance(f.get('name'), str) for f in fields):
             raise ImportRejected('siglon_invalid_schema')
@@ -64,7 +68,7 @@ class SiglonStreetsAdapter:
                 mapping[target] = candidates[0]
         if not {'codlog', 'name'} <= mapping.keys():
             raise ImportRejected('siglon_required_fields_missing')
-        ids_data, ids_hash = self._json(client, LAYER_URL + '/query', {'f': 'json', 'where': '1=1', 'returnIdsOnly': 'true'})
+        ids_data, ids_hash = self._json(client, LAYER_URL + '/query', {'f': 'json', 'where': '1=1', 'returnIdsOnly': 'true'}, budget)
         ids = ids_data.get('objectIds')
         if ids_data.get('exceededTransferLimit') or not isinstance(ids, list) or any(type(v) is not int for v in ids) or len(set(ids)) != len(ids):
             raise ImportRejected('siglon_invalid_identity_inventory')
@@ -87,7 +91,7 @@ class SiglonStreetsAdapter:
             page, digest = self._json(client, LAYER_URL + '/query', {
                 'f': 'json', 'objectIds': ','.join(map(str, batch)),
                 'outFields': ','.join(selected_fields), 'returnGeometry': 'false',
-            })
+            }, budget)
             features = page.get('features')
             if page.get('exceededTransferLimit') or not isinstance(features, list):
                 raise ImportRejected('siglon_truncated_page')
