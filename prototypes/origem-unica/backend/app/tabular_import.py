@@ -5,9 +5,12 @@ import csv
 import hashlib
 import io
 import math
+import json
+import subprocess
+import sys
 from dataclasses import dataclass
 from datetime import date
-from pathlib import PurePath
+from pathlib import Path, PurePath
 from typing import Any
 from urllib.parse import urlsplit
 
@@ -17,7 +20,7 @@ MAX_BYTES = 1_048_576
 MAX_ROWS = 5000
 MAX_COLUMNS = 64
 MAX_CELL = 2048
-ADAPTER_VERSION = 'tabular-v1'
+ADAPTER_VERSION = 'tabular-v1.1'
 SCHEMAS = {
     'street_registry': {
         'codlog': ('codlog', 'codigo_logradouro', 'codigo_do_logradouro'),
@@ -94,26 +97,21 @@ def read_table(payload: bytes, filename: str) -> Table:
     if suffix == '.xls':
         if not payload.startswith(bytes.fromhex('D0CF11E0A1B11AE1')):
             raise ImportRejected('invalid_xls_signature')
-        import xlrd
-        book = None
         try:
-            book = xlrd.open_workbook(file_contents=payload, on_demand=True)
-            if book.nsheets != 1:
-                raise ImportRejected('xls_requires_one_sheet')
-            sheet = book.sheet_by_index(0)
-            if sheet.nrows > MAX_ROWS + 1 or sheet.ncols > MAX_COLUMNS:
-                raise ImportRejected('xls_dimensions_limit')
-            for row in range(sheet.nrows):
-                if any(sheet.cell_type(row, col) == xlrd.XL_CELL_ERROR for col in range(sheet.ncols)):
-                    raise ImportRejected('xls_error_cell')
-            return _table((sheet.row_values(i) for i in range(sheet.nrows)), payload, 'xls')
-        except ImportRejected:
-            raise
-        except Exception as exc:
-            raise ImportRejected('invalid_xls') from exc
-        finally:
-            if book is not None:
-                book.release_resources()
+            worker = subprocess.run(
+                [sys.executable, '-I', str(Path(__file__).with_name('xls_worker.py'))],
+                input=payload, capture_output=True, timeout=6, check=False,
+            )
+            if worker.returncode or len(worker.stdout) > 4 * MAX_BYTES:
+                raise ImportRejected('invalid_xls_or_resource_limit')
+            result = json.loads(worker.stdout)
+            if not isinstance(result, dict) or set(result) != {'rows'} or not isinstance(result['rows'], list):
+                raise ImportRejected('invalid_xls_worker_result')
+            return _table(result['rows'], payload, 'xls')
+        except (OSError, subprocess.TimeoutExpired, ValueError) as exc:
+            if isinstance(exc, ImportRejected):
+                raise
+            raise ImportRejected('invalid_xls_or_resource_limit') from exc
     raise ImportRejected('unsupported_format_use_csv_or_xls')
 
 
@@ -156,13 +154,22 @@ def column_mapping(table: Table, nature: str, explicit: dict[str, str] | None = 
     return result
 
 
+def identity_key(value):
+    if value is None or isinstance(value, str) and not value.strip():
+        return None
+    if isinstance(value, float) and value.is_integer():
+        return str(int(value))
+    return str(value).strip()
+
+
 def analyze(table: Table, metadata: dict, explicit: dict | None = None) -> tuple[dict, dict]:
     source = provenance(metadata, table)
     mapping = column_mapping(table, source['nature'], explicit)
     key = 'codlog' if source['nature'] == 'street_registry' else 'ibge_code'
     if key not in mapping:
         raise ImportRejected('required_identity_column_missing')
-    profile = profile_rows(table.rows, source=source['name'], reference_date=source['reference_date'], key_fields=[mapping[key]])
+    profile_input = [{**row, mapping[key]: identity_key(row.get(mapping[key]))} for row in table.rows]
+    profile = profile_rows(profile_input, source=source['name'], reference_date=source['reference_date'], key_fields=[mapping[key]])
     missing_cells = sum(profile['missing_by_column'].values())
     review = []
     for rule, count in [('INCOMPLETE_KEY', profile['incomplete_key_rows']), ('DUPLICATE_KEY', profile['duplicate_key_rows']),

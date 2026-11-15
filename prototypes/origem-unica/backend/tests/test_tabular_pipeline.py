@@ -171,3 +171,34 @@ def test_bad_mapping_returns_validation_error(mapping):
     d['mapping'] = mapping
     response = client().post('/api/data-import/profile', json={'document': d}, headers={'Authorization': 'Bearer test-only'})
     assert response.status_code == 422
+
+
+def test_xls_parser_wall_timeout_fails_closed(monkeypatch):
+    import subprocess
+    import app.tabular_import as module
+    def timeout(*args, **kwargs):
+        assert kwargs['timeout'] == 6
+        assert args[0][1] == '-I'
+        raise subprocess.TimeoutExpired('parser', 6)
+    monkeypatch.setattr(module.subprocess, 'run', timeout)
+    with pytest.raises(ImportRejected, match='resource_limit'):
+        read_table(bytes.fromhex('D0CF11E0A1B11AE1') + b'SYNTHETIC', 'test.xls')
+
+
+def test_xls_parser_crash_fails_closed(monkeypatch):
+    import subprocess
+    import app.tabular_import as module
+    monkeypatch.setattr(module.subprocess, 'run', lambda *a, **k: subprocess.CompletedProcess([], -9, b'', b'SYNTHETIC SECRET'))
+    with pytest.raises(ImportRejected) as error:
+        read_table(bytes.fromhex('D0CF11E0A1B11AE1') + b'SYNTHETIC', 'test.xls')
+    assert 'SECRET' not in str(error.value)
+
+
+def test_numeric_identity_duplicates_consistent_in_profile_and_comparison():
+    from app.tabular_import import Table
+    t = Table(['CODLOG', 'Nome'], [{'CODLOG': 1.0, 'Nome': 'A'}, {'CODLOG': '1', 'Nome': 'B'}], 'synthetic', 'xls')
+    report, _ = analyze(t, meta())
+    assert report['profile']['duplicate_key_rows'] == 1
+    result = compare(t, meta(), table('CODLOG;Nome\n1;A\n'), meta())
+    assert result['metrics']['ambiguous'] == 1
+    assert t.rows[0]['CODLOG'] == 1.0

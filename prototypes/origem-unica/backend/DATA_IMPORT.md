@@ -102,3 +102,20 @@ Comparações entre datas diferentes descrevem diferenças de snapshots, não ne
   BLOCKED coleta real; nenhuma linha inventada. Endpoint-alvo:
   https://geo.londrina.pr.gov.br/server/rest/services/Publico/SmopArruamento/FeatureServer/0
 - Integração UI, produção e CORS da aplicação central: UNKNOWN/não alterados.
+
+
+## Incremento 3 — limites do parser e identidade coerente
+
+Substitui a ressalva anterior sobre isolamento XLS: agora o XLS roda em subprocesso Python
+isolado (`-I`), com 256 MiB de espaço de endereçamento, 3 s de CPU e timeout externo de 6 s.
+Limites de saída: 2 MiB de caracteres expandidos e 4 MiB de JSON. Sem resource/POSIX, falha
+fechada; alvo suportado é Linux. Crash e timeout resultam em 422 seguro, sem stderr do parser.
+Não é um sandbox de sistema operacional nem substitui quotas por usuário/concorrência.
+O adaptador tabular passa a v1.1. Identidades numéricas integrais de XLS e textos decimais
+seguem a mesma regra no perfil e na comparação; originais preservados e zeros textuais mantidos.
+SIGLON recebe teto agregado de 4 MiB por coleta, além de 2 MiB por resposta.
+
+Verificação deste incremento: 148 PASS Python; 44 PASS Node; smoke de Uvicorn via HTTP real
+em localhost comparou XLS com CSV sintéticos e retornou 200, 1 match, 1 conflict e nenhuma escrita.
+Um primeiro teste entre sessões isoladas recebeu connection refused; o smoke acima executou
+servidor e cliente no mesmo ambiente e passou. CI remoto deste head deve ser consultado.

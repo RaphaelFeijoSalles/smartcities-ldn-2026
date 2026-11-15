@@ -66,3 +66,31 @@ def test_http_failures_no_retry_no_fallback(status):
     with pytest.raises(ImportRejected):
         source.fetch(reference_date='2026-11-14')
     assert len(calls) == 1
+
+
+def test_pagination_201_records_complete_and_sorted():
+    calls = []
+    def handler(request):
+        calls.append(request)
+        if not request.url.path.endswith('/query'):
+            return httpx.Response(200, json={'objectIdField': 'OID', 'fields': [
+                {'name': 'OID'}, {'name': 'CODLOG'}, {'name': 'NOME'}]})
+        if request.url.params.get('returnIdsOnly'):
+            return httpx.Response(200, json={'objectIds': list(range(1, 202))})
+        ids = list(map(int, request.url.params['objectIds'].split(',')))
+        return httpx.Response(200, json={'features': [{'attributes': {
+            'OID': i, 'CODLOG': str(i), 'NOME': 'SINTÉTICO'}} for i in reversed(ids)]})
+    table, _, lineage = SiglonStreetsAdapter(httpx.Client(transport=httpx.MockTransport(handler))).fetch(reference_date='2026-11-14')
+    assert len(table.rows) == 201
+    assert table.rows[0]['CODLOG'] == '1'
+    assert table.rows[-1]['CODLOG'] == '201'
+    assert len(lineage['page_sha256']) == 2
+    assert len(calls) == 4
+
+
+def test_oversized_arcgis_response_stops_before_json_parse():
+    from app.adapters.siglon_streets import MAX_RESPONSE_BYTES
+    source = SiglonStreetsAdapter(httpx.Client(transport=httpx.MockTransport(
+        lambda r: httpx.Response(200, content=b'x' * (MAX_RESPONSE_BYTES + 1)))))
+    with pytest.raises(ImportRejected, match='response_limit'):
+        source.fetch(reference_date='2026-11-14')

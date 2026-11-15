@@ -3,16 +3,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 
-from app.tabular_import import ImportRejected, Table, analyze
-
-
-def identity(value):
-    # XLS numeric identifiers can be integral floats. Text leading zeros remain meaningful.
-    if value is None or isinstance(value, str) and not value.strip():
-        return None
-    if isinstance(value, float) and value.is_integer():
-        return str(int(value))
-    return str(value).strip()
+from app.tabular_import import ImportRejected, Table, analyze, identity_key
 
 
 def compare(left: Table, left_meta: dict, right: Table, right_meta: dict,
@@ -32,7 +23,7 @@ def compare(left: Table, left_meta: dict, right: Table, right_meta: dict,
         result = defaultdict(list)
         missing = []
         for line, row in enumerate(table.rows, 2):
-            value = identity(row[mapping[key]])
+            value = identity_key(row[mapping[key]])
             if value is None:
                 missing.append(line)
             else:
