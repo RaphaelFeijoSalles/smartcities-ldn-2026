@@ -52,7 +52,7 @@ Owner: Codex (IA/segurança). Branch `fix/ai-integration-night-20261115`, base r
 - Botão neutro e resultado/status distinguem DEMO e AI. A explicação estática contempla os dois modos.
 - Testes adversariais agora importam o módulo diretamente: ausência da integração falha em vez de ocultar a suíte com skip.
 
-Evidências locais: `prototypes/origem-unica/backend/.venv/bin/python -m pytest -q prototypes/origem-unica/backend/tests` → 126 PASS, um aviso de depreciação Starlette/httpx. `node --test tools/origem-unica/*.test.mjs tools/decision-board/*.test.mjs tests/origem-unica/*.test.mjs` → 47 PASS. `node scripts/build-decision-pages.mjs`, `node --check tools/origem-unica/analise-evidencias.mjs` e `git diff --check` → PASS. Testes DOM simulados não equivalem a screenshot ou smoke visual.
+Evidências locais: `prototypes/origem-unica/backend/.venv/bin/python -m pytest -q prototypes/origem-unica/backend/tests` → 127 PASS, um aviso de depreciação Starlette/httpx. `node --test tools/origem-unica/*.test.mjs tools/decision-board/*.test.mjs tests/origem-unica/*.test.mjs` → 47 PASS. `node scripts/build-decision-pages.mjs`, `node --check tools/origem-unica/analise-evidencias.mjs` e `git diff --check` → PASS. Testes DOM simulados não equivalem a screenshot ou smoke visual.
 
 Relatório: **PASS** autenticação, orçamento concorrente/persistente, timeout, JSON inválido, resposta incompleta, referências não autorizadas e HTTP upstream simulado. **UNKNOWN** smoke visual desta revisão, disponibilidade real, modelo efetivo e tokens da execução live anterior. O responsável relatou execução local live preservando SNHIS REGULAR e 42 linhas MCMV e reserva SQLite UTC em 15/11; esses fatos não foram reproduzidos nesta sessão. Nenhuma chamada paga executada.
 
@@ -63,3 +63,5 @@ Roteiro para o integrador: revisar o diff da PR integradora; evitar aplicar #40/
 Observabilidade: tokens são registrados somente se ambos os contadores forem inteiros não negativos e limitados. `usage` ausente/malformado registra `usage_known=false`, sem inventar consumo zero e sem invalidar um plano válido. Nove regressões cobrem ausência, tipo indevido e contadores válidos. Isso não verifica modelo efetivo ou consumo da execução live anterior.
 
 Regressões adicionais: virada UTC preserva cooldown antes de reiniciar a contagem diária; requisição sem Bearer válido não reserva orçamento; entrada acima de 6 KiB falha antes do transporte. Próxima tarefa independente: smoke visual local DEMO/AI com transporte interceptado e sem credenciais; não usar a chamada real anterior como evidência desta revisão.
+
+Timeout de parede verificado com transporte assíncrono lento: cancelamento efetivo, uma única tentativa e nenhum retry. Commits incrementais após integração: `f9a9e69` (telemetria desconhecida), `2313cba` (limites e UTC); o commit seguinte adiciona esta regressão de cancelamento.

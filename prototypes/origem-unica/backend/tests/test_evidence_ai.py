@@ -285,3 +285,24 @@ def test_paid_request_byte_limit_is_enforced_before_transport(snapshots):
         raise AssertionError("oversized inputs must not reach the provider")
     with pytest.raises(AnalysisUnavailable, match="Entrada acima do limite"):
         asyncio.run(openai_plan(facts, "synthetic-key", MODEL, httpx.MockTransport(forbidden_transport)))
+
+
+def test_wall_clock_timeout_interrupts_slow_transport_without_retry(snapshots, monkeypatch):
+    facts = housing_facts(*(item.cached for item in snapshots))
+    calls = []
+    cancelled = []
+    monkeypatch.setattr("app.evidence_ai.TIMEOUT", 0.01)
+
+    async def slow_transport(request):
+        calls.append(request)
+        try:
+            await asyncio.sleep(10)
+        except asyncio.CancelledError:
+            cancelled.append(True)
+            raise
+        raise AssertionError("slow transport should be cancelled")
+
+    with pytest.raises(TimeoutError):
+        asyncio.run(openai_plan(facts, "synthetic-key", MODEL, httpx.MockTransport(slow_transport)))
+    assert len(calls) == 1
+    assert cancelled == [True]
