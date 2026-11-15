@@ -60,6 +60,13 @@ def compare(left: Table, left_meta: dict, right: Table, right_meta: dict,
             if different or missing:
                 review.append({**refs, 'rule': 'EXACT_VALUE_DIFFERENCE' if different else 'MISSING_COMPARISON_VALUE',
                                'fields': different, 'missing_fields': missing, 'state': 'PENDING'})
+    # A matching subset does not erase defects elsewhere in either input, such as
+    # missing unmapped cells or colliding headers. Reference the source report
+    # rather than duplicating its contents or leaking cell values.
+    for side, source in (('left', a), ('right', b)):
+        if source['quality_status'] != 'PASS':
+            review.append({'rule': 'SOURCE_QUALITY_ISSUES', 'side': side,
+                           'source_report_id': source['report_id'], 'state': 'PENDING'})
     return identify_report({'contract_version': '1', 'sources': [a, b], 'compared_fields': fields, 'metrics': counts,
             'review_queue': review, 'writes_performed': False, 'official_validity': 'UNKNOWN',
             'quality_status': 'FAIL' if review else 'PASS',
