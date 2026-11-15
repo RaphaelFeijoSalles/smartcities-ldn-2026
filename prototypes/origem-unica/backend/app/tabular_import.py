@@ -14,6 +14,7 @@ from pathlib import Path, PurePath
 from typing import Any
 from urllib.parse import urlsplit
 
+from app.data_review import identify_report
 from app.data_quality import canonical_header, profile_rows
 
 MAX_BYTES = 1_048_576
@@ -179,4 +180,4 @@ def analyze(table: Table, metadata: dict, explicit: dict | None = None) -> tuple
     report = {'contract_version': '1', 'provenance': source, 'profile': profile, 'field_mapping': mapping,
               'review_queue': review, 'quality_status': 'FAIL' if review else 'PASS',
               'official_validity': 'UNKNOWN', 'writes_performed': False}
-    return report, mapping
+    return identify_report(report), mapping

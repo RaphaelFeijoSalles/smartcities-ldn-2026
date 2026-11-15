@@ -9,6 +9,7 @@ import json
 import sys
 from pathlib import Path
 
+from app.data_review import identify_report
 from app.tabular_compare import compare
 from app.tabular_import import MAX_BYTES, ImportRejected, analyze, read_table
 
@@ -47,7 +48,7 @@ def snhis_example():
                             original_collected_at_claimed=source['downloaded_at'],
                             original_download_verified_this_run=False,
                             notice='Historical example; not current certification or fresh source collection.')
-    return report
+    return identify_report(report)
 
 
 def main(argv=None):
